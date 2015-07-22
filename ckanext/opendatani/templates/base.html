@@ -1,0 +1,12 @@
+{% ckan_extends %}
+
+{% block styles %}
+  {{ super() }}
+  {% resource 'opendatani/css/theme.css' %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'opendatani/js/jquery.adaptive-backgrounds.js' %}
+  {% resource 'opendatani/js/twitterFetcher_min.js' %}
+{% endblock %}

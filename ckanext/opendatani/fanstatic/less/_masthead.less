@@ -1,0 +1,117 @@
+.masthead {
+  color:@text-color;
+  
+  .logo {
+    display:block;
+    width:282px;
+    margin:22px 0;
+  }
+  
+  .nav-collapse {
+    background-color:@mediumgrey;
+    clear:both;
+    position:static;
+    .full-width;
+  }
+  
+  .site-search {
+    position:absolute;
+    top:31px;
+    right:0;
+    
+    label {
+      display:block;
+      position:absolute;
+      top:8px;
+      background-color:#fff;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      text-align:center;
+      line-height:30px;
+      color:fade(@darkgrey, 25%);
+      
+      &:after {
+        display:none;
+      }
+      
+      span {
+        .sr-only;
+      }
+    }
+    
+    input {
+      padding: 12px 50px 12px 45px;
+      width: 210px;
+      background-color:@mediumgrey;
+      border-radius:0;
+      border-color:@mediumgrey;
+      box-shadow:none;
+      
+      &:focus {
+        border-color:@accent;
+      }
+    }
+    
+    .btn-search {
+      background-color: @accent;
+      color: #fff;
+      height: 100%;
+      margin-top: 0;
+      padding: 0 12px;
+      top:0;
+      right: -7px;
+      bottom:0;
+      width: auto;
+      
+      &:hover {
+        color:#fff;
+      }
+    }
+  }
+  
+  .nav,
+  .navigation .nav-pills {
+    margin-left:-16px;
+    
+    & > li {
+      
+      font-size:17px;
+      
+      & > a {
+        padding:16px;
+        margin:0;
+        color:@primary;
+        font-weight:bold;
+        border-radius: 0;
+        position:relative;
+        
+        &:hover {
+          background-color:darken(@mediumgrey, 3%);
+        }
+      }
+      
+      &.active > a {
+        background-color:transparent;
+        box-shadow:none;
+        
+        &:after {
+          content:'';
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0 5px 6px 5px;
+          border-color: transparent transparent darken(@mediumgrey, 3%) transparent;
+          position:absolute;
+          bottom:0;
+          left:50%;
+          margin-left:-5px;
+        }
+        
+        &:hover {
+          color:@primary;
+        }
+      }
+    }
+  }
+}

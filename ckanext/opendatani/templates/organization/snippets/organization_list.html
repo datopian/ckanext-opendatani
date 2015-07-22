@@ -1,0 +1,9 @@
+{% block organization_list %}
+<ul class="org-list">
+  {% block organization_list_inner %}
+    {% for organization in organizations %}
+      {% snippet "organization/snippets/org_list_item.html", organization=organization, position=loop.index %}
+    {% endfor %}
+  {% endblock %}
+</ul>
+{% endblock %}

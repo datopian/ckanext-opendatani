@@ -1,0 +1,21 @@
+{% ckan_extends %}
+
+{% block footer_content %}
+  <div class="logos row">
+    <div class="span3">
+      <a href="http://www.nidirect.gov.uk/" target="_blank"><img src="{{ h.url_for_static('/logos/nidirect.png') }}" width="121" alt="NI Direct"></a>
+    </div>
+    <div class="span3">
+      <a target="_blank"><img src="{{ h.url_for_static('/logos/digitalni.png') }}" width="220" alt="Digital NI"></a>
+    </div>
+    <div class="span3">
+      <a href="http://ckan.org/" target="_blank"><img src="{{ h.url_for_static('/logos/ckan.png') }}" width="133" alt="CKAN"></a>
+    </div>
+    <div class="span3">
+      <a href="http://services.okfn.org/" target="_blank"><img src="{{ h.url_for_static('/logos/okservices.png') }}" width="170" alt="Open Knowledge Services"></a>
+    </div>
+  </div>
+
+  <a href="#">Cookies</a> | <a href="#">Data protection</a> | <a href="#">Code of conduct</a> | <a href="#">Terms &amp; conditions</a>
+
+{% endblock %}

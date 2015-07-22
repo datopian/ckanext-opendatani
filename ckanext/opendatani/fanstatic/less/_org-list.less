@@ -1,0 +1,45 @@
+.org-list {
+  margin:0;
+  
+  li {
+    display:block;
+    
+    a {
+      display:block;
+      background-color:@sidebar-color;
+      margin-bottom:8px;
+      border-radius:3px;
+      padding:5px;
+      text-decoration:none;
+      color:@text-color;
+      
+      img {
+        margin: -4px 0 0 -2px;
+        width: 24px;
+      }
+      
+      &:hover {
+        background-color: darken(@sidebar-color, 5%);
+      }
+      
+      .count {
+        display:none;
+        
+        @media (min-width: 768px) {
+          display:block;
+          float:right;
+          font-size:13px;
+          line-height: 25px;
+          margin-right: 7px;
+        }
+      }
+      span.count {
+        opacity:0.2;
+      }
+      strong.count {
+        opacity:0.5;
+        font-weight:normal;
+      }
+    }
+  }
+}

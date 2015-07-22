@@ -1,0 +1,37 @@
+.button-colour(@btn-bg-colour, @btn-text-colour: #fff) {
+  background-color: @btn-bg-colour;
+  border-color: @btn-bg-colour;
+  color: @btn-text-colour;
+  transition: background-color 0.2s ease-in 0s;
+  &:hover,
+  &:focus {
+    color: @btn-text-colour;
+    background-color:darken(saturate(@btn-bg-colour, 15%), 7%);
+    border-color:darken(saturate(@btn-bg-colour, 15%), 7%);
+  }
+}
+
+.body-font {
+  font-family: @font-family-sans-serif;
+  color:@text-color;
+  font-size:@font-size;
+  line-height:1.5;
+}
+
+.full-width {
+  margin-left: -9999rem;
+  margin-right: -9999rem;
+  padding-left: 9999rem;
+  padding-right: 9999rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
