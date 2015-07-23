@@ -437,9 +437,14 @@ h6 {
   color: #25374d;
 }
 .homepage .hero {
-  background-color: #e8eaed;
-  border-top: solid 1px #dfe2e6;
   padding-bottom: 0;
+  padding-top: 20px;
+}
+@media (min-width: 768px) {
+  .homepage .hero {
+    background-color: #e8eaed;
+    border-top: solid 1px #dfe2e6;
+  }
 }
 .homepage .featured-groups li {
   background-color: #25374d;

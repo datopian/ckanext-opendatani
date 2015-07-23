@@ -1,9 +1,13 @@
 .homepage {
   
   .hero {
-    background-color:@mediumgrey;
-    border-top:solid 1px darken(@mediumgrey, 3%);
     padding-bottom:0;
+    padding-top:20px;
+   
+    @media (min-width: 768px) {
+      background-color:@mediumgrey;
+      border-top:solid 1px darken(@mediumgrey, 3%);
+    }
   }
   
   .featured-groups {
