@@ -1,0 +1,31 @@
+.media-grid {
+  
+  .media-view {
+    border:none;
+  }
+  .media-item {
+    background-color:@lightgrey;
+    
+    .media-image {
+      border-radius: 0;
+    }
+    
+    strong.count {
+      font-weight:normal;
+    }
+  
+    &.ab-dark {
+      color:#fff;
+      
+      h1, h2, h3, h4, h5, h6 {
+        color:inherit;
+      }
+      span.count {
+        color: rgba(255,255,255,0.60);
+      }
+      strong.count {
+        color: rgba(255,255,255,0.80);
+      }
+    }
+  }
+}
