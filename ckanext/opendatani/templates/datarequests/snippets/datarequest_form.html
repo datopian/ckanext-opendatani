@@ -1,0 +1,7 @@
+{% ckan_extends %} 
+
+{% block additional_fields %}
+  {{ form.input('suggested_use', id='field-suggested-use', label=_('Suggested use'), value=data.suggested_use, error=errors.get('suggested_use', ''), classes=['control-full', 'control-large']) }}
+  {{ form.input('benefits', id='field-benefits', label=_('Benefits'), value=data.benefits, error=errors.get('benefits', ''), classes=['control-full', 'control-large']) }}
+  {{ form.input('on_behalf_of', id='field-on-behalf-of', label=_('On Behalf Of'), value=data.on_behalf_of, error=errors.get('benefits', ''), classes=['control-full', 'control-large']) }}
+{% endblock %}
