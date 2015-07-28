@@ -1,0 +1,203 @@
+{
+  "scheming_version": 1,
+  "dataset_type": "dataset",
+  "about": "Dataset schema for the Norther Ireland Government Open Data portal",
+  "about_url": "https://github.com/okfn/ckanext-opendatani",
+  "dataset_fields": [
+    {
+      "field_name": "title",
+      "label": "Title",
+      "preset": "title",
+      "form_placeholder": "eg. A descriptive title",
+      "validators": "not_empty unicode"
+    },
+    {
+      "field_name": "name",
+      "label": "URL",
+      "preset": "dataset_slug",
+      "form_placeholder": "eg. my-dataset"
+    },
+    {
+      "field_name": "notes",
+      "label": "Abstract",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "eg. Some useful information about the data",
+      "validators": "not_empty unicode"
+    },
+    {
+      "field_name": "topic_category",
+      "label": "Topic category",
+      "preset": "multiple_checkbox",
+      "validators": "scheming_required scheming_multiple_choice",
+      "choices": [
+         {
+           "value": "farming",
+           "label": "Farming"
+         },
+         {
+           "value": "biota",
+           "label": "Biota"
+         },
+         {
+           "value": "boundaries",
+           "label": "Boundaries"
+         },
+         {
+           "value": "climatologyMeteorologyAtmosphere",
+           "label": "Climatology / Meteorology / Atmosphere"
+         },
+         {
+           "value": "economy",
+           "label": "Economy"
+         },
+         {
+           "value": "elevation",
+           "label": "Elevation"
+         },
+         {
+           "value": "environment",
+           "label": "Environment"
+         },
+         {
+           "value": "geoscientificInformation",
+           "label": "Geoscientific Information"
+         },
+         {
+           "value": "health",
+           "label": "Health"
+         },
+         {
+           "value": "imageryBaseMapsEarthCover",
+           "label": "Imagery / Base Maps / Earth Cover"
+         },
+         {
+           "value": "intelligenceMilitary",
+           "label": "Intelligence / Military"
+         },
+         {
+           "value": "inlandWaters",
+           "label": "Inland / Waters"
+         },
+         {
+           "value": "location",
+           "label": "Location"
+         },
+         {
+           "value": "oceans",
+           "label": "Oceans"
+         },
+         {
+           "value": "planningCadastre",
+           "label": "Planning / Cadastre"
+         },
+         {
+           "value": "society",
+           "label": "Society"
+         },
+         {
+           "value": "structure",
+           "label": "Structure"
+         },
+         {
+           "value": "transportation",
+           "label": "Transportation"
+         },
+         {
+           "value": "utilitiesCommunication",
+           "label": "Utilities / Communication"
+         }
+      ]
+    },
+    {
+      "field_name": "tag_string",
+      "label": "Tags",
+      "preset": "tag_string_autocomplete",
+      "form_placeholder": "eg. economy, mental health, government",
+      "help_text": "Enter at least three keywords"
+    },
+    {
+      "field_name": "lineage",
+      "label": "Lineage",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "Information on the origins of the data",
+      "validators": "not_empty unicode"
+    },
+    {
+      "field_name": "frequency",
+      "label": "Frequency of update",
+      "preset": "select",
+      "validators": "not_empty unicode",
+      "choices": [
+         {
+           "value": "daily",
+           "label": "Daily"
+         },
+         {
+           "value": "weekly",
+           "label": "Weekly"
+         },
+         {
+           "value": "fortnightly",
+           "label": "Fortnightly"
+         },
+         {
+           "value": "monthly",
+           "label": "Monthly"
+         },
+         {
+           "value": "quarterly",
+           "label": "Quarterly"
+         },
+         {
+           "value": "annually",
+           "label": "Annually"
+         },
+         {
+           "value": "irregular",
+           "label": "Irregular"
+         },
+         {
+           "value": "notPlanned",
+           "label": "Not Planned"
+         }
+      ]
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "selected": "uk-ogl", 
+      "validators": "not_empty unicode",
+      "form_snippet": "license.html"
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Organization",
+      "preset": "dataset_organization"
+    }
+
+  ],
+  "resource_fields": [
+    {
+      "field_name": "url",
+      "label": "URL",
+      "preset": "resource_url_upload"
+    },
+    {
+      "field_name": "name",
+      "label": "Name",
+      "form_placeholder": "eg. January 2011 Gold Prices"
+    },
+    {
+      "field_name": "description",
+      "label": "Description",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "Some useful notes about the data"
+    },
+    {
+      "field_name": "format",
+      "label": "Format",
+      "preset": "resource_format_autocomplete"
+    }
+  ]
+}
+
