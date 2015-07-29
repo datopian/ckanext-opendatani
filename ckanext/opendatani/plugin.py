@@ -38,6 +38,9 @@ def at_least_n_tags(number_of_tags):
         value = data.get(key)
         _number_of_tags = int(number_of_tags)
 
+        if not isinstance(value, basestring):
+            return
+
         value = value.split(',')
 
         if len(value) < _number_of_tags:

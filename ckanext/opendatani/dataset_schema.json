@@ -30,7 +30,8 @@
       "label": "Topic category",
       "required": true,
       "preset": "multiple_checkbox",
-      "validators": "scheming_required at_least_n_choices(1)",
+      "validators": "scheming_required at_least_n_choices(1) scheming_multiple_choice",
+      "output_validators": "scheming_multiple_choice_output",
       "choices": [
          {
            "value": "farming",
@@ -113,9 +114,9 @@
     {
       "field_name": "tag_string",
       "label": "Keywords",
-      "required": true,
       "preset": "tag_string_autocomplete",
-      "validators": "scheming_required at_least_n_tags(3)",
+      "required": true,
+      "validators": "ignore_missing at_least_n_tags(3) tag_string_convert",
       "form_placeholder": "eg. economy, mental health, government",
       "help_text": "Enter at least three keywords"
     },
