@@ -1,1 +1,2 @@
 -e git+https://github.com/okfn/ckanext-datarequests.git#egg=ckanext-datarequests
+-e git+https://github.com/okfn/ckanext-scheming.git#egg=ckanext-scheming
