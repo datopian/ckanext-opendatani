@@ -852,3 +852,11 @@ h6 {
 .media-grid .media-item.ab-dark strong.count {
   color: rgba(255, 255, 255, 0.8);
 }
+.info-block [class^="icon-"],
+.info-block [class*=" icon-"] {
+  float: left;
+  font-size: 14px;
+  width: 14px;
+  margin-right: 5px;
+  margin-top: 2px;
+}

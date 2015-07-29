@@ -8,8 +8,9 @@
       "field_name": "title",
       "label": "Title",
       "preset": "title",
-      "form_placeholder": "eg. A descriptive title",
-      "validators": "not_empty unicode"
+      "required": true,
+      "validators": "scheming_required unicode",
+      "form_placeholder": "eg. A descriptive title"
     },
     {
       "field_name": "name",
@@ -20,15 +21,16 @@
     {
       "field_name": "notes",
       "label": "Abstract",
+      "required": true,
       "form_snippet": "markdown.html",
-      "form_placeholder": "eg. Some useful information about the data",
-      "validators": "not_empty unicode"
+      "form_placeholder": "eg. Some useful information about the data"
     },
     {
       "field_name": "topic_category",
       "label": "Topic category",
+      "required": true,
       "preset": "multiple_checkbox",
-      "validators": "scheming_required scheming_multiple_choice",
+      "validators": "scheming_required at_least_n_choices(1)",
       "choices": [
          {
            "value": "farming",
@@ -110,23 +112,25 @@
     },
     {
       "field_name": "tag_string",
-      "label": "Tags",
+      "label": "Keywords",
+      "required": true,
       "preset": "tag_string_autocomplete",
+      "validators": "scheming_required at_least_n_tags(3)",
       "form_placeholder": "eg. economy, mental health, government",
       "help_text": "Enter at least three keywords"
     },
     {
       "field_name": "lineage",
       "label": "Lineage",
+      "required": true,
       "form_snippet": "markdown.html",
-      "form_placeholder": "Information on the origins of the data",
-      "validators": "not_empty unicode"
+      "form_placeholder": "Information on the origins of the data"
     },
     {
       "field_name": "frequency",
       "label": "Frequency of update",
       "preset": "select",
-      "validators": "not_empty unicode",
+      "required": true,
       "choices": [
          {
            "value": "daily",
@@ -163,24 +167,35 @@
       ]
     },
     {
-      "field_name": "additional_info",
-      "label": "Additonal Information",
-      "form_snippet": "markdown.html",
-      "form_placeholder": "e.g. links to websites with additional information about this data"
-    },
-    {
       "field_name": "license_id",
-      "label": "License",
+      "label": "Licence",
       "selected": "uk-ogl", 
-      "validators": "not_empty unicode",
+      "required": true,
       "form_snippet": "license.html"
     },
     {
       "field_name": "owner_org",
       "label": "Organization",
-      "preset": "dataset_organization"
+      "required": true,
+      "preset": "dataset_organization",
+      "form_snippet": "organization_form_field.html"
+    },
+    {
+      "field_name": "contact_name",
+      "label": "Contact Name",
+      "required": true
+    },
+    {
+      "field_name": "contact_email",
+      "label": "Contact Email",
+      "required": true
+    },
+    {
+      "field_name": "additional_info",
+      "label": "Additonal Information",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "e.g. links to websites with additional information about this data"
     }
-
   ],
   "resource_fields": [
     {
