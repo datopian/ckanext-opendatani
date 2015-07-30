@@ -1,3 +1,5 @@
+from pylons import config
+
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
@@ -29,6 +31,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'at_least_n_choices': at_least_n_choices,
             'at_least_n_tags': at_least_n_tags,
+            'opendatani_private_datasets': opendatani_private_datasets,
         }
 
 
@@ -66,3 +69,21 @@ def at_least_n_choices(number_of_choices):
             errors[key].append(msg)
 
     return _callable
+
+
+def opendatani_private_datasets(key, data, errors, context):
+
+    if not config.get('ckanext.opendatani.only_sysadmins_make_datasets_public',
+                      False):
+        return
+
+    user_name = context.get('user')
+    if user_name:
+        user = toolkit.get_action('user_show')(
+            {'ignore_auth': True}, {'id': user_name})
+
+        if user['sysadmin']:
+            return
+
+    # Force all datasets to be private regardless of what the value is
+    data[key] = True
