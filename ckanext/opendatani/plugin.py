@@ -10,6 +10,7 @@ _ = toolkit._
 class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
 
@@ -32,6 +33,14 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'at_least_n_choices': at_least_n_choices,
             'at_least_n_tags': at_least_n_tags,
             'opendatani_private_datasets': opendatani_private_datasets,
+        }
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        return {
+            'create_all_datasets_private': create_all_datasets_private,
+            'user_is_sysadmin': user_is_sysadmin,
         }
 
 
@@ -73,8 +82,7 @@ def at_least_n_choices(number_of_choices):
 
 def opendatani_private_datasets(key, data, errors, context):
 
-    if not config.get('ckanext.opendatani.only_sysadmins_make_datasets_public',
-                      False):
+    if not create_all_datasets_private:
         return
 
     user_name = context.get('user')
@@ -87,3 +95,17 @@ def opendatani_private_datasets(key, data, errors, context):
 
     # Force all datasets to be private regardless of what the value is
     data[key] = True
+
+
+def create_all_datasets_private():
+    return toolkit.asbool(
+        config.get('ckanext.opendatani.only_sysadmins_make_datasets_public',
+                   False))
+
+
+def user_is_sysadmin():
+    if not toolkit.c.userobj:
+        return False
+    if toolkit.c.userobj.sysadmin:
+        return True
+    return False

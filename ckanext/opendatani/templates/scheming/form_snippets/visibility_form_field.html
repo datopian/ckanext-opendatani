@@ -1,10 +1,17 @@
-<div class="control-group">
-  <label for="field-private" class="control-label">{{ _('Visibility') }}</label>
-  <div class="controls">
-    <select id="field-private" name="private">
-      {% for option in [('True', _('Private')), ('False', _('Public'))] %}
-      <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
-      {% endfor %}
-    </select>
+{% if h.create_all_datasets_private() and not h.user_is_sysadmin() %}
+  <div class="alert alert-warning">
+    Your dataset will be private until a site administrator reviews it. You and the members of
+    the organization the dataset belongs to will be able to access it, but not other users.
   </div>
-</div>
+{% else %}
+  <div class="control-group">
+    <label for="field-private" class="control-label">{{ _('Visibility') }}</label>
+    <div class="controls">
+      <select id="field-private" name="private">
+        {% for option in [('True', _('Private')), ('False', _('Public'))] %}
+        <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+{% endif %}
