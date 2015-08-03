@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from ckan.common import OrderedDict
 from pylons import config
 from ckan.plugins import toolkit
 import ckanapi
