@@ -21,7 +21,7 @@ class CreateFeaturedGroups(toolkit.CkanCommand):
     '''Create the nine featured groups
 
     Usage:
-      create_default_groups             - create default groups
+      create_featured_groups             - create featured groups
     '''
 
     summary = __doc__.split('\n')[0]
