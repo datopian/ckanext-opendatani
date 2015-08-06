@@ -1,3 +1,4 @@
+import datetime
 from pylons import config
 
 import ckan.plugins as plugins
@@ -41,6 +42,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'create_all_datasets_private': create_all_datasets_private,
             'user_is_sysadmin': user_is_sysadmin,
+            'user_registered_within_last_day': user_registered_within_last_day,
         }
 
 
@@ -108,4 +110,11 @@ def user_is_sysadmin():
         return False
     if toolkit.c.userobj.sysadmin:
         return True
+    return False
+
+
+def user_registered_within_last_day():
+    '''Checks whether the user registered today'''
+    if toolkit.c.userobj:
+        return toolkit.c.userobj.created.date() == datetime.date.today()
     return False

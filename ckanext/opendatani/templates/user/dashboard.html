@@ -1,0 +1,10 @@
+{% ckan_extends %}
+
+{% block flash_inner %}
+    {% if h.user_registered_within_last_day() %}
+        <div class="alert alert-info">
+            Thank you for registering for an account on Open Data NI, if you belong to a public sector body and want to become a publisher please contact the <a href="mailto:opendata@dfpni.gov.uk">Open Data NI administration team</a> with you username details.
+        </div>
+    {% endif %}
+    {{ super() }}
+{% endblock %}
