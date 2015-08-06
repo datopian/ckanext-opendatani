@@ -1,5 +1,7 @@
 {% ckan_extends %}
 
+{% block offering_organization %}{% endblock %}
+
 {% block additional_fields %}
   <tr>
     <th scope="row" class="dataset-label">{{ _('Requested on behalf of') }}</th>
@@ -10,7 +12,11 @@
     <td class="dataset-details" title="{{ datarequest.suggested_use }}">{{ datarequest.suggested_use }}</td>
   </tr>
   <tr>
-    <th scope="row" class="dataset-label">{{ _('Benefits') }}</th>
+    <th scope="row" class="dataset-label">{{ _('Potential benefits') }}</th>
     <td class="dataset-details" title="{{ datarequest.benefits }}">{{ datarequest.benefits }}</td>
+  </tr>
+  <tr>
+    <th scope="row" class="dataset-label">{{ _('Data owner') }}</th>
+    <td class="dataset-details" title="{{ datarequest.data_owner }}">{{ datarequest.data_owner }}</td>
   </tr>
 {% endblock %}
