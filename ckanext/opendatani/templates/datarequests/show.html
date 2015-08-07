@@ -1,5 +1,18 @@
 {% ckan_extends %}
 
+{% block breadcrumb_content %}
+  <li>{% link_for _('Suggest Data'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for c.datarequest.get('title'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=datarequest_id %}</li>
+{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('datarequest_show', _('Suggest Data'), id=datarequest_id) }}
+
+  {% if h.show_comments_tab() %}
+    {{ h.build_nav_icon('datarequest_comment', _('Comments') + ' ' + h.get_comments_badge(datarequest_id), id=datarequest_id) }}
+  {% endif %}
+{% endblock %}
+
 {% block primary_content_inner  %}
   {{ super() }}
   {{ h.disqus_comments() }}

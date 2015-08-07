@@ -3,3 +3,22 @@
 {% block subtitle %}{{ _('Suggest a dataset') }}{% endblock %}
 
 {% block page_heading %}{{ _('Suggest a dataset') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Suggest Data'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li class="active"><a href="">{{ _('Suggest a Dataset') }}</a></li>
+{% endblock %}
+
+{% block secondary_content %}
+  <section class="module module-narrow module-shallow">
+    <h2 class="module-heading"><i class="icon-info-sign"></i>{% trans %}Suggest a Dataset{% endtrans %}</h2>
+    <div class="module-content">
+      <p>
+        Suggest a Dataset enables users to recommend datasets not yet published in the platform. If you want a dataset and you are not able to find it among all the published datasets, you can let us know your suggestion. Please provide as much information as you can, you can also specify an organisation responsible for the dataset if known. If the dataset suggested cannot be released, we will encourage the dataset owners to be transparent about reasons why.
+      </p>
+      {% block secondary_content_additional_info %}
+      {% endblock %}
+    </div>
+  </section>
+
+{% endblock %}
