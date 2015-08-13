@@ -1,5 +1,6 @@
 import datetime
 from pylons import config
+import routes.mapper
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -12,6 +13,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IRoutes)
 
     # IConfigurer
 
@@ -21,7 +23,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'opendatani')
 
         # Set fixed config values for this extension
-        config_['scheming.dataset_schemas'] = 'ckanext.opendatani:dataset_schema.json'
+        config_['scheming.dataset_schemas'] = \
+            'ckanext.opendatani:dataset_schema.json'
         config_['scheming.dataset_fallback'] = True
 
         config_['licenses_group_url'] = '{0}/licenses.json'.format(
@@ -44,6 +47,22 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_is_sysadmin': user_is_sysadmin,
             'user_registered_within_last_day': user_registered_within_last_day,
         }
+
+    # IRoutes
+
+    def before_map(self, map):
+        controller = 'ckanext.opendatani.controller:StaticController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
+            m.connect('privacy', '/privacy', action='privacy')
+            m.connect('termsandconditions', '/terms-and-conditions',
+                      action='termsandconditions')
+            m.connect('cookies', '/cookies', action='cookies')
+            m.connect('codeofconduct', '/code-of-conduct',
+                      action='codeofconduct')
+        return map
+
+    def after_map(self, map):
+        return map
 
 
 def at_least_n_tags(number_of_tags):

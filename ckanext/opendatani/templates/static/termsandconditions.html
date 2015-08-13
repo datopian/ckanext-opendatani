@@ -1,0 +1,58 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Terms & conditions') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Terms & conditions'), controller='ckanext.opendatani.controller:StaticController', action='termsandconditions' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <h2>Terms &amp; conditions</h2>
+
+      <h3>Information made available through OpenData NI platform</h3>
+
+      <p>The data and information available through opendatani.gov.uk are available under terms described in the “licence” field of individual dataset records (metadata). Except where otherwise noted this is the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank">Open Government License</a>.</p>
+
+      <p>All dataset records (metadata) published on opendatani.gov.uk are also licensed under the Open Government License.</p>
+
+      <p>The accuracy of information from any third party sites published on opendatani.gov.uk is the responsibility of the third parties.</p>
+
+      <h3>Data Protection</h3>
+
+      <p>The Data Protection Act 1998 (“DPA”) regulates the processing of personal data and or sensitive personal data, that is information about and relating to, living identifiable individuals. The accuracy of information from any third party sites published on opendatani.gov.uk is the responsibility the third party.</p>
+
+      <p>Third parties are obliged to ensure that all processing of personal data is carried out in accordance with DPA legislation. These obligations are met by compliance with the eight data protection principles laid down in the DPA and ensuring that all processing is notified to the UK Information Commissioner.</p>
+
+      <p>Personal data as defined by the Data Protection Act 1998 is data relating to a specific individual where the individual is identified or identifiable in the hands of a recipient of the data. Open data must not include a citizen’s personal data. Prior to  data being made available through opendatani.gov.uk released it must be anonymised according to the Information Commissioner’s Anonymisation Code of Practice and/or aggregated using recognised statistical methods to ensure data privacy for individuals.</p>
+
+      <p>Further information may be found by visiting the Information Commissioner’s website at <a href="https://ico.org.uk/" target="_blank">www.ico.org.uk</a>.</p>
+
+      <h3>Revisions to Terms &amp; Conditions</h3>
+
+      <p>We may revise these terms of use at any time by amending this page. You are expected to check this page from time to time to take notice of any changes we made, as they are binding on you on publication. Some of the provisions contained in these terms of use may also be superseded by provisions or notices published elsewhere on our site.</p>
+
+      <h3>Your Concerns</h3>
+
+      <p>If you have any concerns about material which appears on our site, please contact us via the Contact header on the website.</p>
+
+      <p>Thank you for visiting our site.</p>
+
+      <h4>Disclaimer</h4>
+
+      <p>To ensure clarity on who can use the data and for what purposes, unless otherwise stated, datasets available through the site are supplied strictly subject to the Open Government Licence.</p>
+
+      <p>Notwithstanding the above, information contained on the site is for general information purposes only. It is not intended to amount to advice on which you should rely. You must obtain professional or specialist advice before taking, or refraining from, any action on the basis of the content of our site. Any reliance you place on such information is therefore strictly at your own risk.</p>
+
+      <p>If the need arises, we may suspend access to our site, or close it indefinitely. Any of the material on our site may be out of date at any given time, and we are under no obligation to update such material.</p>
+
+      <p>Every effort is made to keep the website up and running smoothly. However, we, take no responsibility for, and will not be liable for, the website being temporarily unavailable due to technical issues beyond our control.</p>
+
+      <p>These Terms and Conditions shall be governed by and construed in accordance with the laws of Northern Ireland. Any dispute arising under these Terms and Conditions shall be subject to the exclusive jurisdiction of the courts of Northern Ireland.</p>
+
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

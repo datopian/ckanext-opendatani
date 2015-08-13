@@ -16,6 +16,6 @@
     </div>
   </div>
 
-  <a href="#">Cookies</a> | <a href="#">Data protection</a> | <a href="#">Code of conduct</a> | <a href="#">Terms &amp; conditions</a> | <a href="http://docs.ckan.org/en/latest/api/index.html" target="_blank">CKAN API</a>
+  <a href="{{ h.url_for(controller='ckanext.opendatani.controller:StaticController', action='cookies') }}">Cookies</a> | <a href="{{ h.url_for(controller='ckanext.opendatani.controller:StaticController', action='privacy') }}">Data protection</a> | <a href="{{ h.url_for(controller='ckanext.opendatani.controller:StaticController', action='codeofconduct') }}">Code of conduct</a> | <a href="{{ h.url_for(controller='ckanext.opendatani.controller:StaticController', action='termsandconditions') }}">Terms &amp; conditions</a> | <a href="http://docs.ckan.org/en/latest/api/index.html" target="_blank">CKAN API</a>
 
 {% endblock %}

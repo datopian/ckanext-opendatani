@@ -1,0 +1,54 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Code of conduct') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Code of conduct'), controller='ckanext.opendatani.controller:StaticController', action='termsandconditions' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <h2>Code of conduct</h2>
+
+      <p>When using this site.</p>
+
+      <p>You are <strong>encouraged to</strong>:</p>
+      <ul>
+        <li>use provided live sources (API’s) for the datasets as your primary data source, where possible – much of the data provided is dynamic and fluid (although in many cases over an annual or longer period of time);</li>
+
+        <li>where using our data feeds, please if possible cache the data over a short period of time to reduce load both on your application and our servers;</li>
+
+        <li>where you cannot use our live sources as the primary data source, please still use the keys contained within the data as the primary or foreign keys within your application, as this will enable you to migrate as simply as possible to up-to-date data and </li>information when it is made available;
+
+        <li>where using your own long-term caches of our data, please refresh the data within your application in a timely manner when a new set of the data is made available;</li>
+
+        <li>engage with us when something’s wrong – point out any inconsistencies in the data you find, make suggestions about how to improve the service, request new data sources to be added, and tell us about what you have built so we can help to further promote it!</li>
+      </ul>
+
+      <p>You <strong>should</strong>:</p>
+      <ul>
+        <li>refer back to and cite the origin or source of the data when using it;</li>
+
+        <li>clearly state where possible about which data is derived from official sources, which is from other sources, and which data is from any calculation within or without your app.</li>
+      </ul>
+
+      <p>You <strong>must not</strong>:</p>
+      <ul>
+        <li>make an application that pretends to be an official government service;</li>
+
+        <li>present the data in a misleading or incorrect manner or to misrepresent or change the data;</li>
+
+        <li>use this site for party political purposes, as the site is paid for with public money so it is not appropriate to engage in party-political activity here;</li>
+
+        <li>use these materials in or to support a criminal or illicit activity;</li>
+
+        <li>use these materials on an application to inflame or make comments that are racist, sexist or homophobic, or which promote discrimination or incites violence based on religion, disability or age;</li>
+
+        <li>misuse the site by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. By breaching this provision, you would commit a criminal offence under the <a href="http://www.legislation.gov.uk/ukpga/1990/18" target="_blank">Computer Misuse Act 1990</a>.</li>
+      </ul>
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

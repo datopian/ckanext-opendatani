@@ -1,0 +1,92 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Cookies') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Cookies'), controller='ckanext.opendatani.controller:StaticController', action='cookies' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <h2>Cookies</h2>
+
+      <p>A cookie is a small file which asks permission to be placed on your computer’s hard drive. Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit a particular site. Cookies allow web applications to respond to you as an individual. The web application can tailor its operations to your needs, likes and dislikes by gathering and remembering information about your preferences.</p>
+
+      <p>Overall, cookies help us to provide you with a better website, by enabling us to monitor which pages you find useful and which you do not. A cookie in no way gives us access to your computer or any information about you, other than the data you choose to share with us.</p>
+
+      <p>You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline or block cookies if you prefer. This may prevent you from taking full advantage of the website. Please note by continuing to browse our site, you are agreeing to our use of cookies.</p>
+
+      <h3>How we use cookies</h3>
+
+      <p>The OpenDataNI site uses cookies. These cookies are listed below with more details about why we use them and how long they will last.</p>
+
+      <h4>Measuring website usage</h4>
+
+      <p>We use Google Analytics and Webtrends to collect information about how people use nidirect.  We do this to make sure it’s meeting people's needs and to understand how we could meet those needs better.</p>
+
+      <p>Google Analytics and Webtrends store information about what pages you visit, how long you are on the site, how you got here and what you click on. We do not collect or store your personal details such as your name or address. We cannot identify who you are.</p>
+
+      <p>We do not allow Google or Webtrends to use or share any information we collect with other third parties.</p>
+
+      <h5>Google Analytics:</h5>
+
+      <table>
+        <colgroup>
+            <col style="width:25%" />
+            <col style="width:50%" />
+            <col style="width:25%" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th scope="col">Name of cookie</th>
+                <th scope="col">Typical content</th>
+                <th scope="col">Expires</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>__utma</td>
+                <td>randomly generated number</td>
+                <td>2 years</td>
+            </tr>
+            <tr>
+                <td>__utmb</td>
+                <td>randomly generated number</td>
+                <td>30 minutes</td>
+            </tr>
+            <tr>
+                <td>__utmc</td>
+                <td>randomly generated number</td>
+                <td>when you close your browser</td>
+            </tr>
+            <tr>
+                <td>__utmx</td>
+                <td>randomly generated number</td>
+                <td>18 months</td>
+            </tr>
+            <tr>
+                <td>__utmxx</td>
+                <td>randomly generated number</td>
+                <td>18 months</td>
+            </tr>
+            <tr>
+                <td>__utmz</td>
+                <td>randomly generated number and information on how the site was reached (e.g. direct or via a link, organic search or paid search)</td>
+                <td>6 months</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><a href="https://developers.google.com/analytics/resources/concepts/gaConceptsCookies#cookiesSet" target="_blank">Further information on cookies set by Google Analytics</a>.</p>
+
+    <h5>Twitter</h5>
+
+    <p>OpenData NI uses the Twitter 'Tweet' plugin on various pages to share OpenData NI content with other Twitter users.</p>
+
+    <p>For more information please visit <a href="https://twitter.com/privacy" target="_blank">Twitter's Privacy Policy</a>.</p>
+
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
