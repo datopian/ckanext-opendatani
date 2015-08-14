@@ -1,4 +1,4 @@
 -e git+https://github.com/okfn/ckanext-datarequests.git#egg=ckanext-datarequests
--e git+https://github.com/okfn/ckanext-scheming.git#egg=ckanext-scheming
+-e git+https://github.com/open-data/ckanext-scheming.git#egg=ckanext-scheming
 -e git+https://github.com/NaturalHistoryMuseum/ckanext-contact.git#egg=ckanext-contact
 ckanapi
