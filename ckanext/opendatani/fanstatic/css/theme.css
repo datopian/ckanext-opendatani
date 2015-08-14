@@ -861,6 +861,7 @@ h6 {
 }
 .alert a {
   color: inherit;
+  text-shadow: none;
 }
 .alert .close {
   right: 0;
