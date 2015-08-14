@@ -1,0 +1,35 @@
+.alert {
+    border: none;
+    background-color: @warning;
+    color: #fff;
+    text-shadow: none;
+    
+    a {
+        color: inherit;
+    }
+
+    .close {
+        right: 0;
+        top: auto;
+        opacity: 1;
+    }
+
+    &.alert-error {
+        background-color: @danger;
+    }
+
+    &.alert-success  {
+        background-color: @success;
+    }
+
+    &.alert-info  {
+        background-color: @accent;
+    }
+}
+
+.flash-messages {
+    .alert {
+        .full-width;
+        margin-bottom: 1px; 
+    }
+}

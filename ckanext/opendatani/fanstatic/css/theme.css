@@ -258,7 +258,8 @@ a:focus {
 .nav-tabs a,
 a.no-text,
 .nav-item a,
-a.label {
+a.label,
+a.close {
   text-decoration: none;
 }
 h1,
@@ -852,11 +853,33 @@ h6 {
 .media-grid .media-item.ab-dark strong.count {
   color: rgba(255, 255, 255, 0.8);
 }
-.info-block [class^="icon-"],
-.info-block [class*=" icon-"] {
-  float: left;
-  font-size: 14px;
-  width: 14px;
-  margin-right: 5px;
-  margin-top: 2px;
+.alert {
+  border: none;
+  background-color: #9488c1;
+  color: #fff;
+  text-shadow: none;
+}
+.alert a {
+  color: inherit;
+}
+.alert .close {
+  right: 0;
+  top: auto;
+  opacity: 1;
+}
+.alert.alert-error {
+  background-color: #c84398;
+}
+.alert.alert-success {
+  background-color: #8dc63f;
+}
+.alert.alert-info {
+  background-color: #0c6db7;
+}
+.flash-messages .alert {
+  margin-left: -9999rem;
+  margin-right: -9999rem;
+  padding-left: 9999rem;
+  padding-right: 9999rem;
+  margin-bottom: 1px;
 }
