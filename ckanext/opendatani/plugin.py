@@ -4,6 +4,10 @@ import routes.mapper
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckan.lib.navl.dictization_functions import Missing
+from ckan.logic.schema import default_user_schema, default_update_user_schema
+from ckan.logic.action.create import user_create as core_user_create
+from ckan.logic.action.update import user_update as core_user_update
 
 
 _ = toolkit._
@@ -15,6 +19,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IActions)
 
     # IConfigurer
 
@@ -72,10 +77,102 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_list': custom_user_list_auth
         }
 
+    # IActions
+    def get_actions(self):
+
+        return {
+            'user_create': custom_user_create,
+            'user_update': custom_user_update,
+        }
+
+
+# Custom auth
 
 def custom_user_list_auth(context, data_dict):
     # Only sysadmins should be able to see the user list
     return {'success': False}
+
+
+# Custom actions
+
+def custom_user_create(context, data_dict):
+
+    context['schema'] = custom_create_user_schema(
+        form_schema='password1' in context.get('schema', {}))
+
+    return core_user_create(context, data_dict)
+
+
+def custom_user_update(context, data_dict):
+
+    context['schema'] = custom_update_user_schema(
+        form_schema='password1' in context.get('schema', {}))
+
+    return core_user_update(context, data_dict)
+
+
+# Custom schemas
+
+def custom_create_user_schema(form_schema=False):
+
+    schema = default_user_schema()
+
+    schema['password'] = [custom_user_password_validator,
+                          toolkit.get_validator('user_password_not_empty'),
+                          toolkit.get_validator('ignore_missing'),
+                          unicode]
+
+    if form_schema:
+        schema['password1'] = [toolkit.get_validator('user_both_passwords_entered'),
+                               custom_user_password_validator,
+                               toolkit.get_validator('user_passwords_match'),
+                               unicode]
+        schema['password2'] = [unicode]
+
+    return schema
+
+
+def custom_update_user_schema(form_schema=False):
+
+    schema = default_update_user_schema()
+
+    schema['password'] = [custom_user_password_validator,
+                          toolkit.get_validator('user_password_not_empty'),
+                          toolkit.get_validator('ignore_missing'),
+                          unicode]
+
+    if form_schema:
+        schema['password'] = [toolkit.get_validator('ignore_missing')]
+        schema['password1'] = [toolkit.get_validator('ignore_missing'),
+                               custom_user_password_validator,
+                               toolkit.get_validator('user_passwords_match'),
+                               unicode]
+        schema['password2'] = [toolkit.get_validator('ignore_missing'),
+                               unicode]
+
+    return schema
+
+
+# Custom validators
+WRONG_PASSWORD_MESSAGE = ('Your password must be 8 characters or longer, ' +
+                          'and contain at least one capital letter and a ' +
+                          'number')
+
+
+def custom_user_password_validator(key, data, errors, context):
+    value = data[key]
+
+    if isinstance(value, Missing):
+        pass
+    elif not isinstance(value, basestring):
+        errors[('password',)].append(_('Passwords must be strings'))
+    elif value == '':
+        pass
+    elif (len(value) < 8 or
+          not any(x.isdigit() for x in value) or
+          not any(x.isupper() for x in value)
+          ):
+        errors[('password',)].append(_(WRONG_PASSWORD_MESSAGE))
 
 
 def at_least_n_tags(number_of_tags):
@@ -130,6 +227,8 @@ def opendatani_private_datasets(key, data, errors, context):
     # Force all datasets to be private regardless of what the value is
     data[key] = True
 
+
+# Custom helpers
 
 def create_all_datasets_private():
     return toolkit.asbool(
