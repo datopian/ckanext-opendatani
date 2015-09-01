@@ -103,7 +103,7 @@ def at_least_n_choices(number_of_choices):
 
 def opendatani_private_datasets(key, data, errors, context):
 
-    if not create_all_datasets_private:
+    if not create_all_datasets_private():
         return
 
     user_name = context.get('user')
