@@ -14,6 +14,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IRoutes)
+    plugins.implements(plugins.IAuthFunctions)
 
     # IConfigurer
 
@@ -63,6 +64,18 @@ class OpendataniPlugin(plugins.SingletonPlugin):
 
     def after_map(self, map):
         return map
+
+    # IAuthFunctions
+    def get_auth_functions(self):
+
+        return {
+            'user_list': custom_user_list_auth
+        }
+
+
+def custom_user_list_auth(context, data_dict):
+    # Only sysadmins should be able to see the user list
+    return {'success': False}
 
 
 def at_least_n_tags(number_of_tags):
