@@ -1,0 +1,9 @@
+{% ckan_extends %}
+
+      {% block package_additional_info %}
+          <tr>
+            <th scope="row" class="dataset-label">Creation Date</th>
+            <td class="dataset-details">{{ h.render_datetime(pkg_dict['metadata_created'], with_hours=True) }}</td>
+          </tr>
+          {{ super() }}
+      {% endblock %}
