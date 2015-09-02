@@ -27,7 +27,7 @@
     },
     {
       "field_name": "topic_category",
-      "label": "Topic category",
+      "label": "Topic Category",
       "required": true,
       "preset": "multiple_checkbox",
       "validators": "scheming_required at_least_n_choices(1) scheming_multiple_choice",
@@ -130,7 +130,7 @@
     },
     {
       "field_name": "frequency",
-      "label": "Frequency of update",
+      "label": "Frequency of Update",
       "preset": "select",
       "required": true,
       "choices": [
