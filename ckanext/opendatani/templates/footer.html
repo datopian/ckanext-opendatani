@@ -6,7 +6,7 @@
       <a href="http://www.nidirect.gov.uk/" target="_blank"><img src="{{ h.url_for_static('/logos/nidirect.png') }}" width="121" alt="NI Direct"></a>
     </div>
     <div class="span3">
-      <a target="_blank"><img src="{{ h.url_for_static('/logos/digitalni.png') }}" width="220" alt="Digital NI"></a>
+      <a href="{{ h.url_for(controller='home', action='about') }}" target="_blank"><img src="{{ h.url_for_static('/logos/digitalni.png') }}" width="220" alt="Digital NI"></a>
     </div>
     <div class="span3">
       <a href="http://ckan.org/" target="_blank"><img src="{{ h.url_for_static('/logos/ckan.png') }}" width="133" alt="CKAN"></a>
