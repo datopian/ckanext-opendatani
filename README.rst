@@ -1,48 +1,20 @@
-.. You should enable this project on travis-ci.org and coveralls.io to make
-   these badges work. The necessary Travis and Coverage config files have been
-   generated for you.
 
-.. image:: https://travis-ci.org//ckanext-opendatani.svg?branch=master
-    :target: https://travis-ci.org//ckanext-opendatani
-
-.. image:: https://coveralls.io/repos//ckanext-opendatani/badge.png?branch=master
-  :target: https://coveralls.io/r//ckanext-opendatani?branch=master
-
-.. image:: https://pypip.in/download/ckanext-opendatani/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-opendatani/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-opendatani/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-opendatani/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-opendatani/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-opendatani/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-opendatani/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-opendatani/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-opendatani/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-opendatani/
-    :alt: License
-
-=============
+==================
 ckanext-opendatani
-=============
+==================
 
-.. Put a description of your extension here:
-   What does it do? What features does it have?
-   Consider including some screenshots or embedding a video!
-
+A CKAN extension for Open Data NI.
 
 ------------
 Requirements
 ------------
 
-For example, you might want to mention here which versions of CKAN this
-extension works with.
+* `ckanext-showcase <https://github.com/ckan/ckanext-showcase/>`_: add ``showcase`` to ``ckan.plugins``
+* `ckanext-scheming <https://github.com/open-data/ckanext-scheming/>`_: add ``scheming_datasets`` to ``ckan.plugins``
+* `ckanext-datarequests (okfn fork) <https://github.com/okfn/ckanext-datarequests/>`_: add ``datarequests`` to ``ckan.plugins``
+* `ckanext-contact <https://github.com/NaturalHistoryMuseum/ckanext-contact/>`_: add ``contact`` to ``ckan.plugins``
+* `ckanext-disqus <https://github.com/ckan/ckanext-disqus/>`_: add ``disqus`` to ``ckan.plugins``
+* `ckanext-pages <https://github.com/ckan/ckanext-pages/>`_: add ``pages`` to ``ckan.plugins``
 
 
 ------------
@@ -110,9 +82,9 @@ coverage installed in your virtualenv (``pip install coverage``) then run::
     nosetests --nologcapture --with-pylons=test.ini --with-coverage --cover-package=ckanext.opendatani --cover-inclusive --cover-erase --cover-tests
 
 
----------------------------------
+--------------------------------------
 Registering ckanext-opendatani on PyPI
----------------------------------
+--------------------------------------
 
 ckanext-opendatani should be availabe on PyPI as
 https://pypi.python.org/pypi/ckanext-opendatani. If that link doesn't work, then
@@ -139,9 +111,9 @@ steps:
        git push --tags
 
 
-----------------------------------------
+---------------------------------------------
 Releasing a New Version of ckanext-opendatani
-----------------------------------------
+---------------------------------------------
 
 ckanext-opendatani is availabe on PyPI as https://pypi.python.org/pypi/ckanext-opendatani.
 To publish a new version to PyPI follow these steps:
