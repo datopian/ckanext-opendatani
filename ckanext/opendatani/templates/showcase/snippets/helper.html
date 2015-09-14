@@ -1,0 +1,19 @@
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="icon-info-sign"></i>
+    {{ _('What are Showcases?') }}
+  </h2>
+  <div class="module-content">
+    <p>
+      {% trans %}
+        Showcases are any app, article or report that relate to the published dataset. For example, an annual report that contains aggregated information relating to the dataset or a website where there is further background information on the dataset or a link to an app that has been created utilising some or all of the dataset.
+      {% endtrans %}
+    </p>
+    {% if h.check_access('ckanext_showcase_admin_add') %}
+      <p>
+        Sysadmins can manage Showcase Admins from the
+        <a href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='manage_showcase_admins' %}">Showcase configuration page</a>.
+      </p>
+    {% endif %}
+  </div>
+</div>
