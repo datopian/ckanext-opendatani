@@ -82,5 +82,9 @@ setup(
 
         [paste.paster_command]
         create_featured_groups=ckanext.opendatani.commands:CreateFeaturedGroups
+
+        [ckan.rdf.profiles]
+        ni_arcgis_profile=ckanext.opendatani.dcat:NIArcGISProfile
+
     ''',
 )
