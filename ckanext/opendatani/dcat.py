@@ -28,5 +28,4 @@ class NIArcGISProfile(RDFProfile):
                                          for e in dataset_dict['extras']
                                          if e['key'] != 'contact_name']
 
-        import ipdb; ipdb.set_trace()
         return dataset_dict
