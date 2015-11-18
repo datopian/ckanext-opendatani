@@ -12,20 +12,22 @@ class NIArcGISProfile(RDFProfile):
 
     def parse_dataset(self, dataset_dict, dataset_ref):
 
+        #TODO: if there is more than one source with different defaults,
+        # modify accordingly
         dataset_dict['frequency'] = 'notPlanned'
         dataset_dict['topic_category'] = 'location'
         dataset_dict['lineage'] = '-'
-        dataset_dict['contact_name'] = '-'
-        dataset_dict['contact_email'] = '-'
+        dataset_dict['contact_name'] = 'OSNI Mapping Helpdesk'
+        dataset_dict['contact_email'] = 'mapping.helpdesk@dfpni.gov.uk'
         dataset_dict['license_id'] = 'uk-ogl'
 
-        contact_name = [e['value']
-                        for e in dataset_dict.get('extras', [])
-                        if e['key'] == 'contact_name' and e['value']]
-        if contact_name:
-            dataset_dict['contact_name'] = contact_name[0]
-            dataset_dict['extras'][:] = [e
-                                         for e in dataset_dict['extras']
-                                         if e['key'] != 'contact_name']
+        _remove_extra('contact_name', dataset_dict)
+        _remove_extra('contact_email', dataset_dict)
 
         return dataset_dict
+
+
+def _remove_extra(key, dataset_dict):
+        dataset_dict['extras'][:] = [e
+                                     for e in dataset_dict['extras']
+                                     if e['key'] != key]
