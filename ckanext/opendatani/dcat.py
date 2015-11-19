@@ -24,6 +24,10 @@ class NIArcGISProfile(RDFProfile):
         _remove_extra('contact_name', dataset_dict)
         _remove_extra('contact_email', dataset_dict)
 
+        for resource in dataset_dict.get('resources', []):
+            if resource['format'] == 'OGC WMS':
+                resource['format'] = 'WMS'
+
         return dataset_dict
 
 
