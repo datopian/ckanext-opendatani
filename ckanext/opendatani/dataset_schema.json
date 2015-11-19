@@ -194,7 +194,7 @@
     },
     {
       "field_name": "additional_info",
-      "label": "Additonal Information",
+      "label": "Additional Information",
       "form_snippet": "markdown.html",
       "form_placeholder": "e.g. links to websites with additional information about this data",
       "display_snippet": "text_with_links.html"
