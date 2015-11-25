@@ -1,31 +1,31 @@
 .homepage {
-  
+
   .hero {
     padding-bottom:0;
     padding-top:20px;
-   
+
     @media (min-width: 768px) {
       background-color:@mediumgrey;
       border-top:solid 1px darken(@mediumgrey, 3%);
     }
   }
-  
+
   .featured-groups {
     li {
       background-color:@primary;
-      
+
       a {
         display:table;
         color:#fff;
         padding:10px 0;
         text-decoration:none;
         width:100%;
-        
+
         @media (min-width: 768px) {
           height:114px;
           overflow:hidden;
         }
-        
+
         h1,h2,h3,h4,h5,h6 {
           color:inherit;
           margin:0;
@@ -35,18 +35,18 @@
           padding:0 15px;
           width:100%;
         }
-        
+
         &:hover {
           background-color:rgba(255,255,255,0.20);
         }
-        
+
         &.ab-light {
           color:@text-color;
         }
-        
+
         .image {
           display:none;
-          
+
           @media (min-width: 980px) {
             display:block;
             width:75px;
@@ -55,7 +55,7 @@
             overflow:hidden;
             float:left;
             margin:20px 6px 0 24px;
-          
+
             img {
               width:77px;
               max-width:77px;
@@ -66,9 +66,9 @@
       }
     }
   }
-  
+
   .latest-posts {
-    
+
     @media (min-width: 768px) {
       .post {
         & > * {
@@ -76,28 +76,28 @@
           margin-right:3px;
         }
       }
-      
+
       & > li:first-child .post > * {
         margin-left:0;
         margin-right:6px;
       }
-      
+
       & > li:last-child .post > * {
         margin-left:6px;
         margin-right:0;
       }
     }
-    
+
     h4 {
       margin-bottom:5px;
     }
-    
+
     .date {
       opacity:0.6;
       display:block;
       margin-bottom:6px;
     }
-    
+
     .text {
       display:block;
       margin-bottom:20px;
