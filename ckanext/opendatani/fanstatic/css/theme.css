@@ -502,6 +502,27 @@ h6 {
     margin: -1px 0 0 -1px;
   }
 }
+.homepage .featured-groups li[class*="health"],
+.homepage .featured-groups li[class*="property"] {
+  background-color: #00ABC2;
+}
+.homepage .featured-groups li[class*="education"],
+.homepage .featured-groups li[class*="population"] {
+  background-color: #34455A;
+}
+.homepage .featured-groups li[class*="finance"] {
+  background-color: #247BBE;
+}
+.homepage .featured-groups li[class*="environment"] {
+  background-color: #8DC63F;
+}
+.homepage .featured-groups li[class*="tourism"],
+.homepage .featured-groups li[class*="transport"] {
+  background-color: #9488C1;
+}
+.homepage .featured-groups li[class*="economy"] {
+  background-color: #AC3192;
+}
 @media (min-width: 768px) {
   .homepage .latest-posts .post > * {
     margin-left: 3px;
