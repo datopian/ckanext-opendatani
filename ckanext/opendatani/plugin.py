@@ -65,6 +65,11 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             m.connect('cookies', '/cookies', action='cookies')
             m.connect('codeofconduct', '/code-of-conduct',
                       action='codeofconduct')
+
+        controller = 'ckanext.opendatani.controller:CustomUserController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
+            m.connect('/user/reset', action='request_reset')
+
         return map
 
     def after_map(self, map):
@@ -88,6 +93,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
 
 # Custom auth
 
+@toolkit.auth_allow_anonymous_access
 def custom_user_list_auth(context, data_dict):
     # Only sysadmins should be able to see the user list
     return {'success': False}
