@@ -27,7 +27,7 @@ class NIArcGISProfile(RDFProfile):
         dataset_dict['topic_category'] = 'location'
         dataset_dict['lineage'] = '-'
         dataset_dict['contact_name'] = 'OSNI Mapping Helpdesk'
-        dataset_dict['contact_email'] = 'mapping.helpdesk@dfpni.gov.uk'
+        dataset_dict['contact_email'] = 'osniopendata@dfpni.gov.uk'
         dataset_dict['license_id'] = 'uk-ogl'
 
         _remove_extra('contact_name', dataset_dict)
