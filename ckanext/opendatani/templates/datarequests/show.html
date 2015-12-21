@@ -7,10 +7,6 @@
 
 {% block content_primary_nav %}
   {{ h.build_nav_icon('datarequest_show', _('Suggest Data'), id=datarequest_id) }}
-
-  {% if h.show_comments_tab() %}
-    {{ h.build_nav_icon('datarequest_comment', _('Comments') + ' ' + h.get_comments_badge(datarequest_id), id=datarequest_id) }}
-  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner  %}
