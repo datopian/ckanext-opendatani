@@ -13,10 +13,10 @@
       <p>
         Sysadmins can manage Showcase Admins from the
         <a href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='manage_showcase_admins' %}">Showcase configuration page</a>.
-      </p>
-     <p>
+      </p>     
+    {% endif %}
+    <p>
        <b>Please note we do not validate any of the Showcases and publication of them does not necessarily mean we endorse them</b>
      </p>
-    {% endif %}
   </div>
 </div>
