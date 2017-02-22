@@ -19,7 +19,4 @@
       {% endblock %}
     </div>
   </section>
-  {% for facet in c.facet_titles %}
-    {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
-  {% endfor %}
 {% endblock %}
