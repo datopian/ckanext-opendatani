@@ -11,7 +11,7 @@ Requirements
 
 * `ckanext-showcase <https://github.com/ckan/ckanext-showcase/>`_: add ``showcase`` to ``ckan.plugins``
 * `ckanext-scheming <https://github.com/open-data/ckanext-scheming/>`_: add ``scheming_datasets`` to ``ckan.plugins``
-* `ckanext-datarequests (okfn fork) <https://github.com/okfn/ckanext-datarequests/>`_: add ``datarequests`` to ``ckan.plugins``
+* `ckanext-datarequests (Viderum fork) <https://github.com/ViderumGlobal/ckanext-datarequests/>`_: add ``datarequests`` to ``ckan.plugins``
 * `ckanext-contact <https://github.com/NaturalHistoryMuseum/ckanext-contact/>`_: add ``contact`` to ``ckan.plugins``
 * `ckanext-disqus <https://github.com/ckan/ckanext-disqus/>`_: add ``disqus`` to ``ckan.plugins``
 * `ckanext-pages <https://github.com/ckan/ckanext-pages/>`_: add ``pages`` to ``ckan.plugins``
