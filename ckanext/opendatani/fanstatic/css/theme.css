@@ -905,31 +905,28 @@ h6 {
   padding-right: 9999rem;
   margin-bottom: 1px;
 }
-
+.label {
+  text-shadow: none;
+  margin-right: 3px;
+}
 .label-open {
   background-color: #808080 !important;
   }
-
 .label-in-progress {
   background-color: #4186E0;
 }
-
 .label-contacted {
   background-color: #4186E0;
 }
-
 .label-scheduled {
   background-color: #FD9A00;
 }
-
 .label-released {
   background-color: #2DB55D;
 }
-
 .label-cannot-release {
   background-color: #E0051E
 }
-
 .label-not-public {
   background-color: #E0051E;
 }

@@ -10,36 +10,36 @@
       <h3 class="dataset-heading">
           {% if status == 'Open' %}
           <span class="uppercase label label-open">
-            <i class="icon-unlock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-unlock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'In progress' %}
           <span class="uppercase label label-in-progress">
-            <i class="icon-unlock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-unlock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Data holder contacted' %}
           <span class="uppercase label label-contacted">
-            <i class="icon-unlock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-unlock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Scheduled for release' %}
           <span class="uppercase label label-scheduled">
-            <i class="icon-unlock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-unlock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Released' %}
           <span class="uppercase label label-released">
-            <i class="icon-lock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-lock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Cannot be released' %}
           <span class="uppercase label label-cannot-release">
-            <i class="icon-lock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-lock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Not held by public sector' %}
           <span class="uppercase label label-not-public">
-            <i class="icon-lock"></i> {% trans %} {{ status }} {% endtrans %}
+            <i class="icon-lock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
           </span>
           {% elif status == 'Closed' %}
-            <span class="uppercase label label-closed">
-              <i class="icon-lock"></i> {% trans %} {{ status }} {% endtrans %}
-            </span>
+          <span class="uppercase label label-closed">
+            <i class="icon-lock">&nbsp;</i> {% trans %} {{ status }} {% endtrans %}
+          </span>
           {% endif %}
 
         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=datarequest.get('id', ''))) }}
