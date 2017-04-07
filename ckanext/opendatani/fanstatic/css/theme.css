@@ -907,6 +907,7 @@ h6 {
 }
 .label {
   text-shadow: none;
+  letter-spacing: normal;
   margin-right: 3px;
 }
 .label-open {
