@@ -8,13 +8,13 @@
   {% block package_item_content %}
     <div class="dataset-content">
       <h3 class="dataset-heading">
-          {% if status == 'Closed' %}
+          {% if datarequest.get('closed', False) %}
           <span class="uppercase label label-closed">
-              <i class="icon-lock"></i> {% trans %} {{ status }} {% endtrans %}
+              <i class="icon-lock"></i> Closed
           </span>
           {% else %}
           <span class="uppercase label label-open">
-              <i class="icon-unlock"></i> {% trans %} {{ status }} {% endtrans %}
+              <i class="icon-unlock"></i> Open
           </span>
           {% endif %}
 
