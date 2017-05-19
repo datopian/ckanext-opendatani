@@ -52,6 +52,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'create_all_datasets_private': create_all_datasets_private,
             'user_is_sysadmin': user_is_sysadmin,
             'user_registered_within_last_day': user_registered_within_last_day,
+            'get_resource_count': get_resource_count,
         }
 
     # IRoutes
@@ -260,3 +261,12 @@ def user_registered_within_last_day():
     if toolkit.c.userobj:
         return toolkit.c.userobj.created.date() == datetime.date.today()
     return False
+
+
+def get_resource_count(resource_format, resources):
+    ''' Returns resource count for given dataset.'''
+    counter = 0
+    for res in resources:
+        if resource_format == res['format']:
+            counter += 1
+    return counter
