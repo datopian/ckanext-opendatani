@@ -3,20 +3,20 @@
 {% block primary_content %}
 <div role="main" class="hero">
   <div class="container">
-    
-    <ul class="featured-groups thumbnails"> 
+
+    <ul class="featured-groups thumbnails">
     {% for group in h.get_featured_groups(count=9) %}
       {% snippet "home/snippets/group_item.html", group=group, position=loop.index %}
     {% endfor %}
     </ul>
-    
+
   </div>
 </div>
 <div role="main">
   <div class="container">
     <h2>Latest</h2>
-    
-    {% set posts = h.get_recent_blog_posts(3) %}
+
+  {#  {% set posts = h.get_recent_blog_posts(3) %} #}
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
       <li class="span4">
@@ -29,8 +29,8 @@
       </li>
       {% endfor %}
     </ul>
-    
-  </div>  
+
+  </div>
 </div>
 {% snippet "home/snippets/twitter.html" %}
 
