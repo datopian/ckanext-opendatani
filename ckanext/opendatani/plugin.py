@@ -70,6 +70,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         controller = 'ckanext.opendatani.controller:CustomUserController'
         with routes.mapper.SubMapper(map, controller=controller) as m:
             m.connect('/user/reset', action='request_reset')
+            m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
+                      action='dashboard_update_notifications', ckan_icon='file')
 
         return map
 
