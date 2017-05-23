@@ -1,9 +1,5 @@
 {% block organization_list %}
-<ul class="org-list">
   {% block organization_list_inner %}
-    {% for organization in organizations %}
-      {% snippet "organization/snippets/org_list_item.html", organization=organization, position=loop.index %}
-    {% endfor %}
+  {% snippet 'organization/snippets/organization_tree_menu.html', top_nodes=h.group_tree(type_='organization'), use_longnames=False %}
   {% endblock %}
-</ul>
 {% endblock %}
