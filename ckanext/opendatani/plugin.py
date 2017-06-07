@@ -29,9 +29,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         toolkit.add_resource('fanstatic', 'opendatani')
 
         # Set fixed config values for this extension
-        config_['scheming.dataset_schemas'] = \
-            'ckanext.opendatani:dataset_schema.json'
-        config_['scheming.dataset_fallback'] = True
+        # config_['scheming.dataset_schemas'] = \
+        #     'ckanext.opendatani:dataset_schema.json'
+        # config_['scheming.dataset_fallback'] = True
 
         config_['licenses_group_url'] = '{0}/licenses.json'.format(
             config_['ckan.site_url'].rstrip('/'))
