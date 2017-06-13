@@ -284,7 +284,6 @@ def get_resource_count(resource_format, resources):
             counter += 1
     return counter
 
-
 def get_user_num_stale_datasets():
     def frequency_to_timedelta(frequency):
         frequency_periods = {
