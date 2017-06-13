@@ -931,3 +931,18 @@ h6 {
 .label-not-public {
   background-color: #E0051E;
 }
+
+#s2id_field-add_groups {
+  width: unset !important;
+}
+#s2id_field-add_groups > ul {
+  max-width: 500px;
+  min-width: 220px;
+  width: auto !important;
+  min-height: 30px !important;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}

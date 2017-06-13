@@ -8,7 +8,8 @@ from ckan.lib.navl.dictization_functions import Missing
 from ckan.logic.schema import default_user_schema, default_update_user_schema
 from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
-
+import ckan.lib.helpers as h
+import datetime as dt
 
 _ = toolkit._
 
@@ -53,6 +54,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_is_sysadmin': user_is_sysadmin,
             'user_registered_within_last_day': user_registered_within_last_day,
             'get_resource_count': get_resource_count,
+            'get_user_num_stale_datasets': get_user_num_stale_datasets,
+            'group_list': group_list,
+            'package_list': package_list,
         }
 
     # IRoutes
@@ -72,6 +76,13 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             m.connect('/user/reset', action='request_reset')
             m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
                       action='dashboard_update_notifications', ckan_icon='file')
+            m.connect('add_groups', '/dashboard/update_notifications',
+                      action='dashboard_update_notifications', ckan_icon='file')
+
+        controller = 'ckanext.opendatani.controller:CustomPackageController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
+            m.connect('add_groups', '/organization/add_groups/{id}',
+                      action='add_groups', ckan_icon='file')
 
         return map
 
@@ -272,3 +283,46 @@ def get_resource_count(resource_format, resources):
         if resource_format == res['format']:
             counter += 1
     return counter
+
+
+def get_user_num_stale_datasets():
+    def frequency_to_timedelta(frequency):
+        frequency_periods = {
+            "daily": dt.timedelta(days=1),
+            "weekly": dt.timedelta(days=7),
+            "fortnightly": dt.timedelta(days=14),
+            "monthly": dt.timedelta(days=30),
+            "quarterly": dt.timedelta(days=91),
+            "annually": dt.timedelta(days=365),
+        }
+        if not frequency:
+            pass
+        else:
+            return frequency_periods[frequency]
+
+    data = toolkit.get_action(
+        'current_package_list_with_resources')({}, {})
+    data = [pkg for pkg in data if pkg['creator_user_id'] == toolkit.c.userobj.id]
+    stale_datasets = []
+
+    for pkg in data:
+        pkg['metadata_created'] = h.date_str_to_datetime(
+            pkg['metadata_created'])
+        pkg['metadata_modified'] = h.date_str_to_datetime(
+            pkg['metadata_modified'])
+
+        diff = pkg['metadata_modified'] - pkg['metadata_created']
+        if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
+            if diff > frequency_to_timedelta(pkg['frequency']):
+                stale_datasets.append(pkg)
+    return str(len(stale_datasets))
+
+
+def group_list():
+    group_list = toolkit.get_action('group_list')({}, {})
+    return group_list
+
+
+def package_list():
+    package_list = toolkit.get_action('package_list')({}, {})
+    return package_list

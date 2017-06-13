@@ -2,11 +2,24 @@ import ckan.lib.base as base
 from ckan import model
 import ckan.lib.helpers as h
 import ckan.lib.mailer as mailer
-from ckan.common import c
+from ckan.common import c, request, _
 
 import ckan.plugins.toolkit as toolkit
 from ckan.controllers.user import UserController as CoreUserController
+from ckan.controllers.package import PackageController as CorePackageController
 import tasks
+
+import logging
+import ckan.logic as logic
+
+log = logging.getLogger(__name__)
+
+render = base.render
+abort = base.abort
+
+NotFound = logic.NotFound
+NotAuthorized = logic.NotAuthorized
+get_action = logic.get_action
 
 
 class StaticController(base.BaseController):
@@ -89,3 +102,33 @@ class CustomUserController(CoreUserController):
         data_dict = {'user_obj': c.userobj, 'stale_datasets': c.stale_datasets}
         self._setup_template_variables(context, data_dict)
         return toolkit.render('user/dashboard_update.html')
+
+
+class CustomPackageController(CorePackageController):
+    def add_groups(self, id):
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user}
+        data_dict = {'id': id, 'all_fields': True}
+        c.group_dict = toolkit.get_action(
+            'organization_show')(context, data_dict)
+        c.packages = toolkit.get_action(
+            'current_package_list_with_resources')(context, data_dict)
+        c.groups = toolkit.get_action('group_list')(context, data_dict)
+
+        if request.method == 'POST':
+            selected_groups = request.POST.getall('group')
+            selected_datasets = request.POST.getall('dataset')
+            for group in selected_groups:
+                for pkg in selected_datasets:
+                    data_dict = {"id": group,
+                                 "object": pkg,
+                                 "object_type": 'package',
+                                 "capacity": 'public'}
+                    try:
+                        get_action('member_create')(context, data_dict)
+                    except NotFound:
+                        abort(404, _('Group not found'))
+            controller = 'ckanext.opendatani.controller:CustomPackageController'
+            url = h.url_for(controller=controller, action='add_groups', id=id)
+            h.redirect_to(url)
+        return toolkit.render('organization/add_groups.html')

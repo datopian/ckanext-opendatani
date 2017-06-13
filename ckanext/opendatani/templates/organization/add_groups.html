@@ -1,0 +1,56 @@
+{% extends "organization/edit_base.html" %}
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _('Edit datasets') }} - {{ super() }}{% endblock %}
+
+{% block page_primary_action %}
+  {# {% link_for _('Add dataset'), controller='package', action='new', group=c.group_dict.id, class_='btn btn-primary', icon='plus-sign-alt' %} #}
+{% endblock %}
+
+{% block primary_content_inner %}
+{% set groups = h.group_list() %}
+{% set packages = h.package_list() %}
+
+    <form method="POST">
+      <table class="table table-bordered table-header table-hover table-bulk-edit table-edit-hover" data-module="table-selectable-rows">
+        <col width="8">
+        <col width="120">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="table-actions">
+              <div class="">
+                <select id="field-add_groups" multiple class="" name="group" data-module="autocomplete">
+                  {% for option in c.groups %}
+                    <option value="{{ option.id }}" style=""> {{ option.display_name }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" id="submit_add-groups" class="btn btn-primary" title="{{ _('Associate selected group(s) with selected dataset(s)') }}">{{ _('Add to group') }}</button>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for package in c.packages %}
+            {% set title = package.title or package.name %}
+            <tr>
+              <td>
+                <input type="checkbox" name="dataset" value="{{ package.id }}">
+              </td>
+              <td class="context">
+                <a href="{% url_for controller='package', action='edit', id=package.name %}" class="edit pull-right">
+                  {{ _('Edit') }}
+                </a>
+                <h3 class="dataset-heading">
+                  <a href="{{ h.url_for(controller='package', action='read', id=package.name) }}"> {{ title }}</a>
+                </h3>
+                {% if notes %}
+                  <p>{{ notes|urlize }}</p>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+{% endblock %}
