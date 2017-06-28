@@ -1056,7 +1056,7 @@ h6 {
 .expandable-menu li a {
   display: block;
   padding: 0.25em;
-  background: rgb(230, 230, 230);
+  background: #e8eaed;
   color: #444;
   text-decoration: none;
   margin-top: 5px;
@@ -1064,17 +1064,17 @@ h6 {
 }
 
 .expandable-menu li a:hover {
-  background: rgb(130, 130, 130);
+  background: #dfe2e6;
 }
 
 .expandable-menu>li>a {
-  background: #4d4d4d;
-  color: white;
+  background: #e8eaed;
+  color: #25374d;
   font-weight: bold;
 }
 
 .expandable-menu>li>a:hover {
-  background: ##1b6a43;
+  background: #dfe2e6;
 }
 
 .expandable-menu input[type="checkbox"]~ul li, .expandable-menu input[type="checkbox"].current:checked~ul li {
@@ -1125,6 +1125,7 @@ h6 {
 
 .paddingleft-hack>li>a {
   padding-left: 25px;
+  color: #25374d;
 }
 
 #s2id_field-add_groups {
