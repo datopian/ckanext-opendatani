@@ -284,6 +284,7 @@ def get_resource_count(resource_format, resources):
             counter += 1
     return counter
 
+
 def get_user_num_stale_datasets():
     def frequency_to_timedelta(frequency):
         frequency_periods = {
@@ -299,21 +300,22 @@ def get_user_num_stale_datasets():
         else:
             return frequency_periods[frequency]
 
-    data = toolkit.get_action(
-        'current_package_list_with_resources')({}, {})
-    data = [pkg for pkg in data if pkg['creator_user_id'] == toolkit.c.userobj.id]
+    user = toolkit.get_action('user_show')(
+        {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
+    data = user['datasets']
     stale_datasets = []
-
-    for pkg in data:
-        pkg['metadata_created'] = h.date_str_to_datetime(
-            pkg['metadata_created'])
-        pkg['metadata_modified'] = h.date_str_to_datetime(
-            pkg['metadata_modified'])
-
-        diff = pkg['metadata_modified'] - pkg['metadata_created']
-        if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-            if diff > frequency_to_timedelta(pkg['frequency']):
-                stale_datasets.append(pkg)
+    if data:
+        for pkg in data:
+            if 'frequency' in pkg:
+                pkg['metadata_created'] = h.date_str_to_datetime(
+                    pkg['metadata_created'])
+                pkg['metadata_modified'] = h.date_str_to_datetime(
+                    pkg['metadata_modified'])
+                pkg['frequency'] = pkg.get('frequency', '')
+                diff = pkg['metadata_modified'] - pkg['metadata_created']
+                if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
+                    if diff > frequency_to_timedelta(pkg['frequency']):
+                        stale_datasets.append(pkg)
     return str(len(stale_datasets))
 
 

@@ -11,6 +11,7 @@ import tasks
 
 import logging
 import ckan.logic as logic
+import datetime as dt
 
 log = logging.getLogger(__name__)
 
@@ -75,26 +76,40 @@ class CustomUserController(CoreUserController):
         return toolkit.render('user/request_reset.html')
 
     def _stale_datasets_for_user(self, data):
+        def frequency_to_timedelta(frequency):
+            frequency_periods = {
+                "daily": dt.timedelta(days=1),
+                "weekly": dt.timedelta(days=7),
+                "fortnightly": dt.timedelta(days=14),
+                "monthly": dt.timedelta(days=30),
+                "quarterly": dt.timedelta(days=91),
+                "annually": dt.timedelta(days=365),
+            }
+            if not frequency:
+                pass
+            else:
+                return frequency_periods[frequency]
+
         stale_datasets = []
-
-        for pkg in data:
-            pkg['metadata_created'] = h.date_str_to_datetime(
-                pkg['metadata_created'])
-            pkg['metadata_modified'] = h.date_str_to_datetime(
-                pkg['metadata_modified'])
-
-            diff = pkg['metadata_modified'] - pkg['metadata_created']
-
-            if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-                if diff > tasks.frequency_to_timedelta(pkg['frequency']):
-                    stale_datasets.append(pkg)
+        stale_datasets = []
+        if data:
+            for pkg in data:
+                if 'frequency' in pkg:
+                    pkg['metadata_created'] = h.date_str_to_datetime(
+                        pkg['metadata_created'])
+                    pkg['metadata_modified'] = h.date_str_to_datetime(
+                        pkg['metadata_modified'])
+                    pkg['frequency'] = pkg.get('frequency', '')
+                    diff = pkg['metadata_modified'] - pkg['metadata_created']
+                    if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
+                        if diff > frequency_to_timedelta(pkg['frequency']):
+                            stale_datasets.append(pkg)
         return stale_datasets
 
     def dashboard_update_notifications(self):
-        data = toolkit.get_action(
-            'current_package_list_with_resources')({}, {})
-
-        data = [pkg for pkg in data if pkg['creator_user_id'] == c.userobj.id]
+        user = toolkit.get_action('user_show')(
+            {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
+        data = user['datasets']
         c.stale_datasets = self._stale_datasets_for_user(data)
 
         context = {'for_view': True, 'user': c.user,
