@@ -1,4 +1,4 @@
-{#
+{# 
 Displays a tree of organzations
 
 NB This template can be slow because it is recursive and uses link_for. At
@@ -10,9 +10,8 @@ orgs    - List of organizations
 
 Example:
 
-  {% snippet 'organization/snippets/organization_tree_menu.html', top_nodes=h.group_tree(type_='organization'), use_longnames=False %}
+  {% snippet 'organization/snippets/organization_tree_menu.html', top_nodes=h.group_tree(type_='organization'), use_longnames=False %} #}
 
-#}
 
 <ul class="hierarchy-tree-top expandable-menu">
   {% for node in top_nodes recursive %}
