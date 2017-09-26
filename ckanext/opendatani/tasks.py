@@ -1,6 +1,8 @@
 import datetime as dt
 import os
 import uuid
+from celery.task import periodic_task
+from celery.schedules import crontab
 
 from ckan.lib.celery_app import celery
 import ckan.lib.helpers as h
@@ -36,7 +38,7 @@ def frequency_to_timedelta(frequency):
         return frequency_periods[frequency]
 
 
-@celery.task(name="opendatani.send_notification")
+@periodic_task(run_every=(crontab(minute=0, hour=2)	), name="opendatani.send_notification", ignore_result=True)
 def send_notification(ckan_ini_filepath):
 
     load_config(ckan_ini_filepath)
@@ -67,19 +69,19 @@ def send_notification(ckan_ini_filepath):
         'current_package_list_with_resources')(context, {})
 
     for pkg in data:
-        pkg['metadata_created'] = h.date_str_to_datetime(
-            pkg['metadata_created'])
-        pkg['metadata_modified'] = h.date_str_to_datetime(
-            pkg['metadata_modified'])
-
-        diff = pkg['metadata_modified'] - pkg['metadata_created']
-
-        if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-            if diff > frequency_to_timedelta(pkg['frequency']):
-                content = "Dataset " + pkg['name'] + " needs updating."
-                to = pkg['contact_email']
-                subject = "Update data notification"
-                emailer.send_email(content, to, subject)
+        if 'frequency' in pkg:
+            pkg['metadata_created'] = h.date_str_to_datetime(
+                pkg['metadata_created'])
+            pkg['metadata_modified'] = h.date_str_to_datetime(
+                pkg['metadata_modified'])
+            pkg['frequency'] = pkg.get('frequency', '')
+            diff = pkg['metadata_modified'] - pkg['metadata_created']
+            if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
+                if diff > frequency_to_timedelta(pkg['frequency']):
+                    content = "Dataset " + pkg['name'] + " needs updating."
+                    to = pkg['contact_email']
+                    subject = "Update data notification"
+                    emailer.send_email(content, to, subject)
 
 
 celery.send_task("opendatani.send_notification", task_id=str(

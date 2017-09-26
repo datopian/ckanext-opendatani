@@ -313,9 +313,10 @@ def get_user_num_stale_datasets():
                     pkg['metadata_modified'])
                 pkg['frequency'] = pkg.get('frequency', '')
                 diff = pkg['metadata_modified'] - pkg['metadata_created']
-                if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-                    if diff > frequency_to_timedelta(pkg['frequency']):
-                        stale_datasets.append(pkg)
+                if pkg['frequency']:
+                    if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
+                        if diff > frequency_to_timedelta(pkg['frequency']):
+                            stale_datasets.append(pkg)
     return str(len(stale_datasets))
 
 
