@@ -100,10 +100,11 @@ class CustomUserController(CoreUserController):
                     pkg['metadata_modified'] = h.date_str_to_datetime(
                         pkg['metadata_modified'])
                     pkg['frequency'] = pkg.get('frequency', '')
-                    diff = pkg['metadata_modified'] - pkg['metadata_created']
-                    if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-                        if diff > frequency_to_timedelta(pkg['frequency']):
-                            stale_datasets.append(pkg)
+                    diff = pkg['metadata_modified'] - frequency_to_timedelta(pkg['frequency'])
+                    if pkg['frequency']:
+                        if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
+                            if diff > frequency_to_timedelta(pkg['frequency']):
+                                stale_datasets.append(pkg)
         return stale_datasets
 
     def dashboard_update_notifications(self):
