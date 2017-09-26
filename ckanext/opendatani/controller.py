@@ -100,7 +100,8 @@ class CustomUserController(CoreUserController):
                     pkg['metadata_modified'] = h.date_str_to_datetime(
                         pkg['metadata_modified'])
                     pkg['frequency'] = pkg.get('frequency', '')
-                    diff = pkg['metadata_modified'] - frequency_to_timedelta(pkg['frequency'])
+                    now = dt.datetime.now()
+                    diff = now - frequency_to_timedelta(pkg['frequency'])
                     if pkg['frequency']:
                         if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
                             if diff > frequency_to_timedelta(pkg['frequency']):
