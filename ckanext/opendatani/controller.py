@@ -91,7 +91,6 @@ class CustomUserController(CoreUserController):
                 return frequency_periods[frequency]
 
         stale_datasets = []
-        stale_datasets = []
         if data:
             for pkg in data:
                 if 'frequency' in pkg:
@@ -100,12 +99,13 @@ class CustomUserController(CoreUserController):
                     pkg['metadata_modified'] = h.date_str_to_datetime(
                         pkg['metadata_modified'])
                     pkg['frequency'] = pkg.get('frequency', '')
-                    now = dt.datetime.now()
-                    diff = now - frequency_to_timedelta(pkg['frequency'])
                     if pkg['frequency']:
                         if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
-                            if diff > frequency_to_timedelta(pkg['frequency']):
-                                stale_datasets.append(pkg)
+                            if pkg['metadata_modified'].date() != pkg['metadata_created'].date():
+                                now = dt.datetime.now()
+                                diff = now - pkg['metadata_modified']
+                                if diff > frequency_to_timedelta(pkg['frequency']):
+                                    stale_datasets.append(pkg)
         return stale_datasets
 
     def dashboard_update_notifications(self):
@@ -113,7 +113,6 @@ class CustomUserController(CoreUserController):
             {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
         data = user['datasets']
         c.stale_datasets = self._stale_datasets_for_user(data)
-
         context = {'for_view': True, 'user': c.user,
                    'auth_user_obj': c.userobj}
         data_dict = {'user_obj': c.userobj, 'stale_datasets': c.stale_datasets}

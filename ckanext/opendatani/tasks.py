@@ -75,13 +75,16 @@ def send_notification(ckan_ini_filepath):
             pkg['metadata_modified'] = h.date_str_to_datetime(
                 pkg['metadata_modified'])
             pkg['frequency'] = pkg.get('frequency', '')
-            diff = pkg['metadata_modified'] - pkg['metadata_created']
-            if pkg['frequency'] and ('irregular' or 'notPlanned') not in pkg['frequency']:
-                if diff > frequency_to_timedelta(pkg['frequency']):
-                    content = "Dataset " + pkg['name'] + " needs updating."
-                    to = pkg['contact_email']
-                    subject = "Update data notification"
-                    emailer.send_email(content, to, subject)
+            if pkg['frequency']:
+                if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
+                    if pkg['metadata_modified'].date() != pkg['metadata_created'].date():
+                        now = dt.datetime.now()
+                        diff = now - pkg['metadata_modified']
+                        if diff > frequency_to_timedelta(pkg['frequency']):
+                            content = "Dataset " + pkg['name'] + " needs updating."
+                            to = pkg['contact_email']
+                            subject = "Update data notification"
+                            emailer.send_email(content, to, subject)
 
 
 celery.send_task("opendatani.send_notification", task_id=str(

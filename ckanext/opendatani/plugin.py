@@ -312,12 +312,13 @@ def get_user_num_stale_datasets():
                 pkg['metadata_modified'] = h.date_str_to_datetime(
                     pkg['metadata_modified'])
                 pkg['frequency'] = pkg.get('frequency', '')
-                now = dt.datetime.now()
-                diff = now - frequency_to_timedelta(pkg['frequency'])
                 if pkg['frequency']:
                     if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
-                        if diff > frequency_to_timedelta(pkg['frequency']):
-                            stale_datasets.append(pkg)
+                        if pkg['metadata_modified'].date() != pkg['metadata_created'].date():
+                            now = dt.datetime.now()
+                            diff = now - pkg['metadata_modified']
+                            if diff > frequency_to_timedelta(pkg['frequency']):
+                                stale_datasets.append(pkg)
     return str(len(stale_datasets))
 
 
