@@ -4,7 +4,6 @@ from ckan.plugins import toolkit
 import ckanapi
 import logging
 import ckan.lib.helpers as h
-from ckan import model
 import datetime as dt
 import emailer
 

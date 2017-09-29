@@ -7,7 +7,6 @@ from ckan.common import c, request, _
 import ckan.plugins.toolkit as toolkit
 from ckan.controllers.user import UserController as CoreUserController
 from ckan.controllers.package import PackageController as CorePackageController
-import tasks
 
 import logging
 import ckan.logic as logic
