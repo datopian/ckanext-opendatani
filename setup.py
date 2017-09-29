@@ -82,13 +82,9 @@ setup(
 
         [paste.paster_command]
         create_featured_groups=ckanext.opendatani.commands:CreateFeaturedGroups
+        check_update_frequency=ckanext.opendatani.commands:CheckUpdateFrequency
 
         [ckan.rdf.profiles]
         ni_arcgis_profile=ckanext.opendatani.dcat:NIArcGISProfile
-
-        [ckan.celery_task]
-        tasks = ckanext.opendatani.celery_import:task_imports
-
-
     ''',
 )
