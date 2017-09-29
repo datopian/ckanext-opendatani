@@ -10,6 +10,7 @@ from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
 import ckan.lib.helpers as h
 import datetime as dt
+from ckanext.opendatani.controller import CustomUserController
 
 _ = toolkit._
 
@@ -286,39 +287,12 @@ def get_resource_count(resource_format, resources):
 
 
 def get_user_num_stale_datasets():
-    def frequency_to_timedelta(frequency):
-        frequency_periods = {
-            "daily": dt.timedelta(days=1),
-            "weekly": dt.timedelta(days=7),
-            "fortnightly": dt.timedelta(days=14),
-            "monthly": dt.timedelta(days=30),
-            "quarterly": dt.timedelta(days=91),
-            "annually": dt.timedelta(days=365),
-        }
-        if not frequency:
-            pass
-        else:
-            return frequency_periods[frequency]
-
+    """Get each user's inupdated datasets."""
+    cuc = CustomUserController()
     user = toolkit.get_action('user_show')(
         {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
     data = user['datasets']
-    stale_datasets = []
-    if data:
-        for pkg in data:
-            if 'frequency' in pkg:
-                pkg['metadata_created'] = h.date_str_to_datetime(
-                    pkg['metadata_created'])
-                pkg['metadata_modified'] = h.date_str_to_datetime(
-                    pkg['metadata_modified'])
-                pkg['frequency'] = pkg.get('frequency', '')
-                if pkg['frequency']:
-                    if pkg['frequency'] != 'irregular' and pkg['frequency'] != 'notPlanned':
-                        if pkg['metadata_modified'].date() != pkg['metadata_created'].date():
-                            now = dt.datetime.now()
-                            diff = now - pkg['metadata_modified']
-                            if diff > frequency_to_timedelta(pkg['frequency']):
-                                stale_datasets.append(pkg)
+    stale_datasets = cuc._stale_datasets_for_user(data)
     return str(len(stale_datasets))
 
 

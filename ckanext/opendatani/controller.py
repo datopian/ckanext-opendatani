@@ -78,7 +78,7 @@ class CustomUserController(CoreUserController):
     def _stale_datasets_for_user(self, data):
         def frequency_to_timedelta(frequency):
             frequency_periods = {
-                "daily": dt.timedelta(days=1),
+                "daily": dt.timedelta(days=2),
                 "weekly": dt.timedelta(days=7),
                 "fortnightly": dt.timedelta(days=14),
                 "monthly": dt.timedelta(days=30),
