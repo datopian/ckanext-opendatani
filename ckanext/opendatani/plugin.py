@@ -8,7 +8,9 @@ from ckan.lib.navl.dictization_functions import Missing
 from ckan.logic.schema import default_user_schema, default_update_user_schema
 from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
-
+import ckan.lib.helpers as h
+import datetime as dt
+from ckanext.opendatani.controller import CustomUserController
 
 _ = toolkit._
 
@@ -53,6 +55,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_is_sysadmin': user_is_sysadmin,
             'user_registered_within_last_day': user_registered_within_last_day,
             'get_resource_count': get_resource_count,
+            'get_user_num_stale_datasets': get_user_num_stale_datasets,
+            'group_list': group_list,
+            'package_list': package_list,
         }
 
     # IRoutes
@@ -70,6 +75,15 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         controller = 'ckanext.opendatani.controller:CustomUserController'
         with routes.mapper.SubMapper(map, controller=controller) as m:
             m.connect('/user/reset', action='request_reset')
+            m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
+                      action='dashboard_update_notifications', ckan_icon='file')
+            m.connect('add_groups', '/dashboard/update_notifications',
+                      action='dashboard_update_notifications', ckan_icon='file')
+
+        controller = 'ckanext.opendatani.controller:CustomPackageController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
+            m.connect('add_groups', '/organization/add_groups/{id}',
+                      action='add_groups', ckan_icon='file')
 
         return map
 
@@ -270,3 +284,23 @@ def get_resource_count(resource_format, resources):
         if resource_format == res['format']:
             counter += 1
     return counter
+
+
+def get_user_num_stale_datasets():
+    """Get each user's inupdated datasets."""
+    cuc = CustomUserController()
+    user = toolkit.get_action('user_show')(
+        {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
+    data = user['datasets']
+    stale_datasets = cuc._stale_datasets_for_user(data)
+    return str(len(stale_datasets))
+
+
+def group_list():
+    group_list = toolkit.get_action('group_list')({}, {})
+    return group_list
+
+
+def package_list():
+    package_list = toolkit.get_action('package_list')({}, {})
+    return package_list
