@@ -16,7 +16,7 @@
   <div class="container">
     <h2>Latest</h2>
 
-  {#  {% set posts = h.get_recent_blog_posts(3) %} #}
+  {% set posts = h.get_recent_blog_posts(3) %}
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
       <li class="span4">
