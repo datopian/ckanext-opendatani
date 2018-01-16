@@ -212,7 +212,7 @@ class CustomPackageController(CorePackageController):
         vars = {'resource_views': resource_views,
                 'current_resource_view': current_resource_view,
                 'dataset_type': dataset_type}
-
+        print MAX_FILE_SIZE
         if c.resource['url_type'] != 'upload':
             r = requests.head(c.resource['url'])
             if r.status_code not in (400, 403, 405) and r.ok:
