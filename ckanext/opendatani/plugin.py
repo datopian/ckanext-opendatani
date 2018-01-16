@@ -84,6 +84,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         with routes.mapper.SubMapper(map, controller=controller) as m:
             m.connect('add_groups', '/organization/add_groups/{id}',
                       action='add_groups', ckan_icon='file')
+            m.connect('/dataset/{id}/resource/{resource_id}',
+                      action='resource_read')
+
 
         return map
 
