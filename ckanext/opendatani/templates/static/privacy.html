@@ -1,35 +1,103 @@
 {% extends "page.html" %}
 
-{% block subtitle %}{{ _('Data protection') }}{% endblock %}
+{% block subtitle %}{{ _('OpenDataNI Privacy Notice') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Data protection'), controller='ckanext.opendatani.controller:StaticController', action='termsandconditions' %}</li>
+  <li class="active">{% link_for _('OpenDataNI Privacy Notice'), controller='ckanext.opendatani.controller:StaticController', action='termsandconditions' %}</li>
 {% endblock %}
 
 {% block primary %}
   <article class="module">
     <div class="module-content">
-      <h3>The Data Protection Act</h3>
+      <h4>OpenDataNI Privacy Notice</h4>
 
-      <p>Under the Data Protection Act 1998, we have a legal duty to protect any information we collect from you. We will not pass on your personal details to any third party without your permission or unless we are obliged or permitted by law to do so.</p>
+      <h3>Introduction</h3>
+      <p>Northern Ireland’s Public Sector Open Data Portal, OpenDataNI, is maintained and operated by the Digital Shared Services directorate (DSS), a part of Enterprise Shared Services division within the Department of Finance (DoF).</p>
+      <p>DSS is a data controller within the meaning of the Data Protection Act 1998 and the General Data Protection Regulation (GDPR) that supersedes that act with effect from 25th May 2018; DSS processes personal data where it has been provided by the site’s users with the site user’s express consent and/or where the law requires or allows us to.</p>
 
-      <h3>Your personal data</h3>
+      <h3>Your personal data and why we are processing it</h3>
 
-      <p>From time to time, you may be asked to submit personal information about yourself (e.g. name and e-mail address) in order to request a dataset or give feedback on datasets posted.</p>
+      <p>DSS is tasked with promoting and facilitating the publication of and re-use of Open Data from Northern Ireland’s Public Sector Departments and related non-departmental public bodies, in accordance with the <a href="https://www.finance-ni.gov.uk/sites/default/files/publications/dfp/Open-Data-Strategy-2015-18.pdf">Open Data Strategy for Northern Ireland 2015-2018</a>, which was adopted by the Northern Ireland Executive in February 2015.</p>
 
-      <p>Any personal information you provide to us will only be used by us, our agents and service providers, and will not be disclosed without your consent or unless we are obliged or permitted by law to do so.</p>
+      <p>Establishment and operation of an Open Data portal for Northern Ireland (OpenDataNI) forms a key strand of that strategy, and it is a significant part of DSS’ public task to ensure that NI government data is published as open data and is freely accessible by users of the OpenDataNI site, for re-use without commercial or other restrictions.</p>
 
-      <p>However if you post or send offensive, inappropriate or objectionable content anywhere on this site, we may use whatever information about you is available to us to stop such behaviour.</p>
+      <p>Where provided by you, the site user, Personal data of the following kinds are held by OpenDataNI:
+         <li>Name: </li>
+         <li>E-mail address: </li>
+      </p>
 
-      <h3>Accessibility statement</h3>
+      <p>This information is held for so long as your OpenDataNI account is active/open. You have the right to request closure of your account and deletion of your data upon request; to do so, you should contact the Open Data Team (by e-mail to <a href="mailto:OpenData@finance-ni.gov.uk">OpenData@finance-ni.gov.uk</a>, or via our <a href="https://www.opendatani.gov.uk/contact">Contact Form</a>, from the e-mail address you had provided at registration).</p>
 
-      <p>It is our intention that the website is usable and accessible to all users. The website's objective is to conform to the Guidelines for (UK Government Websites), which supports Web Content Accessibility Guidelines of the World Wide Web Consortium.</p>
+      <p>For each registered account, there is also held a log of activity for your account (vis a vis, dataset suggestions submitted, as well as any changes enacted by you on your account {such as password reset}). Account activity for the 12 months to date is held, with data on activity being deleted upon the earlier of 12 months in age, or deletion of the OpenDataNI account.</p>
 
-      <h3>Feedback</h3>
+      <p>OpenDataNI does not collect, request or require any special categories (as defined in Article 9 of GDPR) of information.</p>
 
-      <p>We very much welcome and actively encourage your feedback on this site.</p>
+      <p>Personal data of the kinds outlined above is held by OpenDataNI so as to enable access to specific functions of the site, for the purposes of:
+          <li>Accessing dataset API end-points;</li>
+          <li>Submitting a suggestion for data publication via the ‘Suggest Data’ function;</li>
+          <li>Giving feedback on published datasets or on dataset suggestions via the Disqus comment engine;</li>
+          <li>And, in the case of public sector data publisher accounts, to enable publication and update of datasets on the portal.</li>
+      </p>
 
-      <p>We will not pass on any of your personal information when dealing with your enquiry, unless you have given us permission to do so or unless we are obliged or permitted by law to do so.</p>
+      <p>Additionally, from time to time, OpenDataNI may use the personal data you provide in order to:
+          <li>Contact you about any significant updates or changes to the Terms and Conditions of use for the site (see here);</li>
+          <li>Contact you in relation to your usage of the site, in the event that we need to clarify whether that usage is at odds with our published site Code of conduct (see <a href="https://www.opendatani.gov.uk/code-of-conduct">here</a>);</li>
+          <li>Contact you periodically to survey our site users about the site and how we may improve the service it provides;</li>
+          <li>In the case of data publisher accounts, Contact you to notify you of queries received about your published datasets as well as to notify you about datasets which require update or other attention.</li></p>
+
+      <p>Any personal information you provide to us will only be used by us, our agents and service providers for the purposes outlined above, and will not be disclosed without your consent or unless we are obliged or permitted by law to do so.</p>
+
+      <p>However, if you post or send offensive, inappropriate or objectionable content anywhere on this site, we may use whatever information about you as is available to us in order to investigate and cease such behaviour.</p>
+
+      <h3>Where do we get your personal data from?</h3>
+
+      <p>All personal data we obtain about you is supplied by you only if/when you register an account on the site. That data is not checked for accuracy or in any other way and is held exactly as you have provided it.</p>
+
+      <p>If you wish to obtain a copy of the personal data we hold on you, you should contact the Open Data Team (by e-mail to  <a href="mailto:OpenData@finance-ni.gov.uk">OpenData@finance-ni.gov.uk</a>, or via the site’s <a href="https://www.opendatani.gov.uk/contact">Contact Form</a>) and we will provide you with all information provided on your account.</p>
+
+      <h3>Do we share your personal data with anyone else?</h3>
+
+      <p>We do not share your data with anyone else for any form of processing or analysis. The OpenDataNI site is hosted by our partners Viderum, and it is only in that context that your data is held by any party other than DSS.</p>
+
+      <h3>Do we transfer your personal data to other countries?</h3>
+
+      <p>The data we hold remains within the hosted OpenDataNI site and is only ever transferred to other countries as part of this site-hosting. Any and all transfers are conducted solely for the purpose of maintaining site operation, and is in full compliance with all aspects of the GDPR.</p>
+
+      <h3>How long do we keep your personal data?</h3>
+
+      <p>We only retain your data for as long as is necessary in order to process it:
+          <li>For information provided by you at registration, that data is held for as long as you keep your account active/open, so as to enable you to log in and access full functionality of the site;</li>
+          <li>For activity log data, the data is held to ensure the smooth operation of the site for registered users for a maximum of 12 months, and is deleted at that point or earlier if the account holder has requested deletion of the account.</li>
+      </p>
+
+      <h3>What rights do I have?</h3>
+
+      <li>You have the right to obtain confirmation that your data is being <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr">processed, and access to your personal data</a></li>
+      <li>You are entitled to have personal data <a href="https://ico.org.uk/for-organisations/data-protection-reform/overview-of-the-gdpr/individuals-rights/the-right-to-rectification/">rectified if it is inaccurate or incomplete</a></li>
+      <li>You have a right to have personal data erased and to prevent processing, <a href="https://ico.org.uk/for-organisations/data-protection-reform/overview-of-the-gdpr/individuals-rights/the-right-to-erasure/">in specific circumstances</a></li>
+      <li>You have the right to ‘block’ or suppress processing of personal data, <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr">in specific circumstances</a></li>
+      <li>You have the right to data portability, <a href="https://ico.org.uk/for-organisations/data-protection-reform/overview-of-the-gdpr/individuals-rights/the-right-to-data-portability/">in specific circumstances</a></li>
+      <li><b>You have the right to object to the processing</b>, <a href="https://ico.org.uk/for-organisations/data-protection-reform/overview-of-the-gdpr/individuals-rights/the-right-to-object/">in specific circumstances</a></li>
+      <li><b>You have rights in relation to </b> <a href="https://ico.org.uk/for-organisations/data-protection-reform/overview-of-the-gdpr/individuals-rights/rights-related-to-automated-decision-making-and-profiling/">automated decision making and profiling</a></li>
+
+      <h3>How do I complain if I am not happy?</h3>
+
+      <p>If you are unhappy with how any aspect of this privacy notice, or how your personal information is being processed, please contact the Data Protection Officer for the Department of Finance, Joseph McCanny at: </br>
+	E-mail: <a href="mailto:DataProtectionOfficer@finance-ni.gov.uk">DataProtectionOfficer@finance-ni.gov.uk</a> </br>
+      <p>
+
+      <p>If you are still not happy, you have the right to lodge a complaint with the Information Commissioner’s Office (ICO): </br>
+	Information Commissioner’s Office</br>
+	Wycliffe House</br>
+	Water Lane</br>
+	Wilmslow</br>
+	Cheshire</br>
+	SK9 5AF</br>
+	</br>
+	Tel: 0303 123 1113</br>
+	E-mail: <a href="mailto:casework@ico.org.uk">casework@ico.org.uk</a> </br>
+	<a href="https://ico.org.uk/global/contact-us/">https://ico.org.uk/global/contact-us/</a> </br>
+      </p>
 
       <h3>Links to other websites</h3>
 
@@ -37,8 +105,10 @@
 
       <h3>Changes to this privacy policy</h3>
 
-      <p>If this privacy policy changes in any way, we will place an updated version on this page. Regularly reviewing this page ensures you are always aware of what information we collect, how we use it and under what circumstances, if any, we will share it with other parties.</p>
+      <p>If this privacy policy changes in any way, we will place an updated version on this page. This page will present itself each time you successfully log in to the site. Regularly reviewing this page ensures that you are always aware of what information we collect, how we use it and under what circumstances, if any, we may share it with other parties. 
+Where there are changes to what information is collected, how it is used and/or with whom it is shared, we will contact all registered site-users about whom we hold data, and whom have consented to our processing of the data for the purposes outlined above.</p>
     </div>
+    <a href="https://www.opendatani.gov.uk"><button type="button" class="btn btn-primary btn-lg">Home</button></a>
   </article>
 {% endblock %}
 
