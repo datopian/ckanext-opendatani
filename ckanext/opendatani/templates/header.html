@@ -53,6 +53,13 @@
 {% endblock %}
 {% endblock %}
 
+{% block header_account_notlogged %}
+  <li>{% link_for _('Log in'), controller='user', action='login' %}</li>
+  {% if h.check_access('user_create') %}
+    <li>{% link_for _('Register'), controller='ckanext.opendatani.controller:StaticController', action='privacy_notice_reg', class_='sub' %}</li>
+  {% endif %}
+{% endblock %}
+
 {% block header_site_navigation %}
   <nav class="section navigation">
     <ul class="nav nav-pills">

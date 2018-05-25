@@ -71,6 +71,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             m.connect('cookies', '/cookies', action='cookies')
             m.connect('codeofconduct', '/code-of-conduct',
                       action='codeofconduct')
+            m.connect('privacy_notice_reg', '/privacy_notice_reg', action='privacy_notice_reg')
 
         controller = 'ckanext.opendatani.controller:CustomUserController'
         with routes.mapper.SubMapper(map, controller=controller) as m:

@@ -40,6 +40,9 @@ class StaticController(base.BaseController):
     def privacy(self):
         return base.render('static/privacy.html')
 
+    def privacy_notice_reg(self):
+        return base.render('static/privacy_notice_reg.html')
+
 
 class CustomUserController(CoreUserController):
     def request_reset(self):

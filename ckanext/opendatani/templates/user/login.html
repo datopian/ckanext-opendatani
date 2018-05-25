@@ -1,0 +1,5 @@
+{% ckan_extends %}
+
+{% block help_register_button %}
+  <a class="btn" href="{{ h.url_for(controller='ckanext.opendatani.controller:StaticController', action='privacy_notice_reg') }}">{{ _('Create an Account') }}</a>
+{% endblock %}
