@@ -120,7 +120,7 @@ class CausewayProfile(RDFProfile):
             for resource in dataset_dict.get('resources', []):
                 if resource['format'] == 'OGC WMS':
                     resource['format'] = 'WMS'
-                if resource['format'] == 'zip':
+                if resource['format'] == 'ZIP':
                     resource['format'] = 'SHP'
 
                 resource['requested'] = False
