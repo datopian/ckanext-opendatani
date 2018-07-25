@@ -8,9 +8,8 @@ from ckan.lib.navl.dictization_functions import Missing
 from ckan.logic.schema import default_user_schema, default_update_user_schema
 from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
-import ckan.lib.helpers as h
-import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
+from ckanext.opendatani.logic.action import create, get
 
 _ = toolkit._
 
@@ -107,6 +106,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
+            'log_create': create.insert_sftp_log,
+            'logs_list': get.list_sftp_logs
         }
 
 
