@@ -10,7 +10,8 @@ from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani.logic.action import create, get
-
+from ckanext.opendatani.model import setup as model_setup
+from ckanext.opendatani.logic.auth import create as auth
 _ = toolkit._
 
 
@@ -21,6 +22,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IConfigurable)
 
     # IConfigurer
 
@@ -87,6 +89,10 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             m.connect('/dataset/{id}/resource/{resource_id}',
                       action='resource_read')
 
+        sftp_logs_ctr = 'ckanext.opendatani.controller:SftpLogsController'
+        with routes.mapper.SubMapper(map, controller=sftp_logs_ctr) as m:
+            m.connect('sftp_logs', '/sftp_logs',
+                      action='list_logs')
 
         return map
 
@@ -97,7 +103,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     def get_auth_functions(self):
 
         return {
-            'user_list': custom_user_list_auth
+            'user_list': custom_user_list_auth,
+            'insert_sftp_log': auth.insert_sftp_log
         }
 
     # IActions
@@ -109,6 +116,12 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'log_create': create.insert_sftp_log,
             'logs_list': get.list_sftp_logs
         }
+
+    # IConfigurable
+
+    def configure(self, config):
+        # Setup querytool model
+        model_setup()
 
 
 # Custom auth

@@ -224,3 +224,24 @@ class CustomPackageController(CorePackageController):
                     h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
+
+
+class SftpLogsController(base.BaseController):
+    ctrl = 'ckanext.opendatani.controller:SftpLogsController'
+
+    def list_logs(self):
+        '''
+        Return all logs from sftp script
+        :return: list of logs
+        '''
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user,
+                   'auth_user_obj': c.userobj,
+                   'for_view': True}
+        logs = []
+        try:
+            logs = toolkit.get_action('logs_list')(context, {})
+        except Exception as ex:
+            abort(404, _(ex.message))
+
+        return base.render('logs.html', extra_vars={'logs': logs})
