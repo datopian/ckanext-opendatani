@@ -1,0 +1,7 @@
+{% extends "page.html" %}
+
+{% block primary %}
+    {% for log in logs %}
+        <p>{{log.message}}</p>
+    {% endfor %}
+{% endblock %}
