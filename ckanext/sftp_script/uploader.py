@@ -8,6 +8,7 @@ import logging
 from logging import getLogger
 from logger import  NiLogHandler
 import shutil
+from ckan.common import config
 
 log = getLogger(__name__)
 log.setLevel('DEBUG')
@@ -81,7 +82,7 @@ def resource_create(package_id, resource):
     :param resource: resource path
     :return:
     '''
-    ua = 'ckanapiexample/1.0 (+http://example.com/my/website)'
+    ua = 'ckanapicall/1.0 (+https://ni-stage.ckan.io)'
     resourceid = parse_id(resource)
     # TODO: remove mapings when deployed to prod
     mapata = {
