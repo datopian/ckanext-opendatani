@@ -110,6 +110,6 @@ def resource_create(package_id, resource):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='./test.txt')
+    logging.basicConfig(filename='./uploader-logs.txt')
     logger = getLogger().addHandler(NiLogHandler())
     connect()
