@@ -21,3 +21,12 @@ Go to the sftp-script directory and run:
 ```
 python uploader.py
 ```
+
+## Running tests
+
+Running tests with a ‘-v’ is more verbose, showing which tests
+ran.
+
+```
+python test_uploader.py -v
+```
