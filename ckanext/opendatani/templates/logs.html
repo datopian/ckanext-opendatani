@@ -1,7 +1,15 @@
+{% resource 'opendatani/logs' %}
+
 {% extends "page.html" %}
 
 {% block primary %}
-    {% for log in logs %}
-        <p>{{log.message}}</p>
-    {% endfor %}
+<article class="module">
+    <div class="module-content">
+        <table id="table-item" class="hover table-bordered">
+
+        </table>
+    </div>
+  </article>
+{% endblock %}
+{% block secondary %}
 {% endblock %}
