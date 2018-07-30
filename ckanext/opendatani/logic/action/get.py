@@ -1,5 +1,6 @@
 from ckan.plugins import toolkit
-from ckanext.opendatani.model import CkanextSFTPLogs
+from ckanext.opendatani.model import CkanextSFTPLogs, table_dictize
+
 
 @toolkit.side_effect_free
 def list_sftp_logs(context, data_dict):
@@ -12,7 +13,11 @@ def list_sftp_logs(context, data_dict):
 
     logs_table = CkanextSFTPLogs()
     result = logs_table.search()
+    out = []
     if result:
-        return result
+        for log in result:
+            log = table_dictize(log, context)
+            out.append(log)
+        return out
     else:
         return 'No logs found.'
