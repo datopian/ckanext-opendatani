@@ -18,6 +18,8 @@ def list_sftp_logs(context, data_dict):
         for log in result:
             log = table_dictize(log, context)
             out.append(log)
+            print out
         return out
     else:
-        return 'No logs found.'
+        # return empty list
+        return out
