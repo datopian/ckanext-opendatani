@@ -1,1 +1,3 @@
 pysftp
+configparser
+ckanapi
