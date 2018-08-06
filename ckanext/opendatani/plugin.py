@@ -11,7 +11,7 @@ from ckan.logic.action.update import user_update as core_user_update
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani.logic.action import create, get
 from ckanext.opendatani.model import setup as model_setup
-from ckanext.opendatani.logic.auth import create as auth
+from ckanext.opendatani.logic.auth import auth
 _ = toolkit._
 
 
@@ -104,7 +104,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
 
         return {
             'user_list': custom_user_list_auth,
-            'insert_sftp_log': auth.insert_sftp_log
+            'insert_sftp_log': auth.insert_sftp_log,
+            'list_sftp_logs': auth.list_sftp_logs
         }
 
     # IActions

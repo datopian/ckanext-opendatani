@@ -1,8 +1,6 @@
 import ckan.logic as logic
 from ckan.plugins.toolkit import _
 
-check_access = logic.check_access
-
 
 def insert_sftp_log(context, data_dict):
     '''

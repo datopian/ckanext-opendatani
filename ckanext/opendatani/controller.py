@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 render = base.render
 abort = base.abort
+check_access = logic.check_access
 
 NotFound = logic.NotFound
 NotAuthorized = logic.NotAuthorized
@@ -238,6 +239,11 @@ class SftpLogsController(base.BaseController):
                    'user': c.user,
                    'auth_user_obj': c.userobj,
                    'for_view': True}
+        try:
+            check_access('list_sftp_logs', context)
+        except NotAuthorized:
+            abort(403, _('Not authorized to see this page'))
+
         logs = []
         try:
             logs = toolkit.get_action('logs_list')(context, {})
