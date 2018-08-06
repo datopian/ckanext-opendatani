@@ -63,6 +63,8 @@ def define_sftp_logs_table():
                             Column('message',
                                    types.UnicodeText,
                                    nullable=False),
+                            Column('created', types.DateTime,
+                                   default=datetime.datetime.now),
                             Index('ckanext_sftp_logs_id_idx',
                                   'id'))
 
