@@ -79,7 +79,6 @@ setup(
     entry_points='''
         [ckan.plugins]
         opendatani=ckanext.opendatani.plugin:OpendataniPlugin
-
         [paste.paster_command]
         create_featured_groups=ckanext.opendatani.commands:CreateFeaturedGroups
         check_update_frequency=ckanext.opendatani.commands:CheckUpdateFrequency

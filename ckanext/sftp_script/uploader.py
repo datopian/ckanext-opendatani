@@ -8,13 +8,20 @@ import logging
 from logging import getLogger
 from logger import  NiLogHandler
 import shutil
-from ckan.common import config
+from helpers import config_section
 
 log = getLogger(__name__)
 log.setLevel('DEBUG')
 
 
 def print_transfer(filename, bytes_so_far, bytes_total):
+    '''
+    Print download bytes and percentages
+    :param filename:
+    :param bytes_so_far:
+    :param bytes_total:
+    :return:
+    '''
     print 'Transfer of %r is at %d/%d bytes (%.1f%%)' % (
        filename, bytes_so_far, bytes_total, 100. * bytes_so_far / bytes_total)
 
@@ -29,7 +36,7 @@ def parse_id(resource_id):
     resource_name = m.group(1)
     # remove .csv
     resourceid = resource_name[:-4]
-    return  resourceid
+    return resourceid
 
 
 def connect():
@@ -42,11 +49,14 @@ def connect():
     cnopts.hostkeys = None
     # create tmp dir for downloaded resources
     tmpdir = tempfile.mkdtemp()
+    sftp_host = config_section('sftp')['host']
+    sftp_user = config_section('sftp')['username']
+    sftp_pass = config_section('sftp')['password']
+
     try:
-        # TODO: read values from config
-        with pysftp.Connection('SERVER',
-                               username='USER',
-                               password='PASS',
+        with pysftp.Connection(sftp_host,
+                               username=sftp_user,
+                               password=sftp_pass,
                                cnopts = cnopts
                                ) as sftp:
             # initial dir in NI sftp server
@@ -58,12 +68,14 @@ def connect():
                     for file in sftp.listdir('.'):
                         # check if remotepath is a file
                         if sftp.isfile(file):
-                            callback_for_filename = functools.partial(print_transfer, file)
-                            # download resource
+                            callback_for_filename = \
+                                functools.partial(print_transfer, file)
                             try:
-                                sftp.get(file, str(tmpdir)+'/'+file, callback=callback_for_filename)
-                                log.info('Successfully downloaded: '+ file)
-                                resource_create(dir, str(tmpdir) + '/' + file)
+                                # download resource
+                                sftp.get(file, tmpdir + '/' +
+                                         file, callback=callback_for_filename)
+                                # log.info('Successfully downloaded: '+ file)
+                                resource_create(dir, tmpdir + '/' + file, dir)
                             except Exception as e:
                                 log.error(e.message)
                     sftp.chdir('..')
@@ -75,11 +87,12 @@ def connect():
         shutil.rmtree(tmpdir)
 
 
-def resource_create(package_id, resource):
+def resource_create(package_id, resource, dataset):
     '''
     Upload resource to CKAN
     :param package_id: id of the Dataset
     :param resource: resource path
+    :param dataset: dataset name
     :return:
     '''
     ua = 'ckanapicall/1.0 (+https://ni-stage.ckan.io)'
@@ -90,18 +103,26 @@ def resource_create(package_id, resource):
         '80b35bde-a3d9-48fa-956d-51df777d8f54':'6f1f81c8-3b77-42df-9a6d-1fdf30884937',
         'ee2c9a3c-395c-402d-bc8f-6b7591038108':'d36d5582-fcb1-4c70-9a22-c22ce456cd14'
     }
+    remote_ckan = config_section('actions')['url']
+    api_key = config_section('actions')['apikey']
+
+    last_modified = datetime.datetime.now().isoformat()
     try:
-        with RemoteCKAN('https://ni-stage.ckan.io/',
-                        apikey='',
+        with RemoteCKAN(remote_ckan,
+                        apikey=api_key,
                         user_agent=ua) as ni_portal:
             response = ni_portal.action.resource_update(
                     package_id=package_id,
                     upload=open(resource, 'rb'),
-                    last_modified=datetime.datetime.now().isoformat(),
+                    last_modified= last_modified,
                     id=mapata[resourceid]
                 )
-            log.info('Successfully updated ' + response['name'] +
-                     ' resource '+ response['url'])
+            if response:
+                # get resource preview url instead of download link
+                resource_url = response['url'].split('/download')[0]
+                resource_name = response['name']
+                log.info('Successfully updated ' + dataset + ' resource '+ '<a href="'
+                         + resource_url + '">' + resource_name + '</a>')
     except NotFound as nf:
         log.error('Resource was not found. ' + nf)
     except ValidationError as ve:
@@ -111,6 +132,7 @@ def resource_create(package_id, resource):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='./uploader-logs.txt')
+    logging.basicConfig(filename='./uploader-logs.txt',
+                        datefmt="%Y-%m-%d %H:%M:%S")
     logger = getLogger().addHandler(NiLogHandler())
     connect()
