@@ -22,6 +22,7 @@ abort = base.abort
 NotFound = logic.NotFound
 NotAuthorized = logic.NotAuthorized
 get_action = logic.get_action
+ValidationError = logic.ValidationError
 
 MAX_FILE_SIZE = toolkit.asint(config.get('ckan.resource_proxy.max_file_size', 1024**2))
 
@@ -124,6 +125,30 @@ class CustomUserController(CoreUserController):
         data_dict = {'user_obj': c.userobj, 'stale_datasets': c.stale_datasets}
         self._setup_template_variables(context, data_dict)
         return toolkit.render('user/dashboard_update.html')
+
+    def activity(self, id, offset=0):
+        '''Render this user's public activity stream page.'''
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user, 'auth_user_obj': c.userobj,
+                   'for_view': True}
+        data_dict = {'id': id, 'user_obj': c.userobj,
+                     'include_num_followers': True}
+        try:
+            toolkit.check_access('sysadmin', context, data_dict)
+        except NotAuthorized:
+            abort(403, _('Not authorized to see this page'))
+
+        self._setup_template_variables(context, data_dict)
+
+        try:
+            c.user_activity_stream = get_action('user_activity_list_html')(
+                context, {'id': c.user_dict['id'], 'offset': offset})
+        except ValidationError:
+            base.abort(400)
+
+        return render('user/activity_stream.html')
+
 
 
 class CustomPackageController(CorePackageController):
