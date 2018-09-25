@@ -80,9 +80,6 @@ class OpendataniPlugin(plugins.SingletonPlugin):
                       action='dashboard_update_notifications', ckan_icon='file')
             m.connect('add_groups', '/dashboard/update_notifications',
                       action='dashboard_update_notifications', ckan_icon='file')
-            m.connect('/user/activity/{id}/{offset}', action='activity')
-            m.connect('user_activity_stream', '/user/activity/{id}',
-                      action='activity', ckan_icon='time')
 
         controller = 'ckanext.opendatani.controller:CustomPackageController'
         with routes.mapper.SubMapper(map, controller=controller) as m:

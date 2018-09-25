@@ -126,29 +126,6 @@ class CustomUserController(CoreUserController):
         self._setup_template_variables(context, data_dict)
         return toolkit.render('user/dashboard_update.html')
 
-    def activity(self, id, offset=0):
-        '''Render this user's public activity stream page.'''
-
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user, 'auth_user_obj': c.userobj,
-                   'for_view': True}
-        data_dict = {'id': id, 'user_obj': c.userobj,
-                     'include_num_followers': True}
-        try:
-            toolkit.check_access('sysadmin', context, data_dict)
-        except NotAuthorized:
-            abort(403, _('Not authorized to see this page'))
-
-        self._setup_template_variables(context, data_dict)
-
-        try:
-            c.user_activity_stream = get_action('user_activity_list_html')(
-                context, {'id': c.user_dict['id'], 'offset': offset})
-        except ValidationError:
-            base.abort(400)
-
-        return render('user/activity_stream.html')
-
 
 
 class CustomPackageController(CorePackageController):
