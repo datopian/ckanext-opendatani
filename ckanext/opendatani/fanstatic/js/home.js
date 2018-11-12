@@ -11,7 +11,7 @@ $(document).ready(function(){
 
   // twitter
   twitterFetcher.fetch({
-    "id": '623055054753398784',
+    "profile": {"screenName": 'opendatani'},
     "domId": 'tweets',
     "maxTweets": 5,
     "enableLinks": true,
