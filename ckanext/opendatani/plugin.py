@@ -11,20 +11,23 @@ from ckan.logic.action.update import user_update as core_user_update
 import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
+from ckanext.opendatani import helpers
 
 _ = toolkit._
 
 
 class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
 
-    # IConfigurer
 
+
+    # IConfigurer
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
@@ -39,7 +42,6 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             config_['ckan.site_url'].rstrip('/'))
 
     # IValidators
-
     def get_validators(self):
         return {
             'at_least_n_choices': at_least_n_choices,
@@ -48,7 +50,6 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         }
 
     # ITemplateHelpers
-
     def get_helpers(self):
         return {
             'create_all_datasets_private': create_all_datasets_private,
@@ -58,10 +59,10 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'get_user_num_stale_datasets': get_user_num_stale_datasets,
             'group_list': group_list,
             'package_list': package_list,
+            'ni_activity_list_to_text': helpers.activity_list_to_text,
         }
 
     # IRoutes
-
     def before_map(self, map):
         controller = 'ckanext.opendatani.controller:StaticController'
         with routes.mapper.SubMapper(map, controller=controller) as m:
