@@ -1,4 +1,3 @@
-import logging
 import re
 from six import string_types, text_type
 
@@ -39,7 +38,7 @@ def get_snippet_organization(activity, detail):
     return activity['data']['group'].get('title') or activity['data']['group']['name']
 
 def get_snippet_extra(activity, detail):
-    return '%s' % detail['data']['package_extra']['key']
+    return detail['data']['package_extra']['key']
 
 def get_snippet_resource(activity, detail):
     return detail['data']['resource'].get('title') or detail['data']['resource']['name']
@@ -98,14 +97,9 @@ def activity_list_to_text(activity_stream):
             snippet = activity_snippet_functions[match](activity, detail)
             data[str(match)] = snippet
 
-        logging.error(activity_msg)
-        logging.error(data)
-        logging.error('=======++++++++++++++++++++++++++++++++++++++++++++++')
         activity_list.append({'msg': activity_msg.format(**data),
                               'type': activity_type.replace(' ', '-').lower(),
                               'timestamp': activity['timestamp'],
                               'is_new': activity.get('is_new', False),
                               'dataset_url': get_dataset_url(activity)})
-    logging.error(data)
-    logging.error('llllllllllllllllllllllllllllllllllllllllllllllll')
     return activity_list
