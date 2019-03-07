@@ -89,6 +89,8 @@ def activity_list_to_text(activity_stream):
 
         activity_msg = activity_streams.activity_stream_string_functions[activity_type](context,
                 activity)
+        activity_msg = str(activity_msg.replace('{actor} ', ''))
+        activity_msg = activity_msg[0].upper() + activity_msg[1:]
 
         # Get the data needed to render the message.
         matches = re.findall('\{([^}]*)\}', activity_msg)
