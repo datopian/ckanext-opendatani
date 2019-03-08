@@ -41,6 +41,13 @@ echo "Installing ckanext-ckanext-opendatani and its requirements..."
 python setup.py develop
 pip install -r dev-requirements.txt
 
+echo "Installing other extensions required..."
+git clone https://github.com/ckan/ckanext-scheming
+cd ckanext-scheming
+python setup.py develop
+pip install -r requirements.txt
+cd -
+
 echo "Moving test.ini into a subdir..."
 mkdir subdir
 mv test.ini subdir
