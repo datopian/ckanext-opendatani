@@ -16,6 +16,10 @@ pip install -r requirements.txt --allow-all-external
 pip install -r dev-requirements.txt --allow-all-external
 cd -
 
+# Unpin CKAN's psycopg2 dependency get an important bugfix
+# https://stackoverflow.com/questions/47044854/error-installing-psycopg2-2-6-2
+sed -i '/psycopg2/c\psycopg2' requirements.txt
+
 echo "Creating the PostgreSQL user and database..."
 sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'pass';"
 sudo -u postgres psql -c 'CREATE DATABASE ckan_test WITH OWNER ckan_default;'
