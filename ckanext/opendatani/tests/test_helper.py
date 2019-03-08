@@ -47,8 +47,14 @@ class TestHelpers(helpers.FunctionalTestBase):
             users=[{'name': self.org_admin['name'], 'capacity': 'admin'}])
 
         default_dataset['owner_org'] = self.org['id']
+        licenses_file = _get_file_contents('public/licenses.json')
+        httpretty.enable()
+        httpretty.register_uri(httpretty.GET,
+                               'http://test.ckan.net/licenses.json',
+                               body=licenses_file)
 
     def teardown(self):
+        httpretty.disable()
         helpers.reset_db()
 
 
