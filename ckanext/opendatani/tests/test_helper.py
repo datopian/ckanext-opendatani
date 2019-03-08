@@ -4,7 +4,7 @@ from routes import url_for
 from ckan.tests import helpers, factories
 from ckan.plugins import toolkit
 
-from ckanext.opendatani import helpers
+from ckanext.opendatani import helpers as ni_helpers
 
 class TestHelpers(helpers.FunctionalTestBase):
 
@@ -30,5 +30,5 @@ class TestHelpers(helpers.FunctionalTestBase):
         user = factories.User()
         user_id = user.id
         COMMON_ACTIVITY['user_id'] = user_id
-        result = helpers.get_snippet_actor(COMMON_ACTIVITY, None)
+        result = ni_helpers.get_snippet_actor(COMMON_ACTIVITY, None)
         assert user['name'] == result
