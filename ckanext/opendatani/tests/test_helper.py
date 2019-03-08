@@ -1,6 +1,7 @@
 import nose
 from routes import url_for
 import httpretty
+import os
 
 from ckan.tests import helpers, factories
 from ckan.plugins import toolkit
