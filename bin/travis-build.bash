@@ -48,6 +48,12 @@ python setup.py develop
 pip install -r requirements.txt
 cd -
 
+git clone https://github.com/ViderumGlobal/ckanext-datarequests
+cd ckanext-datarequests
+python setup.py develop
+pip install -r requirements.txt
+cd -
+
 echo "Moving test.ini into a subdir..."
 mkdir subdir
 mv test.ini subdir
