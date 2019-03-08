@@ -10,7 +10,14 @@ sudo apt-get install solr-jetty libcommons-fileupload-java
 echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/ckan/ckan
 cd ckan
-git checkout release-v2.2.1
+if [ $CKANVERSION == 'master' ]
+then
+    echo "CKAN version: master"
+else
+    CKAN_TAG=$(git tag | grep ^ckan-$CKANVERSION | sort --version-sort | tail -n 1)
+    git checkout $CKAN_TAG
+    echo "CKAN version: ${CKAN_TAG#ckan-}"
+fi
 
 # Unpin CKAN's psycopg2 dependency get an important bugfix
 # https://stackoverflow.com/questions/47044854/error-installing-psycopg2-2-6-2
