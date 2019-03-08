@@ -43,10 +43,6 @@ class TestPrivateField(object):
                                'http://test.ckan.net/licenses.json',
                                body=licenses_file)
 
-    @classmethod
-    def teardown_class(cls):
-        httpretty.disable()
-
     def setup(self):
         self.sysadmin = factories.Sysadmin()
 
