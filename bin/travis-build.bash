@@ -48,6 +48,13 @@ python setup.py develop
 pip install -r requirements.txt
 cd -
 
+echo "Installing other extensions required..."
+git clone https://github.com/ckan/ckanext-dcat
+cd ckanext-dcat
+python setup.py develop
+pip install -r requirements.txt
+cd -
+
 git clone https://github.com/ViderumGlobal/ckanext-datarequests
 cd ckanext-datarequests
 python setup.py develop
