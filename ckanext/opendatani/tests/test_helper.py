@@ -5,6 +5,7 @@ from ckan.tests import helpers, factories
 from ckan.plugins import toolkit
 
 from ckanext.opendatani import helpers as ni_helpers
+from ckanext.opendatani.tests import factories as ni_factories
 
 class TestHelpers(helpers.FunctionalTestBase):
 
@@ -15,7 +16,7 @@ class TestHelpers(helpers.FunctionalTestBase):
         'object_id': 'object-id',
         'revision_id': 'revision-id',
         'data': {
-            'package': factories.Dataset()
+            'package': ni_factories.Dataset()
         },
         'id': 'activity-id',
         'activity_type': 'changed package'
