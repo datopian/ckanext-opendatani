@@ -11,14 +11,15 @@ echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/ckan/ckan
 cd ckan
 git checkout release-v2.2.1
-python setup.py develop
-pip install -r requirements.txt --allow-all-external
-pip install -r dev-requirements.txt --allow-all-external
-cd -
 
 # Unpin CKAN's psycopg2 dependency get an important bugfix
 # https://stackoverflow.com/questions/47044854/error-installing-psycopg2-2-6-2
 sed -i '/psycopg2/c\psycopg2' requirements.txt
+
+python setup.py develop
+pip install -r requirements.txt --allow-all-external
+pip install -r dev-requirements.txt --allow-all-external
+cd -
 
 echo "Creating the PostgreSQL user and database..."
 sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'pass';"
