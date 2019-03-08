@@ -28,12 +28,13 @@ class TestHelpers(helpers.FunctionalTestBase):
                                'http://test.ckan.net/licenses.json',
                                body=licenses_file)
 
-    @classmethod
-    def teardown_class(cls):
-        super(TestHelpers, cls).teardown_class()
-        httpretty.disable()
-
     def setup(self):
+        self.sysadmin = factories.Sysadmin()
+        self.org_admin = factories.User()
+        self.org = factories.Organization(
+            users=[{'name': self.org_admin['name'], 'capacity': 'admin'}])
+        default_dataset['owner_org'] = self.org['id']
+
         self.COMMON_ACTIVITY = {
             'user_id': 'user',
             'timestamp': '2019-03-07T11:38:10.801967',
@@ -41,7 +42,7 @@ class TestHelpers(helpers.FunctionalTestBase):
             'object_id': 'object-id',
             'revision_id': 'revision-id',
             'data': {
-                'package': ni_factories.Dataset()
+                'package': ni_factories.Dataset(owner_org=self.org['id'])
             },
             'id': 'activity-id',
             'activity_type': 'changed package'
