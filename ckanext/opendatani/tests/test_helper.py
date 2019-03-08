@@ -25,7 +25,6 @@ class TestHelpers(helpers.FunctionalTestBase):
 
     @classmethod
     def setup_class(cls):
-
         # Mock the licenses file
         licenses_file = _get_file_contents('public/licenses.json')
         httpretty.enable()
@@ -39,14 +38,6 @@ class TestHelpers(helpers.FunctionalTestBase):
         httpretty.disable()
 
     def setup(self):
-        self.sysadmin = factories.Sysadmin()
-
-        self.org_admin = factories.User()
-
-        self.org = factories.Organization(
-            users=[{'name': self.org_admin['name'], 'capacity': 'admin'}])
-
-        default_dataset['owner_org'] = self.org['id']
         licenses_file = _get_file_contents('public/licenses.json')
         httpretty.enable()
         httpretty.register_uri(httpretty.GET,
