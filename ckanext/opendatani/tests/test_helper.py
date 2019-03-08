@@ -29,8 +29,8 @@ class TestHelpers(helpers.FunctionalTestBase):
                                body=licenses_file)
 
     def setup(self):
-        self.sysadmin = factories.Sysadmin()
-        self.org_admin = factories.User()
+        self.sysadmin = factories.Sysadmin(password='Password12345')
+        self.org_admin = factories.User(password='Password12345')
         self.org = factories.Organization(
             users=[{'name': self.org_admin['name'], 'capacity': 'admin'}])
         default_dataset['owner_org'] = self.org['id']
@@ -47,10 +47,6 @@ class TestHelpers(helpers.FunctionalTestBase):
             'id': 'activity-id',
             'activity_type': 'changed package'
         }
-
-    def teardown(self):
-        httpretty.disable()
-        helpers.reset_db()
 
 
     def test_get_snippet_actor(self):
