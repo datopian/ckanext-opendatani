@@ -11,7 +11,6 @@ class Dataset(factories.Dataset):
     license_id = 'uk-ogl'
     contact_name = 'Some Guy'
     contact_email = 'guy@example.com'
-    private = True
     additional_info = 'Some additional info'
     resources = [{
         'url': 'http://example.com/file.csv'
