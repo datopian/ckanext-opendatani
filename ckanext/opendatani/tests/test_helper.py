@@ -8,6 +8,14 @@ from ckan.plugins import toolkit
 from ckanext.opendatani import helpers as ni_helpers
 from ckanext.opendatani.tests import factories as ni_factories
 
+
+def _get_file_contents(file_name):
+    path = os.path.join(os.path.dirname(__file__),
+                        '..', file_name)
+    with open(path, 'r') as f:
+        return f.read()
+
+
 class TestHelpers(helpers.FunctionalTestBase):
 
     @classmethod
