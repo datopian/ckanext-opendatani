@@ -32,11 +32,11 @@ class TestHelpers(helpers.FunctionalTestBase):
         self.sysadmin = factories.Sysadmin(password='Password12345')
         self.org_admin = factories.User(password='Password12345')
         self.org = factories.Organization(
-            users=[{'name': self.org_admin['name'], 'capacity': 'admin'}])
+            users=[{'name': self.sysadmin['name'], 'capacity': 'admin'}])
         default_dataset['owner_org'] = self.org['id']
 
         self.COMMON_ACTIVITY = {
-            'user_id': 'user',
+            'user_id': self.org_admin['id'],
             'timestamp': '2019-03-07T11:38:10.801967',
             'is_new': True,
             'object_id': 'object-id',
