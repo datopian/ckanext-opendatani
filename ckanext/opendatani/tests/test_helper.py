@@ -10,19 +10,6 @@ from ckanext.opendatani.tests import factories as ni_factories
 
 class TestHelpers(helpers.FunctionalTestBase):
 
-    COMMON_ACTIVITY = {
-        'user_id': 'user',
-        'timestamp': '2019-03-07T11:38:10.801967',
-        'is_new': True,
-        'object_id': 'object-id',
-        'revision_id': 'revision-id',
-        'data': {
-            'package': ni_factories.Dataset()
-        },
-        'id': 'activity-id',
-        'activity_type': 'changed package'
-    }
-
     @classmethod
     def setup_class(cls):
         # Mock the licenses file
@@ -38,11 +25,18 @@ class TestHelpers(helpers.FunctionalTestBase):
         httpretty.disable()
 
     def setup(self):
-        licenses_file = _get_file_contents('public/licenses.json')
-        httpretty.enable()
-        httpretty.register_uri(httpretty.GET,
-                               'http://test.ckan.net/licenses.json',
-                               body=licenses_file)
+        self.COMMON_ACTIVITY = {
+            'user_id': 'user',
+            'timestamp': '2019-03-07T11:38:10.801967',
+            'is_new': True,
+            'object_id': 'object-id',
+            'revision_id': 'revision-id',
+            'data': {
+                'package': ni_factories.Dataset()
+            },
+            'id': 'activity-id',
+            'activity_type': 'changed package'
+        }
 
     def teardown(self):
         httpretty.disable()
