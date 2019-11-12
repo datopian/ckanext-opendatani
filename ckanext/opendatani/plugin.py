@@ -1,6 +1,7 @@
 import datetime
 from pylons import config
 import routes.mapper
+import csv
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -111,6 +112,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
+            'report_resources_by_organization': report_resources_by_organization,
         }
 
 
@@ -143,6 +145,50 @@ def custom_user_update(context, data_dict):
         form_schema='password1' in context.get('schema', {}))
 
     return core_user_update(context, data_dict)
+
+
+@toolkit.side_effect_free
+def report_resources_by_organization(context, data_dict):
+    data_dict['include_private'] = True
+    results = toolkit.get_action('package_search')(context, data_dict)
+    FIELD_NAMES = ['dataset_name', 'dataset_url', 'resource_name',
+                   'resource_url', 'dataset_organization',
+                   'dataset_organization_url', 'resource_created',
+                   'resource_last_modified', 'resource_view_count',
+                   'resource_download_count']
+    res_dict = {FIELD: [] for FIELD in FIELD_NAMES}
+
+    """
+        'dataset_name': [],
+        'dataset_url': [],
+        'resource_name': [],
+        'resource_url': [],
+        'dataset_organization': [],
+        'dataset_organization_url': [],
+        'resource_created': [],
+        'resource_last_modified': [],
+        'resource_view_count': [],
+        'resource_download_count': []
+    }
+    """
+
+    for item in results.get('results'):
+        res_dict['dataset_name'] += [item.get('title')]
+        res_dict['dataset_url'] += ['/{0}/{1}'.format(item.get('type'), item.get('name'))]
+        res_dict['resource_name'] += [item.get('resources')[0].get('name')]
+        res_dict['resource_url'] += [item.get('resources')[0].get('url')]
+        res_dict['dataset_organization'] += [item.get('organization').get('title')]
+        res_dict['dataset_organization_url'] += ['/{0}/{1}'.format(item.get('organization').get('type'), item.get('organization').get('name'))]
+        res_dict['resource_last_modified'] += [item.get('resources')[0].get('last_modified')]
+        res_dict['resource_created'] += [item.get('resources')[0].get('created')]
+        res_dict['resource_view_count'] += []
+
+    result = []
+
+    for FIELD in FIELD_NAMES:
+        result.append([FIELD] + res_dict[FIELD])
+
+    return list(zip(*sorted(zip(item for item in result))))
 
 
 # Custom schemas
