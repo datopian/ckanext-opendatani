@@ -1,7 +1,7 @@
 import datetime
 from pylons import config
 import routes.mapper
-import csv
+from collections import OrderedDict
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -149,8 +149,14 @@ def custom_user_update(context, data_dict):
 
 @toolkit.side_effect_free
 def report_resources_by_organization(context, data_dict):
-    data_dict['include_private'] = True
+    is_admin = user_is_sysadmin()
+    
+    if is_admin:
+        data_dict['include_private'] = True
+    
     results = toolkit.get_action('package_search')(context, data_dict)
+    
+    return results
     FIELD_NAMES = ['dataset_name', 'dataset_url', 'resource_name',
                    'resource_url', 'dataset_organization',
                    'dataset_organization_url', 'resource_created',
