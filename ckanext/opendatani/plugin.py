@@ -14,6 +14,8 @@ import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
 
+from ckan.lib.base import abort
+
 _ = toolkit._
 
 
@@ -149,53 +151,38 @@ def custom_user_update(context, data_dict):
 
 @toolkit.side_effect_free
 def report_resources_by_organization(context, data_dict):
-    is_admin = user_is_sysadmin()
-    
-    if is_admin:
+    if user_is_sysadmin():
         data_dict['include_private'] = True
+        data_dict['sort'] = 'score desc, organization asc, metadata_modified desc'
+    else:
+        abort(403, _('You are not authorized to access this report'))
     
     results = toolkit.get_action('package_search')(context, data_dict)
-    
-    return results
-    FIELD_NAMES = ['dataset_name', 'dataset_url', 'resource_name',
-                   'resource_url', 'dataset_organization',
-                   'dataset_organization_url', 'resource_created',
-                   'resource_last_modified', 'resource_view_count',
-                   'resource_download_count']
-    res_dict = {FIELD: [] for FIELD in FIELD_NAMES}
-
-    """
-        'dataset_name': [],
-        'dataset_url': [],
-        'resource_name': [],
-        'resource_url': [],
-        'dataset_organization': [],
-        'dataset_organization_url': [],
-        'resource_created': [],
-        'resource_last_modified': [],
-        'resource_view_count': [],
-        'resource_download_count': []
-    }
-    """
+    FIELDS = [
+        'dataset_name', 'dataset_url',
+        'resource_name', 'resource_url',
+        'dataset_organization', 'dataset_organization_url',
+        'resource_created', 'resource_last_modified',
+        'resource_view_count', 'resource_download_count'
+        ]
+    report = OrderedDict([(FIELD, []) for FIELD in FIELDS])
 
     for item in results.get('results'):
-        res_dict['dataset_name'] += [item.get('title')]
-        res_dict['dataset_url'] += ['/{0}/{1}'.format(item.get('type'), item.get('name'))]
-        res_dict['resource_name'] += [item.get('resources')[0].get('name')]
-        res_dict['resource_url'] += [item.get('resources')[0].get('url')]
-        res_dict['dataset_organization'] += [item.get('organization').get('title')]
-        res_dict['dataset_organization_url'] += ['/{0}/{1}'.format(item.get('organization').get('type'), item.get('organization').get('name'))]
-        res_dict['resource_last_modified'] += [item.get('resources')[0].get('last_modified')]
-        res_dict['resource_created'] += [item.get('resources')[0].get('created')]
-        res_dict['resource_view_count'] += []
+        resources = item.get('resources')[0]
+        organization = item.get('organization')
 
-    result = []
+        report[FIELDS[0]] += [item.get('title')]
+        report[FIELDS[1]] += ['/{0}/{1}'.format(item.get('type'), item.get('name'))]
+        report[FIELDS[2]] += [resources.get('name')]
+        report[FIELDS[3]] += [resources.get('url')]
+        report[FIELDS[4]] += [organization.get('title')]
+        report[FIELDS[5]] += ['/{0}/{1}'.format(organization.get('type'), organization.get('name'))]
+        report[FIELDS[6]] += [item.get('metadata_modified')]
+        report[FIELDS[7]] += [resources.get('created')]
+        # TODO report[FIELDS[8]] += [resources.get('recent_views')]
+        # TODO report[FIELDS[9]] += [resources.get('downloads')]
 
-    for FIELD in FIELD_NAMES:
-        result.append([FIELD] + res_dict[FIELD])
-
-    return list(zip(*sorted(zip(item for item in result))))
-
+    return [report]
 
 # Custom schemas
 
