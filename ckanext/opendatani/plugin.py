@@ -13,8 +13,8 @@ import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
-
 from ckan.lib.base import abort
+
 
 _ = toolkit._
 
@@ -151,38 +151,54 @@ def custom_user_update(context, data_dict):
 
 @toolkit.side_effect_free
 def report_resources_by_organization(context, data_dict):
+
     if user_is_sysadmin():
         data_dict['include_private'] = True
-        data_dict['sort'] = 'score desc, organization asc, metadata_modified desc'
     else:
         abort(403, _('You are not authorized to access this report'))
     
     results = toolkit.get_action('package_search')(context, data_dict)
-    FIELDS = [
-        'dataset_name', 'dataset_url',
-        'resource_name', 'resource_url',
-        'dataset_organization', 'dataset_organization_url',
-        'resource_created', 'resource_last_modified',
-        'resource_view_count', 'resource_download_count'
-        ]
-    report = OrderedDict([(FIELD, []) for FIELD in FIELDS])
+    # For testing
+    # results = json.loads(requests.get(
+    # 'https://www.opendatani.gov.uk/api/3/action/package_search').content).get('result')
+    # return results
+    report = []
 
     for item in results.get('results'):
-        resources = item.get('resources')[0]
+        resources = item.get('resources')
         organization = item.get('organization')
+        
+        for resource in resources:
+            
+            # resource_view_count depends on tracking_summary, which
+            # doesn't seem to be enabled. Once it's enabled, 
+            # resource_view_count will come from
+            # resource.get('tracking_summary').get('total')
+            # For now, there's a shortened version to avoid errors.
+            
+            # resource_download_count will also need to be looked into
+            # when tracking_summary is enabled.
 
-        report[FIELDS[0]] += [item.get('title')]
-        report[FIELDS[1]] += ['/{0}/{1}'.format(item.get('type'), item.get('name'))]
-        report[FIELDS[2]] += [resources.get('name')]
-        report[FIELDS[3]] += [resources.get('url')]
-        report[FIELDS[4]] += [organization.get('title')]
-        report[FIELDS[5]] += ['/{0}/{1}'.format(organization.get('type'), organization.get('name'))]
-        report[FIELDS[6]] += [item.get('metadata_modified')]
-        report[FIELDS[7]] += [resources.get('created')]
-        # TODO report[FIELDS[8]] += [resources.get('recent_views')]
-        # TODO report[FIELDS[9]] += [resources.get('downloads')]
+            report.append({
+                'dataset_name': item.get('title'),
+                'dataset_url': (
+                    'https://www.opendatani.gov.uk/dataset/{0}'
+                    .format(item.get('name'))),
+                'resource_name': resource.get('name'),
+                'resource_url': resource.get('url'),
+                'dataset_organization': organization.get('name'),
+                'dataset_organization_url': (
+                    'https://www.opendatani.gov.uk/organization/{0}'
+                    .format(organization.get('name'))),
+                'resource_created': resource.get('created'),
+                'resource_last_modified': resource.get('last_modified'),
+                'resource_view_count': resource.get('tracking_summary', 0),
+                'resource_download_count': resource.get('downloads', 0)
+                }
+            )            
 
-    return [report]
+    return sorted(report, key=lambda x: x['resource_last_modified'], reverse=True)
+
 
 # Custom schemas
 
