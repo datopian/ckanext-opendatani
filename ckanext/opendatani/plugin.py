@@ -156,7 +156,7 @@ def report_resources_by_organization(context, data_dict):
         data_dict['include_private'] = True
     else:
         abort(403, _('You are not authorized to access this report'))
-    
+
     results = toolkit.get_action('package_search')(context, data_dict)
     # For testing
     # results = json.loads(requests.get(
@@ -167,15 +167,15 @@ def report_resources_by_organization(context, data_dict):
     for item in results.get('results'):
         resources = item.get('resources')
         organization = item.get('organization')
-        
+
         for resource in resources:
-            
+
             # resource_view_count depends on tracking_summary, which
             # doesn't seem to be enabled. Once it's enabled, 
             # resource_view_count will come from
             # resource.get('tracking_summary').get('total')
             # For now, there's a shortened version to avoid errors.
-            
+
             # resource_download_count will also need to be looked into
             # when tracking_summary is enabled.
 
@@ -195,7 +195,7 @@ def report_resources_by_organization(context, data_dict):
                 'resource_view_count': resource.get('tracking_summary', 0),
                 'resource_download_count': resource.get('downloads', 0)
                 }
-            )            
+            )
 
     return sorted(report, key=lambda x: x['resource_last_modified'], reverse=True)
 
