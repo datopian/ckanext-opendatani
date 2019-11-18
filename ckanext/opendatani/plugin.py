@@ -17,10 +17,10 @@ from ckan.lib.base import abort
 from collections import OrderedDict
 import logging
 import uuid
-import os
 import csv
-import requests
+#import requests
 from ckan.controllers.admin import get_sysadmins
+from ckanext.opendatani.controller import ReportController
 
 log = logging.getLogger(__name__)
 
@@ -106,6 +106,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
                       action='add_groups', ckan_icon='file')
             m.connect('/dataset/{id}/resource/{resource_id}',
                       action='resource_read')
+
+        controller = 'ckanext.opendatani.controller:ReportController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
             m.connect('resource_report', '/resource_report/{org}', action='retrieve_report')
 
         return map
@@ -164,15 +167,26 @@ def custom_user_update(context, data_dict):
 
 @toolkit.side_effect_free
 def report_resources_by_organization(context, data_dict):
+    user = toolkit.c.user
+    org = data_dict.get('org_name') or context.get('org')
 
-    if not user_is_sysadmin():
-        abort(403, _('You are not authorized to access this report'))
+    if not org:
+        return []
+
+    if not helpers.is_admin(user, org):
+        if not user_is_sysadmin():
+            toolkit.abort(401,
+                          toolkit._('You are not authorized to access this report.'))
 
     data_dict['include_private'] = True
+    data_dict['q'] = 'organization:{0}'.format(org)
+
+    if 'org_name' in data_dict:
+        del data_dict['org_name']
+
+    results = toolkit.get_action('package_search')({}, data_dict)
 
     #log.warn(data_dict)
-
-    results = toolkit.get_action('package_search')(context, data_dict)
 
     # For testing
     # results = json.loads(requests.get(
@@ -181,7 +195,7 @@ def report_resources_by_organization(context, data_dict):
     report = []
 
     if results.get('count') == 0:
-        abort(404, _('There are no resources available to generate this report'))
+        return report
 
     for item in results['results']:
         resources = item['resources']
@@ -225,14 +239,19 @@ def prepare_csv_report(context, data_dict):
     :return: a string containing the csv_id of the created archive
     :rtype: string
     """
+    if toolkit.c.user is None:
+        return None
+
     file_name = uuid.uuid4().hex + '.{ext}'.format(ext='csv')
     file_path = helpers.get_storage_path_for('temp-ni') + '/' + file_name
+    resource = toolkit.get_action('report_resources_by_organization')(context, data_dict)
 
     try:
         with open(file_path, 'w') as csvfile:
             resource = toolkit.get_action('report_resources_by_organization')(context, data_dict)
             fields = resource[0].keys()
             writer = csv.DictWriter(csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
+            writer.writeheader()
 
             for data in resource:
                 writer.writerow(data)
@@ -242,7 +261,6 @@ def prepare_csv_report(context, data_dict):
         raise
 
     csv_id = file_name
-    os.remove(file_path)
 
     return csv_id
 

@@ -14,9 +14,7 @@ import ckan.logic as logic
 import datetime as dt
 import requests
 
-import csv
-from io import BytesIO as StringIO
-from flask import request
+from ckanext.opendatani import helpers
 
 log = logging.getLogger(__name__)
 
@@ -253,22 +251,18 @@ class CustomPackageController(CorePackageController):
                     h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
-
-    def retrieve_report(self, org):
-
-        context = {'model': model, 'session': model.Session,
-                   'user': toolkit.c.user,
-                   'auth_user_obj': toolkit.c.userobj}
-        data_dict = {'id': toolkit.request.params.get('user')}
-
-        try:
-            toolkit.check_access('sysadmin', context)
-        except toolkit.NotAuthorized:
-            toolkit.abort(401,
-                          toolkit._('You are not authorized to access this report. Please login to try again.'))
-
-        data_dict = {'q': 'organization:{0}'.format(org)}
-        csv_id = toolkit.get_action('prepare_csv_report')({}, data_dict)
         
-        return csv_id # WIP: Still need to implement download function
+        
+class ReportController(CorePackageController):
+    def retrieve_report(self, org):
+        if not helpers.is_admin(toolkit.c.user, org):
+            try:
+                toolkit.check_access('sysadmin', {})
+            except toolkit.NotAuthorized or toolkit.c.user is None:
+                toolkit.abort(401,
+                              toolkit._('You are not authorized to access this report. Please login to try again.'))
+        context = {'org': org}
+        data_dict = {'q': 'organization:{0}'.format(org)}
+        csv_id = toolkit.get_action('prepare_csv_report')(context, data_dict)
 
+        return csv_id # WIP: Still need to implement download function

@@ -9,6 +9,7 @@ import ckan.lib.helpers as h
 import os
 from ckan.common import config
 import logging
+from ckan.plugins import toolkit
 
 log = logging.getLogger(__name__)
 
@@ -136,7 +137,33 @@ def get_storage_path_for(dirname):
             target_path = os.path.join(storage_path, 'storage')
 
             if not os.path.exists(target_path):
-                log.info('CKAN storage directory not found also')
+                log.error('CKAN storage directory not found')
                 raise
 
     return target_path
+
+
+def _get_action(action, context_dict, data_dict):
+    return toolkit.get_action(action)(context_dict, data_dict)
+
+
+def is_admin(user, org):
+    """
+    Returns True if user is admin of given organisation.
+    :param user: user name
+    :type user: string
+    :param org: organization
+    :type org: string
+    :returns: True/False
+    :rtype: boolean
+    """
+    user_orgs = _get_action(
+                'organization_list_for_user', {'user': user}, {'user': user})
+
+    return any([i.get('capacity') == 'admin' and i.get('name') == org for i in user_orgs])
+
+
+def get_organization(user):
+    user_org = _get_action(
+                'organization_list_for_user', {'user': user}, {'user': user})
+    return [i.get('name') for i in user_org if i.get('capacity') == 'admin'] or None
