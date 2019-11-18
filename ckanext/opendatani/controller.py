@@ -255,12 +255,8 @@ class CustomPackageController(CorePackageController):
         
 class ReportController(CorePackageController):
     def retrieve_report(self, org):
-        if not helpers.is_admin(toolkit.c.user, org):
-            try:
-                toolkit.check_access('sysadmin', {})
-            except toolkit.NotAuthorized or toolkit.c.user is None:
-                toolkit.abort(401,
-                              toolkit._('You are not authorized to access this report. Please login to try again.'))
+        user = toolkit.c.user
+        helpers.is_admin(user, org)
         context = {'org': org}
         data_dict = {'q': 'organization:{0}'.format(org)}
         csv_id = toolkit.get_action('prepare_csv_report')(context, data_dict)

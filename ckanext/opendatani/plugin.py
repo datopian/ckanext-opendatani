@@ -173,11 +173,7 @@ def report_resources_by_organization(context, data_dict):
     if not org:
         return []
 
-    if not helpers.is_admin(user, org):
-        if not user_is_sysadmin():
-            toolkit.abort(401,
-                          toolkit._('You are not authorized to access this report.'))
-
+    helpers.is_admin(user, org)
     data_dict['include_private'] = True
     data_dict['q'] = 'organization:{0}'.format(org)
 

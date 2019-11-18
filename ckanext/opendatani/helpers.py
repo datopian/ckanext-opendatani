@@ -10,6 +10,8 @@ import os
 from ckan.common import config
 import logging
 from ckan.plugins import toolkit
+from ckan.lib.base import abort
+from ckan.common import _
 
 log = logging.getLogger(__name__)
 
@@ -149,7 +151,7 @@ def _get_action(action, context_dict, data_dict):
 
 def is_admin(user, org):
     """
-    Returns True if user is admin of given organisation.
+    Returns 403 error if user is not admin of given organisation.
     :param user: user name
     :type user: string
     :param org: organization
@@ -158,12 +160,14 @@ def is_admin(user, org):
     :rtype: boolean
     """
     user_orgs = _get_action(
-                'organization_list_for_user', {'user': user}, {'user': user})
+        'organization_list_for_user',
+        {'user': user}, {'user': user})
 
-    return any([i.get('capacity') == 'admin' and i.get('name') == org for i in user_orgs])
+    result = any([
+        (i.get('capacity') == 'admin' or i.get('sysadmin')) \
+         and i.get('name') == org for i in user_orgs])
 
-
-def get_organization(user):
-    user_org = _get_action(
-                'organization_list_for_user', {'user': user}, {'user': user})
-    return [i.get('name') for i in user_org if i.get('capacity') == 'admin'] or None
+    if not result:
+        toolkit.abort(403, _('You are not authorized to access this \
+                        report or the organization does not exist.'))
+    return
