@@ -16,9 +16,19 @@ from ckan.lib.base import abort
 
 from collections import OrderedDict
 import logging
+import uuid
+import os
+import csv
+import requests
+from ckan.controllers.admin import get_sysadmins
 
+log = logging.getLogger(__name__)
 
 _ = toolkit._
+
+SUPPORTED_RESOURCE_MIMETYPES = [
+    'text/csv'
+    ]
 
 
 class OpendataniPlugin(plugins.SingletonPlugin):
@@ -117,6 +127,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_create': custom_user_create,
             'user_update': custom_user_update,
             'report_resources_by_organization': report_resources_by_organization,
+            'prepare_csv_report': prepare_csv_report
         }
 
 
@@ -159,7 +170,7 @@ def report_resources_by_organization(context, data_dict):
 
     data_dict['include_private'] = True
 
-    #logging.warn(data_dict)
+    #log.warn(data_dict)
 
     results = toolkit.get_action('package_search')(context, data_dict)
 
@@ -206,6 +217,34 @@ def report_resources_by_organization(context, data_dict):
     resource_data = sorted(report, key=lambda x: x['resource_last_modified'], reverse=True)
 
     return resource_data
+
+
+@toolkit.side_effect_free
+def prepare_csv_report(context, data_dict):
+    """Creates csv file and stores it under CKAN's storage path.
+    :return: a string containing the csv_id of the created archive
+    :rtype: string
+    """
+    file_name = uuid.uuid4().hex + '.{ext}'.format(ext='csv')
+    file_path = helpers.get_storage_path_for('temp-ni') + '/' + file_name
+
+    try:
+        with open(file_path, 'w') as csvfile:
+            resource = toolkit.get_action('report_resources_by_organization')(context, data_dict)
+            fields = resource[0].keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
+
+            for data in resource:
+                writer.writerow(data)
+
+    except Exception as ex:
+        log.error('An error occured while preparing csv archive. Error: %s' % ex)
+        raise
+
+    csv_id = file_name
+    os.remove(file_path)
+
+    return csv_id
 
 
 # Custom schemas

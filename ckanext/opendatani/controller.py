@@ -268,17 +268,7 @@ class CustomPackageController(CorePackageController):
                           toolkit._('You are not authorized to access this report. Please login to try again.'))
 
         data_dict = {'q': 'organization:{0}'.format(org)}
-        resource_data = toolkit.get_action('report_resources_by_organization')({}, data_dict)
-
-        FIELDS = resource_data[0].keys()
-        output = StringIO()
-        writer = csv.DictWriter(output, fieldnames=FIELDS, quoting=csv.QUOTE_MINIMAL)
-        writer.writeheader()
-        yield output.getvalue()
-
-        for data in resource_data:
-            output = StringIO()
-            writer = csv.DictWriter(output, fieldnames=FIELDS, quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(data)
-            yield '<br/>' + output.getvalue()
+        csv_id = toolkit.get_action('prepare_csv_report')({}, data_dict)
+        
+        return csv_id # WIP: Still need to implement download function
 

@@ -6,6 +6,13 @@ from ckan.lib import activity_streams
 import ckan.logic as logic
 import ckan.lib.helpers as h
 
+import os
+from ckan.common import config
+import logging
+
+log = logging.getLogger(__name__)
+
+
 def get_user_name(user):
     if not isinstance(user, model.User):
         user_name = text_type(user)
@@ -105,3 +112,31 @@ def activity_list_to_text(activity_stream):
                               'is_new': activity.get('is_new', False),
                               'dataset_url': get_dataset_url(activity)})
     return activity_list
+
+
+def get_storage_path_for(dirname):
+
+    """Returns the full path for the specified directory name within
+    CKAN's storage path. If the target directory does not exists, it
+    gets created.
+    :param dirname: the directory name
+    :type dirname: string
+    :returns: a full path for the specified directory name within CKAN's storage path
+    :rtype: string
+    """
+
+    storage_path = config.get('ckan.storage_path')
+    target_path = os.path.join(storage_path, 'storage', dirname)
+
+    if not os.path.exists(target_path):
+        try:
+            os.makedirs(target_path)
+        except OSError as exc:
+            log.error('Storage directory creation failed. Error: %s' % exc)
+            target_path = os.path.join(storage_path, 'storage')
+
+            if not os.path.exists(target_path):
+                log.info('CKAN storage directory not found also')
+                raise
+
+    return target_path
