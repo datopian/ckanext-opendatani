@@ -263,4 +263,4 @@ class ReportController(CorePackageController):
             'report_resources_by_organization')(context, data_dict)
         csv_id = helpers.prepare_csv_report(resource)
 
-        return csv_id  # WIP: Still need to implement download function
+        return render('report/view.html', extra_vars={'csv_id': csv_id})

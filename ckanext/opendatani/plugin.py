@@ -15,7 +15,8 @@ from ckanext.opendatani import helpers
 
 from ckan.common import OrderedDict
 import logging
-#import requests
+import requests
+import json
 
 log = logging.getLogger(__name__)
 
@@ -104,7 +105,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
 
         controller = 'ckanext.opendatani.controller:ReportController'
         with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('resource_report', '/resource_report/{org}',
+            m.connect('report', '/report/{org}',
                       action='retrieve_report')
 
         return map
@@ -177,7 +178,7 @@ def report_resources_by_organization(context, data_dict):
 
     results = toolkit.get_action('package_search')({}, data_dict)
 
-    #log.warn(data_dict)
+    # log.warn(data_dict)
 
     # For testing
     # results = json.loads(requests.get(
@@ -219,7 +220,8 @@ def report_resources_by_organization(context, data_dict):
                 ('resource_view_count', resource.get('tracking_summary', 0)),
                 ('resource_download_count', resource.get('downloads', 0))]))
 
-    resource_data = sorted(report, key=lambda x: x['resource_last_modified'],
+    resource_data = sorted(report, key=lambda x: (x['resource_last_modified'],
+                           x['resource_created']),
                            reverse=True)
 
     return resource_data

@@ -179,8 +179,9 @@ def prepare_csv_report(resource):
     :return: a string containing the csv_id of the created archive
     :rtype: string
     """
-    if toolkit.c.user is None:
-        return None
+    if not toolkit.c.user or not resource:
+        log.error('Resource or user not found.')
+        return
 
     file_name = uuid.uuid4().hex + '.csv'
     file_path = '/var/lib/ckan/storage/tmp/' + file_name
