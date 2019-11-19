@@ -254,7 +254,7 @@ class CustomPackageController(CorePackageController):
 
 
 class ReportController(CorePackageController):
-    def empty_report_query(self):
+    def org_not_given(self):
         return render('home/index.html')
 
     def retrieve_report(self, org):
