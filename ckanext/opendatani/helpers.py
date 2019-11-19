@@ -152,7 +152,8 @@ def _get_action(action, context_dict, data_dict):
 
 def is_admin(user, org):
     """
-    Returns 403 error if user is not admin of given organisation.
+    Returns 403 error if user is not admin of given organization,
+    or the given organization doesn't exist
     :param user: user name
     :type user: string
     :param org: organization

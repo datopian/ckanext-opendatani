@@ -15,16 +15,12 @@ from ckanext.opendatani import helpers
 
 from ckan.common import OrderedDict
 import logging
-import requests
-import json
+# import requests
+# import json
 
 log = logging.getLogger(__name__)
 
 _ = toolkit._
-
-SUPPORTED_RESOURCE_MIMETYPES = [
-    'text/csv'
-    ]
 
 
 class OpendataniPlugin(plugins.SingletonPlugin):
