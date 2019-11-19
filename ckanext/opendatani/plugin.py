@@ -103,6 +103,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         with routes.mapper.SubMapper(map, controller=controller) as m:
             m.connect('report', '/report/{org}',
                       action='retrieve_report')
+            m.connect('empty_report_query', '/report',
+                      action='empty_report_query')
 
         return map
 

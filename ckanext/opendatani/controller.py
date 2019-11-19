@@ -254,6 +254,9 @@ class CustomPackageController(CorePackageController):
 
 
 class ReportController(CorePackageController):
+    def empty_report_query(self):
+        return render('home/index.html')
+
     def retrieve_report(self, org):
         user = toolkit.c.user
         helpers.is_admin(user, org)
