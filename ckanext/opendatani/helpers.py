@@ -118,34 +118,6 @@ def activity_list_to_text(activity_stream):
     return activity_list
 
 
-def get_storage_path_for(dirname):
-
-    """Returns the full path for the specified directory name within
-    CKAN's storage path. If the target directory does not exists, it
-    gets created.
-    :param dirname: the directory name
-    :type dirname: string
-    :returns: a full path for the specified directory name within CKAN's storage path
-    :rtype: string
-    """
-
-    storage_path = config.get('ckan.storage_path')
-    target_path = os.path.join(storage_path, 'storage', dirname)
-
-    if not os.path.exists(target_path):
-        try:
-            os.makedirs(target_path)
-        except OSError as exc:
-            log.error('Storage directory creation failed. Error: %s' % exc)
-            target_path = os.path.join(storage_path, 'storage')
-
-            if not os.path.exists(target_path):
-                log.error('CKAN storage directory not found')
-                raise
-
-    return target_path
-
-
 def _get_action(action, context_dict, data_dict):
     return toolkit.get_action(action)(context_dict, data_dict)
 
