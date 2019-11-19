@@ -15,6 +15,7 @@ import datetime as dt
 import requests
 
 from ckanext.opendatani import helpers
+import csv
 
 log = logging.getLogger(__name__)
 
@@ -264,6 +265,8 @@ class ReportController(CorePackageController):
         data_dict = {'q': 'organization:{0}'.format(org)}
         resource = toolkit.get_action(
             'report_resources_by_organization')(context, data_dict)
-        csv_id = helpers.prepare_csv_report(resource)
+        csv_id, json_id = helpers.prepare_reports(resource)
 
-        return render('report/view.html', extra_vars={'csv_id': csv_id})
+        return render('report/view.html', extra_vars={
+            'csv_id': csv_id,
+            'json_id': json_id})

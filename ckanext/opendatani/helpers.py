@@ -6,13 +6,12 @@ from ckan.lib import activity_streams
 import ckan.logic as logic
 import ckan.lib.helpers as h
 
-import os
-from ckan.common import config
 import logging
 from ckan.plugins import toolkit
 from ckan.common import _
 import csv
 import uuid
+import json
 
 log = logging.getLogger(__name__)
 
@@ -147,33 +146,42 @@ def is_admin(user, org):
     return
 
 
-def prepare_csv_report(resource):
-    """Creates csv file and stores it under CKAN's storage path.
-    :return: a string containing the csv_id of the created archive
+def prepare_reports(resource):
+    """Creates json file and stores it under CKAN's storage path.
+    :return: a string containing the file_name of the created archive
     :rtype: string
     """
     if not toolkit.c.user or not resource:
         log.error('Resource or user not found.')
         return
 
-    file_name = uuid.uuid4().hex + '.csv'
-    file_path = '/var/lib/ckan/storage/tmp/' + file_name
+    file_names = []
 
-    try:
-        with open(file_path, 'w') as csvfile:
-            fields = resource[0].keys()
-            writer = csv.DictWriter(csvfile, fieldnames=fields,
-                                    quoting=csv.QUOTE_MINIMAL)
-            writer.writeheader()
+    for file_type in ['.csv', '.json']:
+        try:
+            file_name = uuid.uuid4().hex + file_type
+            file_path = '/var/lib/ckan/storage/tmp/' + file_name
 
-            for data in resource:
-                writer.writerow(data)
+            if file_type == '.csv':
+                with open(file_path, 'w') as csvfile:
+                    fields = resource[0].keys()
+                    writer = csv.DictWriter(csvfile, fieldnames=fields,
+                                            quoting=csv.QUOTE_MINIMAL)
+                    writer.writeheader()
 
-    except Exception as ex:
-        log.error('An error occured while preparing csv archive. Error: %s'
-                  % ex)
-        raise
+                    for data in resource:
+                        writer.writerow(data)
+                file_names.append(file_name)
 
-    csv_id = file_name
+            if file_type == '.json':
+                with open(file_path, 'w') as jsonfile:
+                    jsonfile.writelines(json.dumps(resource))
+                file_names.append(file_name)
 
-    return csv_id
+        except Exception as ex:
+            log.error(
+                'An error occured while preparing the {0} archive. Error: {1}'
+                .format(file_type, ex))
+            raise
+
+    return file_names
