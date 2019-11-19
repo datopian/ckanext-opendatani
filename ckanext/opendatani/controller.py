@@ -251,14 +251,16 @@ class CustomPackageController(CorePackageController):
                     h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
-        
-        
+
+
 class ReportController(CorePackageController):
     def retrieve_report(self, org):
         user = toolkit.c.user
         helpers.is_admin(user, org)
         context = {'org': org}
         data_dict = {'q': 'organization:{0}'.format(org)}
-        csv_id = toolkit.get_action('prepare_csv_report')(context, data_dict)
+        resource = toolkit.get_action(
+            'report_resources_by_organization')(context, data_dict)
+        csv_id = helpers.prepare_csv_report(resource)
 
-        return csv_id # WIP: Still need to implement download function
+        return csv_id  # WIP: Still need to implement download function

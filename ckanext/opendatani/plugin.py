@@ -12,15 +12,10 @@ import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
-from ckan.lib.base import abort
 
-from collections import OrderedDict
+from ckan.common import OrderedDict
 import logging
-import uuid
-import csv
 #import requests
-from ckan.controllers.admin import get_sysadmins
-from ckanext.opendatani.controller import ReportController
 
 log = logging.getLogger(__name__)
 
@@ -109,7 +104,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
 
         controller = 'ckanext.opendatani.controller:ReportController'
         with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('resource_report', '/resource_report/{org}', action='retrieve_report')
+            m.connect('resource_report', '/resource_report/{org}',
+                      action='retrieve_report')
 
         return map
 
@@ -129,8 +125,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
-            'report_resources_by_organization': report_resources_by_organization,
-            'prepare_csv_report': prepare_csv_report
+            'report_resources_by_organization': report_resources_by_organization
         }
 
 
@@ -224,41 +219,10 @@ def report_resources_by_organization(context, data_dict):
                 ('resource_view_count', resource.get('tracking_summary', 0)),
                 ('resource_download_count', resource.get('downloads', 0))]))
 
-    resource_data = sorted(report, key=lambda x: x['resource_last_modified'], reverse=True)
+    resource_data = sorted(report, key=lambda x: x['resource_last_modified'],
+                           reverse=True)
 
     return resource_data
-
-
-@toolkit.side_effect_free
-def prepare_csv_report(context, data_dict):
-    """Creates csv file and stores it under CKAN's storage path.
-    :return: a string containing the csv_id of the created archive
-    :rtype: string
-    """
-    if toolkit.c.user is None:
-        return None
-
-    file_name = uuid.uuid4().hex + '.{ext}'.format(ext='csv')
-    file_path = helpers.get_storage_path_for('temp-ni') + '/' + file_name
-    resource = toolkit.get_action('report_resources_by_organization')(context, data_dict)
-
-    try:
-        with open(file_path, 'w') as csvfile:
-            resource = toolkit.get_action('report_resources_by_organization')(context, data_dict)
-            fields = resource[0].keys()
-            writer = csv.DictWriter(csvfile, fieldnames=fields, quoting=csv.QUOTE_MINIMAL)
-            writer.writeheader()
-
-            for data in resource:
-                writer.writerow(data)
-
-    except Exception as ex:
-        log.error('An error occured while preparing csv archive. Error: %s' % ex)
-        raise
-
-    csv_id = file_name
-
-    return csv_id
 
 
 # Custom schemas

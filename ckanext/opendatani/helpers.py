@@ -10,8 +10,9 @@ import os
 from ckan.common import config
 import logging
 from ckan.plugins import toolkit
-from ckan.lib.base import abort
 from ckan.common import _
+import csv
+import uuid
 
 log = logging.getLogger(__name__)
 
@@ -163,11 +164,42 @@ def is_admin(user, org):
         'organization_list_for_user',
         {'user': user}, {'user': user})
 
-    result = any([
-        (i.get('capacity') == 'admin' or i.get('sysadmin')) \
+    result = any(
+        [(i.get('capacity') == 'admin' or i.get('sysadmin'))
          and i.get('name') == org for i in user_orgs])
 
     if not result:
         toolkit.abort(403, _('You are not authorized to access this \
                         report or the organization does not exist.'))
     return
+
+
+def prepare_csv_report(resource):
+    """Creates csv file and stores it under CKAN's storage path.
+    :return: a string containing the csv_id of the created archive
+    :rtype: string
+    """
+    if toolkit.c.user is None:
+        return None
+
+    file_name = uuid.uuid4().hex + '.csv'
+    file_path = '/var/lib/ckan/storage/tmp/' + file_name
+
+    try:
+        with open(file_path, 'w') as csvfile:
+            fields = resource[0].keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fields,
+                                    quoting=csv.QUOTE_MINIMAL)
+            writer.writeheader()
+
+            for data in resource:
+                writer.writerow(data)
+
+    except Exception as ex:
+        log.error('An error occured while preparing csv archive. Error: %s'
+                  % ex)
+        raise
+
+    csv_id = file_name
+
+    return csv_id
