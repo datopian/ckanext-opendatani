@@ -176,8 +176,6 @@ def report_resources_by_organization(context, data_dict):
 
     results = toolkit.get_action('package_search')({}, data_dict)
 
-    # log.warn(data_dict)
-
     # For testing
     # results = json.loads(requests.get(
     # 'https://www.opendatani.gov.uk/api/3/action/package_search').content).get('result')

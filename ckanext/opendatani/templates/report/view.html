@@ -2,25 +2,21 @@
 
 {% block title %}{{ 'Publisher Report' }} - {{ _('Reports') }} - {{ super() }}{% endblock %}
 
-
 {% block breadcrumb_content %}
   {{ h.build_nav('home', _('Home')) }}
 {% endblock%}
 
-{% for csv_id in extra_vars %}
-  {% block primary_content_inner %}
-      <h1>{{ 'Publisher Report' }}</h1>
-      <p>{{ 'An up to date report instantly generated with publisher usage data.' }}</p>
-      <div class="panel panel-info">  
-          <div class="panel-body">
-            <form action="" method="POST">
-              <input type="submit" value="{% trans %}Refresh{% endtrans %}" class="btn btn-info pull-right" style="margin-left: 15px"/>
-            </form>
-          </div>
-      </div>
-      <div class="pull-right">
-          {{ _('Download') }}:
-          <a class="btn btn-primary" href="{{ '/tmp/' + csv_id }}">CSV</a>
-      </div>  
-  {% endblock%}
-{% endfor %}
+{% block primary_content_inner %}
+    <h1>{{ 'Publisher Report' }}</h1>
+    <p>{{ 'An up to date report instantly generated with publisher usage data.' }}</p>
+    <div class="panel-body">
+      <form>
+        <input type="submit" value="{% trans %}Refresh{% endtrans %}" class="btn btn-info pull-right" style="margin-left: 15px"/>
+      </form>
+    </div>
+    <div class="pull-right">
+        {{ _('Download') }}:
+        <a class="btn btn-primary" href="{{ '/tmp/' + csv_id }}">CSV</a>
+        <a class="btn btn-primary" href="{{ '/tmp/' + json_id }}">JSON</a>
+    </div>
+{% endblock%}

@@ -8,7 +8,7 @@ import ckan.lib.helpers as h
 
 import logging
 from ckan.plugins import toolkit
-from ckan.common import _
+from ckan.common import _, config
 import csv
 import uuid
 import json
@@ -151,16 +151,14 @@ def prepare_reports(resource):
     :return: a string containing the file_name of the created archive
     :rtype: string
     """
-    if not toolkit.c.user or not resource:
-        log.error('Resource or user not found.')
-        return
 
     file_names = []
 
     for file_type in ['.csv', '.json']:
         try:
             file_name = uuid.uuid4().hex + file_type
-            file_path = '/var/lib/ckan/storage/tmp/' + file_name
+            storage_path = config.get('ckan.storage_path')
+            file_path = storage_path + '/storage/tmp/' + file_name
 
             if file_type == '.csv':
                 with open(file_path, 'w') as csvfile:
