@@ -16,6 +16,7 @@ import requests
 
 from ckanext.opendatani import helpers
 import csv
+from flask import redirect
 
 log = logging.getLogger(__name__)
 
@@ -265,8 +266,7 @@ class ReportController(CorePackageController):
         data_dict = {'q': 'organization:{0}'.format(org)}
         resource = toolkit.get_action(
             'report_resources_by_organization')(context, data_dict)
-        csv_id, json_id = helpers.prepare_reports(resource)
+        csv_id, storage_path = helpers.prepare_reports(resource)
+        csv_id = csv_id[0]
 
-        return render('report/view.html', extra_vars={
-            'csv_id': csv_id,
-            'json_id': json_id})
+        return csv_id

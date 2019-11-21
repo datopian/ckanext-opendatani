@@ -67,6 +67,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'group_list': group_list,
             'package_list': package_list,
             'ni_activity_list_to_text': helpers.activity_list_to_text,
+            'is_admin': helpers.is_admin,
+            'prepare_reports': helpers.prepare_reports
         }
 
     # IRoutes

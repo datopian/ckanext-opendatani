@@ -146,11 +146,14 @@ def is_admin(user, org):
     return
 
 
-def prepare_reports(resource):
+def prepare_reports(org):
     """Creates json file and stores it under CKAN's storage path.
     :return: a string containing the file_name of the created archive
     :rtype: string
     """
+
+    resource = toolkit.get_action(
+        'report_resources_by_organization')({}, {'org_name': org})
 
     file_names = []
 
@@ -158,7 +161,7 @@ def prepare_reports(resource):
         try:
             file_name = uuid.uuid4().hex + file_type
             storage_path = config.get('ckan.storage_path')
-            file_path = storage_path + '/storage/tmp/' + file_name
+            file_path = storage_path + '/storage/' + file_name
 
             if file_type == '.csv':
                 with open(file_path, 'w') as csvfile:
