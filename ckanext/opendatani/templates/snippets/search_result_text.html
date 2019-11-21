@@ -45,3 +45,15 @@ Example:
     {{ text_no_query_none }}
   {%- endif -%}
 {%- endif -%}
+
+{% block report_downloads %}
+  {% set org = request.path.replace('/organization/', '') %}
+    {% if 'organization' in request.path and h.is_admin(c.user, org) and h.verify_datasets_exist(org) > 0 %}
+      <div class="pull-right">
+          <font size="3">Download publisher report:</font>
+          <a class="btn btn-primary" href="{{ '/' + h.prepare_reports(org)[0] }}">CSV</a>
+          <a class="btn btn-primary" href="{{ '/' + h.prepare_reports(org)[1] }}">JSON</a>
+      </div>
+    {% endif %}
+{% endblock %}
+

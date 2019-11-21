@@ -14,9 +14,6 @@ import ckan.logic as logic
 import datetime as dt
 import requests
 
-from ckanext.opendatani import helpers
-import csv
-from flask import redirect
 
 log = logging.getLogger(__name__)
 
@@ -253,20 +250,3 @@ class CustomPackageController(CorePackageController):
                     h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
-
-
-class ReportController(CorePackageController):
-    def org_not_given(self):
-        return render('home/index.html')
-
-    def retrieve_report(self, org):
-        user = toolkit.c.user
-        helpers.is_admin(user, org)
-        context = {'org': org}
-        data_dict = {'q': 'organization:{0}'.format(org)}
-        resource = toolkit.get_action(
-            'report_resources_by_organization')(context, data_dict)
-        csv_id, storage_path = helpers.prepare_reports(resource)
-        csv_id = csv_id[0]
-
-        return csv_id

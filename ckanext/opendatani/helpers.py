@@ -8,7 +8,7 @@ import ckan.lib.helpers as h
 
 import logging
 from ckan.plugins import toolkit
-from ckan.common import _, config
+from ckan.common import config
 import csv
 import uuid
 import json
@@ -123,15 +123,16 @@ def _get_action(action, context_dict, data_dict):
 
 def is_admin(user, org):
     """
-    Returns 403 error if user is not admin of given organization,
-    or the given organization doesn't exist
+    Returns True if user is site admin or admin of the organization,
+    and the given organization exists
     :param user: user name
     :type user: string
-    :param org: organization
+    :param org: organization name
     :type org: string
     :returns: True/False
     :rtype: boolean
     """
+
     user_orgs = _get_action(
         'organization_list_for_user',
         {'user': user}, {'user': user})
@@ -140,20 +141,37 @@ def is_admin(user, org):
         [(i.get('capacity') == 'admin' or i.get('sysadmin'))
          and i.get('name') == org for i in user_orgs])
 
-    if not result:
-        toolkit.abort(403, _('You are not authorized to access this \
-                        report or the organization does not exist.'))
-    return
+    return True if result else False
+
+
+def verify_datasets_exist(org):
+    """
+    Returns the number of datasets (including private) for a given organization
+    :param org: organization name
+    :type org: string
+    :returns: dataset count
+    :rtype: integer
+    """
+
+    return toolkit.get_action('package_search')({}, {
+        'q': 'organization:{0}'.format(org),
+        'include_private': True}).get('count')
 
 
 def prepare_reports(org):
-    """Creates json file and stores it under CKAN's storage path.
-    :return: a string containing the file_name of the created archive
-    :rtype: string
+    """
+    Creates CSV and JSON files, and stores them under CKAN's storage path.
+    :param org: organization
+    :type org: string
+    :return: a list containing the file_names of the created archives
+    :rtype: list
     """
 
     resource = toolkit.get_action(
         'report_resources_by_organization')({}, {'org_name': org})
+
+    if not resource:
+        return [org, org]
 
     file_names = []
 

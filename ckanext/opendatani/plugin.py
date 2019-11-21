@@ -15,8 +15,6 @@ from ckanext.opendatani import helpers
 
 from ckan.common import OrderedDict
 import logging
-# import requests
-# import json
 
 log = logging.getLogger(__name__)
 
@@ -67,6 +65,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'group_list': group_list,
             'package_list': package_list,
             'ni_activity_list_to_text': helpers.activity_list_to_text,
+            'verify_datasets_exist': helpers.verify_datasets_exist,
             'is_admin': helpers.is_admin,
             'prepare_reports': helpers.prepare_reports
         }
@@ -100,13 +99,6 @@ class OpendataniPlugin(plugins.SingletonPlugin):
                       action='add_groups', ckan_icon='file')
             m.connect('/dataset/{id}/resource/{resource_id}',
                       action='resource_read')
-
-        controller = 'ckanext.opendatani.controller:ReportController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('report', '/report/{org}',
-                      action='retrieve_report')
-            m.connect('org_not_given', '/report',
-                      action='org_not_given')
 
         return map
 
@@ -163,29 +155,35 @@ def custom_user_update(context, data_dict):
 
 @toolkit.side_effect_free
 def report_resources_by_organization(context, data_dict):
-    user = toolkit.c.user
+    """
+    Returns a list of OrderedDicts (one for each dataset in an organization)
+    sorted by the last modified date, then creation date
+    (if no modifications have been made yet)
+    Each OrderedDict contains the following keys:
+    dataset_name, dataset_url, resource_name, resource_url,
+    dataset_organisation, dataset_organisation_url, resource_created,
+    resource_last_modified, resource_view_count, resource_download_count
+    :return: a sorted list of OrderedDicts
+    :rtype: list
+    """
+
+    user = toolkit.c.user or context.get('name')
     org = data_dict.get('org_name') or context.get('org')
+    report = []
 
-    if not org:
-        return []
-
-    helpers.is_admin(user, org)
-    data_dict['include_private'] = True
-    data_dict['q'] = 'organization:{0}'.format(org)
+    if not helpers.verify_datasets_exist(org):
+        return report
 
     if 'org_name' in data_dict:
         del data_dict['org_name']
 
+    if not helpers.is_admin(user, org):
+        toolkit.abort(403, _('You are not authorized to access this \
+                      report or the organization does not exist.'))
+
+    data_dict['include_private'] = True
+    data_dict['q'] = 'organization:{0}'.format(org)
     results = toolkit.get_action('package_search')({}, data_dict)
-
-    # For testing
-    # results = json.loads(requests.get(
-    # 'https://www.opendatani.gov.uk/api/3/action/package_search').content).get('result')
-    # return results
-    report = []
-
-    if results.get('count') == 0:
-        return report
 
     for item in results['results']:
         resources = item['resources']
@@ -205,24 +203,22 @@ def report_resources_by_organization(context, data_dict):
             report.append(OrderedDict([
                 ('dataset_name', item.get('title')),
                 ('dataset_url', (
-                    'https://www.opendatani.gov.uk/dataset/{0}'
+                    config.get('ckan.site_url') + '/dataset/{0}'
                     .format(item.get('name')))),
                 ('resource_name', resource.get('name')),
                 ('resource_url', resource.get('url')),
                 ('dataset_organization', organization.get('name')),
                 ('dataset_organization_url', (
-                    'https://www.opendatani.gov.uk/organization/{0}'
+                    config.get('ckan.site_url') + '/organization/{0}'
                     .format(organization.get('name')))),
                 ('resource_created', resource.get('created')),
                 ('resource_last_modified', resource.get('last_modified')),
                 ('resource_view_count', resource.get('tracking_summary', 0)),
                 ('resource_download_count', resource.get('downloads', 0))]))
 
-    resource_data = sorted(report, key=lambda x: (x['resource_last_modified'],
-                           x['resource_created']),
-                           reverse=True)
-
-    return resource_data
+    return sorted(report, key=lambda x: (x['resource_last_modified'],
+                  x['resource_created']),
+                  reverse=True)
 
 
 # Custom schemas
