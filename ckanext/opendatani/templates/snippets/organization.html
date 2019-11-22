@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block description %}
+  {{ super() }}
+  {% block report %}
+    {% set org = request.path.replace('/organization/', '') %}
+      {% if 'organization' in request.path and h.is_admin(c.user, org) and h.verify_datasets_exist(org) > 0 %}
+        <dl>
+          <h1 class="heading">{{ _('Publishers Report') }}</h1>
+          <a class="btn btn-primary" href="{{ '/' + h.prepare_reports(org)[0] }}">CSV</a>
+          <a class="btn btn-primary" href="{{ '/' + h.prepare_reports(org)[1] }}">JSON</a>
+        </dl>
+    {% endif %}
+  {% endblock %}
+{% endblock %}
