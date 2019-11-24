@@ -10,8 +10,9 @@ import logging
 from ckan.plugins import toolkit
 from ckan.common import config
 import csv
-import uuid
 import json
+import os
+from datetime import date
 
 log = logging.getLogger(__name__)
 
@@ -137,11 +138,9 @@ def is_admin(user, org):
         'organization_list_for_user',
         {'user': user}, {'user': user})
 
-    result = any(
+    return any(
         [(i.get('capacity') == 'admin' or i.get('sysadmin'))
          and i.get('name') == org for i in user_orgs])
-
-    return True if result else False
 
 
 def verify_datasets_exist(org):
@@ -155,7 +154,7 @@ def verify_datasets_exist(org):
 
     return toolkit.get_action('package_search')({}, {
         'q': 'organization:{0}'.format(org),
-        'include_private': True}).get('count')
+        'include_private': True}).get('count') > 0
 
 
 def prepare_reports(org):
@@ -169,20 +168,19 @@ def prepare_reports(org):
 
     resource = toolkit.get_action(
         'report_resources_by_organization')({}, {'org_name': org})
-
-    if not resource:
-        return [org, org]
-
     file_names = []
+    storage_path = config.get('ckan.storage_path')
+    file_path = storage_path + '/storage/publisher-reports/'
+
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
 
     for file_type in ['.csv', '.json']:
         try:
-            file_name = uuid.uuid4().hex + file_type
-            storage_path = config.get('ckan.storage_path')
-            file_path = storage_path + '/storage/' + file_name
+            file_name = 'publisher-report-' + org + file_type
 
             if file_type == '.csv':
-                with open(file_path, 'w') as csvfile:
+                with open(file_path + file_name, 'w') as csvfile:
                     fields = resource[0].keys()
                     writer = csv.DictWriter(csvfile, fieldnames=fields,
                                             quoting=csv.QUOTE_MINIMAL)
@@ -190,11 +188,13 @@ def prepare_reports(org):
 
                     for data in resource:
                         writer.writerow(data)
+
                 file_names.append(file_name)
 
             if file_type == '.json':
-                with open(file_path, 'w') as jsonfile:
+                with open(file_path + file_name, 'w') as jsonfile:
                     jsonfile.writelines(json.dumps(resource))
+
                 file_names.append(file_name)
 
         except Exception as ex:

@@ -67,7 +67,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'ni_activity_list_to_text': helpers.activity_list_to_text,
             'verify_datasets_exist': helpers.verify_datasets_exist,
             'is_admin': helpers.is_admin,
-            'prepare_reports': helpers.prepare_reports
+            'prepare_reports': helpers.prepare_reports,
         }
 
     # IRoutes
