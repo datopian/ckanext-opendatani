@@ -4,7 +4,7 @@
   {{ super() }}
   {% block report %}
   {% set org = request.path.replace('/organization/', '') %}
-    {% if 'organization' in request.path and h.is_admin(c.user, org) and h.verify_datasets_exist(org) > 0 %}
+    {% if 'organization' in request.path and h.is_admin(c.user, org) and h.verify_datasets_exist(org) %}
       {% set csv, json = h.prepare_reports(org) %}
       <dl>
         <h1 class="heading">{{ _('Publisher Report') }}</h1>

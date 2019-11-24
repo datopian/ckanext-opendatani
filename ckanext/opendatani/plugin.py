@@ -158,7 +158,7 @@ def report_resources_by_organization(context, data_dict):
     """
     Returns a list of OrderedDicts (one for each dataset in an organization)
     sorted by the last modified date, then creation date
-    (if no modifications have been made yet)
+    (if no modifications have been made yet).
     Each OrderedDict contains the following keys:
     dataset_name, dataset_url, resource_name, resource_url,
     dataset_organisation, dataset_organisation_url, resource_created,

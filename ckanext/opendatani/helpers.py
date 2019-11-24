@@ -124,7 +124,7 @@ def _get_action(action, context_dict, data_dict):
 def is_admin(user, org):
     """
     Returns True if user is site admin or admin of the organization,
-    and the given organization exists
+    and the given organization exists.
     :param user: user name
     :type user: string
     :param org: organization name
@@ -145,7 +145,7 @@ def is_admin(user, org):
 def verify_datasets_exist(org):
     """
     Returns True if the number of datasets (including private) for a given
-    organization is greater than 0
+    organization is greater than 0.
     :param org: organization name
     :type org: string
     :returns: dataset count
@@ -159,7 +159,8 @@ def verify_datasets_exist(org):
 
 def prepare_reports(org):
     """
-    Creates CSV and JSON files, and stores them under CKAN's storage path.
+    Creates a CSV and JSON publisher report, and stores them under CKAN's
+    storage path in /storage/publisher-reports/.
     :param org: organization
     :type org: string
     :return: a list containing the file_names of the created archives
