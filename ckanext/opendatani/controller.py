@@ -14,7 +14,6 @@ import ckan.logic as logic
 import datetime as dt
 import requests
 
-
 log = logging.getLogger(__name__)
 
 render = base.render
