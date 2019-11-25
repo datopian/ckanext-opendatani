@@ -6,6 +6,16 @@ from ckan.lib import activity_streams
 import ckan.logic as logic
 import ckan.lib.helpers as h
 
+import logging
+from ckan.plugins import toolkit
+from ckan.common import config
+import csv
+import json
+import os
+
+log = logging.getLogger(__name__)
+
+
 def get_user_name(user):
     if not isinstance(user, model.User):
         user_name = text_type(user)
@@ -105,3 +115,93 @@ def activity_list_to_text(activity_stream):
                               'is_new': activity.get('is_new', False),
                               'dataset_url': get_dataset_url(activity)})
     return activity_list
+
+
+def _get_action(action, context_dict, data_dict):
+    return toolkit.get_action(action)(context_dict, data_dict)
+
+
+def is_admin(user, org):
+    """
+    Returns True if user is site admin or admin of the organization,
+    and the given organization exists.
+    :param user: user name
+    :type user: string
+    :param org: organization name
+    :type org: string
+    :returns: True/False
+    :rtype: boolean
+    """
+
+    user_orgs = _get_action(
+        'organization_list_for_user',
+        {'user': user}, {'user': user})
+
+    return any(
+        [(i.get('capacity') == 'admin' or i.get('sysadmin'))
+         and i.get('name') == org for i in user_orgs])
+
+
+def verify_datasets_exist(org):
+    """
+    Returns True if the number of datasets (including private) for a given
+    organization is greater than 0.
+    :param org: organization name
+    :type org: string
+    :returns: dataset count
+    :rtype: integer
+    """
+
+    return toolkit.get_action('package_search')({}, {
+        'q': 'organization:{0}'.format(org),
+        'include_private': True}).get('count') > 0
+
+
+def prepare_reports(org):
+    """
+    Creates a CSV and JSON publisher report, and stores them under CKAN's
+    storage path in /storage/publisher-reports/.
+    :param org: organization
+    :type org: string
+    :return: a list containing the file_names of the created archives
+    :rtype: list
+    """
+
+    resource = toolkit.get_action(
+        'report_resources_by_organization')({}, {'org_name': org})
+    file_names = []
+    storage_path = config.get('ckan.storage_path')
+    file_path = storage_path + '/storage/publisher-reports/'
+
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+
+    for file_type in ['.csv', '.json']:
+        try:
+            file_name = 'publisher-report-' + org + file_type
+
+            if file_type == '.csv':
+                with open(file_path + file_name, 'w') as csvfile:
+                    fields = resource[0].keys()
+                    writer = csv.DictWriter(csvfile, fieldnames=fields,
+                                            quoting=csv.QUOTE_MINIMAL)
+                    writer.writeheader()
+
+                    for data in resource:
+                        writer.writerow(data)
+
+                file_names.append(file_name)
+
+            if file_type == '.json':
+                with open(file_path + file_name, 'w') as jsonfile:
+                    jsonfile.writelines(json.dumps(resource))
+
+                file_names.append(file_name)
+
+        except Exception as ex:
+            log.error(
+                'An error occured while preparing the {0} archive. Error: {1}'
+                .format(file_type, ex))
+            raise
+
+    return file_names

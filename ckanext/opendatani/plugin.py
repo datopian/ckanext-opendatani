@@ -13,6 +13,11 @@ import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
 
+from ckan.common import OrderedDict
+import logging
+
+log = logging.getLogger(__name__)
+
 _ = toolkit._
 
 
@@ -60,6 +65,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'group_list': group_list,
             'package_list': package_list,
             'ni_activity_list_to_text': helpers.activity_list_to_text,
+            'verify_datasets_exist': helpers.verify_datasets_exist,
+            'is_admin': helpers.is_admin,
+            'prepare_reports': helpers.prepare_reports,
         }
 
     # IRoutes
@@ -92,7 +100,6 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             m.connect('/dataset/{id}/resource/{resource_id}',
                       action='resource_read')
 
-
         return map
 
     def after_map(self, map):
@@ -111,6 +118,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
+            'report_resources_by_organization': report_resources_by_organization
         }
 
 
@@ -143,6 +151,74 @@ def custom_user_update(context, data_dict):
         form_schema='password1' in context.get('schema', {}))
 
     return core_user_update(context, data_dict)
+
+
+@toolkit.side_effect_free
+def report_resources_by_organization(context, data_dict):
+    """
+    Returns a list of OrderedDicts (one for each dataset in an organization)
+    sorted by the last modified date, then creation date
+    (if no modifications have been made yet).
+    Each OrderedDict contains the following keys:
+    dataset_name, dataset_url, resource_name, resource_url,
+    dataset_organisation, dataset_organisation_url, resource_created,
+    resource_last_modified, resource_view_count, resource_download_count
+    :return: a sorted list of OrderedDicts
+    :rtype: list
+    """
+
+    user = toolkit.c.user or context.get('name')
+    org = data_dict.get('org_name') or context.get('org')
+    report = []
+
+    if not helpers.verify_datasets_exist(org):
+        return report
+
+    if 'org_name' in data_dict:
+        del data_dict['org_name']
+
+    if not helpers.is_admin(user, org):
+        toolkit.abort(403, _('You are not authorized to access this \
+                      report or the organization does not exist.'))
+
+    data_dict['include_private'] = True
+    data_dict['q'] = 'organization:{0}'.format(org)
+    results = toolkit.get_action('package_search')({}, data_dict)
+
+    for item in results['results']:
+        resources = item['resources']
+        organization = item['organization']
+
+        for resource in resources:
+
+            # resource_view_count depends on tracking_summary, which
+            # doesn't seem to be enabled. Once it's enabled,
+            # resource_view_count will come from
+            # resource.get('tracking_summary').get('total')
+            # For now, there's a shortened version to avoid errors.
+
+            # resource_download_count will also need to be looked into
+            # when tracking_summary is enabled.
+
+            report.append(OrderedDict([
+                ('dataset_name', item.get('title')),
+                ('dataset_url', (
+                    config.get('ckan.site_url') + '/dataset/{0}'
+                    .format(item.get('name')))),
+                ('resource_name', resource.get('name')),
+                ('resource_url', resource.get('url')),
+                ('dataset_organization', organization.get('name')),
+                ('dataset_organization_url', (
+                    config.get('ckan.site_url') + '/organization/{0}'
+                    .format(organization.get('name')))),
+                ('resource_created', resource.get('created')),
+                ('resource_last_modified', resource.get('last_modified')),
+                ('resource_view_count', resource.get('tracking_summary', 0)),
+                ('resource_download_count', resource.get('downloads', 0))]))
+
+    return sorted(report, key=lambda x: (x['resource_last_modified'],
+                  x['resource_created']),
+                  reverse=True)
 
 
 # Custom schemas
