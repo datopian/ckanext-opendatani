@@ -28,10 +28,6 @@ pip install -r requirements.txt
 pip install -r dev-requirements.txt
 cd -
 
-echo "Creating the PostgreSQL user and database..."
-sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'pass';"
-sudo -u postgres psql -c 'CREATE DATABASE ckan_test WITH OWNER ckan_default;'
-
 echo "Initialising the database..."
 cd ckan
 paster db init -c test-core.ini
