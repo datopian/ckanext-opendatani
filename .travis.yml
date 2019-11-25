@@ -3,7 +3,7 @@ python:
     - "2.7"
 env: CKANVERSION=2.6
 install:
-    - bash $HOME/travis/build/ViderumGlobal/ckanext-opendatani/bin/travis-build.bash
+    - bash bin/travis-build.bash
     - pip install coveralls -U
 services:
     -postgresql: "9.1"
@@ -13,5 +13,4 @@ after_success:
 sudo: required
 cache:
   directories:
-    - $HOME/travis/build/ViderumGlobal/ckanext-opendatani
     - $HOME/.cache/pip

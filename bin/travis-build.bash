@@ -24,8 +24,8 @@ fi
 sed -i '/psycopg2/c\psycopg2' requirements.txt
 
 python setup.py develop
-pip install -r requirements.txt
-pip install -r dev-requirements.txt
+pip install -r requirements.txt --allow-all-external
+pip install -r dev-requirements.txt --allow-all-external
 cd -
 
 echo "Creating the PostgreSQL user and database..."
@@ -46,3 +46,5 @@ mkdir subdir
 mv test.ini subdir
 
 echo "travis-build.bash is done."
+
+exit 0
