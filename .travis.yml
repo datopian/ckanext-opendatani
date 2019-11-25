@@ -2,7 +2,6 @@ language: python
 python:
     - "2.7"
 env: CKANVERSION=2.6
-before_install: cd /home/travis/build/ViderumGlobal/ckanext-opendatani
 install:
     - bash bin/travis-build.bash
     - pip install coveralls -U
@@ -14,4 +13,5 @@ after_success:
 sudo: required
 cache:
   directories:
+    - $HOME/travis/build/ViderumGlobal/ckanext-opendatani
     - $HOME/.cache/pip
