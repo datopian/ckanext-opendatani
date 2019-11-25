@@ -12,6 +12,7 @@ from ckan.common import config
 import csv
 import json
 import os
+import ckan.authz as authz
 
 log = logging.getLogger(__name__)
 
@@ -138,8 +139,9 @@ def is_admin(user, org):
         {'user': user}, {'user': user})
 
     return any(
-        [(i.get('capacity') == 'admin' or i.get('sysadmin'))
-         and i.get('name') == org for i in user_orgs])
+        [(i.get('capacity') == 'admin')
+         and i.get('name') == org for i in user_orgs])\
+        or authz.is_sysadmin(user)
 
 
 def verify_datasets_exist(org):
