@@ -26,7 +26,7 @@ sed -i '/psycopg2/c\psycopg2' requirements.txt
 python setup.py develop
 pip install -r requirements.txt
 pip install -r dev-requirements.txt
-pip install pbr==1.3
+pip install pbr==2.0.0
 pip install urllib3==1.7.1
 cd -
 
