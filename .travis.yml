@@ -10,7 +10,6 @@ services:
 addons:
   postgresql: "9.1"
 before_script:
-    - curl -sSL https://raw.githubusercontent.com/moliware/travis-solr/master/travis-solr.sh | SOLR_VERSION=8.1.0 bash
     - psql -c 'CREATE USER ckan_default WITH PASSWORD 'pass';' -U postgres
     - psql -c 'CREATE DATABASE ckan_test WITH OWNER ckan_default;' -U postgres
 script: sh bin/travis-run.sh
