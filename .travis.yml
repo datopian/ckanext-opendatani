@@ -6,7 +6,7 @@ install:
     - bash bin/travis-build.bash
     - pip install coveralls -U
 services:
-    -postgresql: "9.1"
+    - postgresql: "9.1"
 script: sh bin/travis-run.sh
 after_success:
     - coveralls
