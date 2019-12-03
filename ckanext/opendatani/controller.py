@@ -9,10 +9,15 @@ import ckan.plugins.toolkit as toolkit
 from ckan.controllers.user import UserController as CoreUserController
 from ckan.controllers.package import PackageController as CorePackageController
 
-import logging
 import ckan.logic as logic
+from ckanext.opendatani import helpers
+import logging
 import datetime as dt
 import requests
+import os
+import csv
+import cStringIO as StringIO
+
 
 log = logging.getLogger(__name__)
 
@@ -249,3 +254,57 @@ class CustomPackageController(CorePackageController):
                     h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
+
+
+class CustomReportController(CorePackageController):
+    def prepare_report(self, org):
+        """
+        Creates a CSV publisher report and returns it as a string
+        :param org: organization
+        :type org: string
+        :return: a CSV string
+        :rtype: string
+        """
+
+        try:
+            data_dict = {'org_name': org}
+
+            if org == 'full-portal':
+                data_dict = {}
+
+            resource = toolkit.get_action(
+                'report_resources_by_organization')({}, data_dict)
+
+            # We need this in case no datasets exist for the given organization
+            # or the organization doesn't exist
+            if not resource:
+                toolkit.abort(404, _('Either {0} does not exist, or it \
+                                     has no datasets.'.format(org)))
+
+            csvout = StringIO.StringIO()
+            csvwriter = csv.writer(
+                csvout,
+                dialect='excel',
+                quoting=csv.QUOTE_NONNUMERIC
+            )
+
+            fields = resource[0].keys()
+            csvwriter.writerow(fields)
+
+            for data in resource:
+                csvwriter.writerow(data.values())
+
+            csvout.seek(0)
+            filename = 'publisher-report-{0}-{1}.csv'.format(org,
+                                                             dt.date.today())
+            toolkit.response.headers['Content-Type'] = 'application/csv'
+            toolkit.response.headers['Content-Disposition'] = \
+                'attachment; filename={0}'.format(filename)
+
+            return csvout.read()
+
+        except Exception as ex:
+            log.error(
+                'An error occured while preparing the CSV report. Error: {0}'
+                .format(ex))
+            raise
