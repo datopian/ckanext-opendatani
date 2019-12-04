@@ -1,22 +1,21 @@
-import ckan.lib.base as base
-from ckan import model
-import ckan.lib.helpers as h
-import ckan.lib.mailer as mailer
-from ckan.common import c, request, _
-from ckan.common import config
-
-import ckan.plugins.toolkit as toolkit
-from ckan.controllers.user import UserController as CoreUserController
-from ckan.controllers.package import PackageController as CorePackageController
-
-import ckan.logic as logic
-from ckanext.opendatani import helpers
 import logging
 import datetime as dt
 import requests
 import os
 import csv
 import cStringIO as StringIO
+
+import ckan.lib.base as base
+from ckan import model
+import ckan.lib.helpers as h
+import ckan.lib.mailer as mailer
+from ckan.common import c, request, _
+from ckan.common import config
+import ckan.plugins.toolkit as toolkit
+from ckan.controllers.user import UserController as CoreUserController
+from ckan.controllers.package import PackageController as CorePackageController
+import ckan.logic as logic
+from ckanext.opendatani import helpers
 
 
 log = logging.getLogger(__name__)
@@ -269,8 +268,11 @@ class CustomReportController(CorePackageController):
         try:
             data_dict = {'org_name': org}
 
-            if org == 'full-portal':
+            if org == '@complete':
                 data_dict = {}
+                org = org[1:]
+            else:
+                org = 'org-' + org
 
             resource = toolkit.get_action(
                 'report_resources_by_organization')({}, data_dict)
@@ -278,8 +280,8 @@ class CustomReportController(CorePackageController):
             # We need this in case no datasets exist for the given organization
             # or the organization doesn't exist
             if not resource:
-                toolkit.abort(404, _('Either {0} does not exist, or it \
-                                     has no datasets.'.format(org)))
+                toolkit.abort(404, _('Either the organization does not exist, \
+                                     or it has no datasets.'))
 
             csvout = StringIO.StringIO()
             csvwriter = csv.writer(
@@ -304,7 +306,7 @@ class CustomReportController(CorePackageController):
             return csvout.read()
 
         except Exception as ex:
-            log.error(
-                'An error occured while preparing the CSV report. Error: {0}'
-                .format(ex))
+            error = 'Preparing the CSV report failed. Error: {0}'.format(ex)
+            log.error(error)
+            h.flash_error(error)
             raise

@@ -5,7 +5,7 @@
     {% if request.path[-7:] == 'dataset' and h.is_admin(c.user, org) and h.verify_datasets_exist(org) %}
       <dl>
         <h6 class="heading">{{ _('Full Publisher Report') }}</h6>
-        <a class="btn btn-success" href="{{ '/publisher-reports/publisher-report-full-portal.csv' }}">CSV</a>
+        <a class="btn btn-success" href="{{ '/publisher-reports/publisher-report-@complete.csv' }}">CSV</a>
       </dl>
     {% endif %}
   {% endblock %}

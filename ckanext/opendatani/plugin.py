@@ -1,6 +1,7 @@
 import datetime
 from pylons import config
 import routes.mapper
+import logging
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -12,9 +13,8 @@ import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
-
 from ckan.common import OrderedDict
-import logging
+
 
 log = logging.getLogger(__name__)
 

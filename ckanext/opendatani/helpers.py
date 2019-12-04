@@ -1,15 +1,14 @@
 import re
 from six import string_types, text_type
+import logging
 
 import ckan.model as model
 from ckan.lib import activity_streams
 import ckan.logic as logic
 import ckan.lib.helpers as h
-
-import logging
 from ckan.plugins import toolkit
-from ckan.common import config
 import ckan.authz as authz
+
 
 log = logging.getLogger(__name__)
 
@@ -121,9 +120,8 @@ def _get_action(action, context_dict, data_dict):
 
 def is_admin(user, org):
     """
-    Returns True if user is site admin or admin of the organization
-    and the given organization exists or the org variable if for a
-    full portal report
+    Returns True if user is site admin or admin of the
+    organization and the given organization exists
     :param user: user name
     :type user: string
     :param org: organization name
@@ -139,14 +137,13 @@ def is_admin(user, org):
     return any(
         [(i.get('capacity') == 'admin')
          and i.get('name') == org for i in user_orgs]) \
-        or authz.is_sysadmin(user) or (authz.is_sysadmin(user)
-                                       and org == 'full-portal')
+        or authz.is_sysadmin(user)
 
 
 def verify_datasets_exist(org):
     """
-    Returns True if the number of datasets (including private) for a given
-    organization is greater than 0.
+    Returns True if the number of datasets (including private)
+    for a given organization is greater than 0.
     :param org: organization name
     :type org: string
     :returns: dataset count
