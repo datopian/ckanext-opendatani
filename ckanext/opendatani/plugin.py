@@ -186,6 +186,7 @@ def report_resources_by_organization(context, data_dict):
                       report or the organization does not exist.'))
 
     data_dict['include_private'] = True
+    data_dict['rows'] = 1000
 
     if org:
         data_dict['q'] = 'organization:{0}'.format(org)
@@ -207,6 +208,9 @@ def report_resources_by_organization(context, data_dict):
             # resource_download_count will also need to be looked into
             # when tracking_summary is enabled.
 
+            is_external = False if config.get('ckan.site_url') in \
+                resource.get('url') else True
+
             report.append(OrderedDict([
                 ('dataset_name', item.get('title')),
                 ('dataset_url', (
@@ -221,7 +225,8 @@ def report_resources_by_organization(context, data_dict):
                 ('resource_created', resource.get('created')),
                 ('resource_last_modified', resource.get('last_modified')),
                 ('resource_view_count', resource.get('tracking_summary', 0)),
-                ('resource_download_count', resource.get('downloads', 0))]))
+                ('resource_download_count', resource.get('downloads', 0)),
+                ('is_external', is_external)]))
 
     return sorted(report, key=lambda x: (x['resource_last_modified'],
                   x['resource_created']),
