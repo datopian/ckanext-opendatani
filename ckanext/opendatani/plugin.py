@@ -1,6 +1,7 @@
 import datetime
 from pylons import config
 import routes.mapper
+import logging
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -12,9 +13,8 @@ import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
-
 from ckan.common import OrderedDict
-import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -66,8 +66,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'package_list': package_list,
             'ni_activity_list_to_text': helpers.activity_list_to_text,
             'verify_datasets_exist': helpers.verify_datasets_exist,
-            'is_admin': helpers.is_admin,
-            'prepare_reports': helpers.prepare_reports,
+            'is_admin': helpers.is_admin
         }
 
     # IRoutes
@@ -99,6 +98,11 @@ class OpendataniPlugin(plugins.SingletonPlugin):
                       action='add_groups', ckan_icon='file')
             m.connect('/dataset/{id}/resource/{resource_id}',
                       action='resource_read')
+
+        controller = 'ckanext.opendatani.controller:CustomReportController'
+        with routes.mapper.SubMapper(map, controller=controller) as m:
+            m.connect('/publisher-reports/publisher-report-{org}.csv',
+                      action='prepare_report')
 
         return map
 
@@ -182,7 +186,10 @@ def report_resources_by_organization(context, data_dict):
                       report or the organization does not exist.'))
 
     data_dict['include_private'] = True
-    data_dict['q'] = 'organization:{0}'.format(org)
+
+    if org:
+        data_dict['q'] = 'organization:{0}'.format(org)
+
     results = toolkit.get_action('package_search')({}, data_dict)
 
     for item in results['results']:
