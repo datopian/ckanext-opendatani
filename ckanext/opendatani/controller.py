@@ -270,8 +270,10 @@ class CustomReportController(CorePackageController):
 
             if org == '@complete':
                 data_dict = {}
+                # Use 'complete' in the file name for full reports
                 org = org[1:]
             else:
+                # Use 'org-' in the file name for per org reports
                 org = 'org-' + org
 
             resource = toolkit.get_action(
