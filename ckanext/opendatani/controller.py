@@ -296,7 +296,9 @@ class CustomReportController(CorePackageController):
             csvwriter.writerow(fields)
 
             for data in resource:
-                csvwriter.writerow(data.values())
+                # We need to encode here due to unicode errors
+                csvwriter.writerow(
+                    [unicode(d).encode('utf-8') for d in data.values()])
 
             csvout.seek(0)
             filename = 'publisher-report-{0}-{1}.csv'.format(org,
