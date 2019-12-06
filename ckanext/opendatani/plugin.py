@@ -185,6 +185,7 @@ def report_resources_by_organization(context, data_dict):
         toolkit.abort(403, _('You are not authorized to access this \
                       report or the organization does not exist.'))
 
+    data_dict['start'] = 0
     data_dict['include_private'] = True
     data_dict['rows'] = 1000
 
@@ -192,6 +193,21 @@ def report_resources_by_organization(context, data_dict):
         data_dict['q'] = 'organization:{0}'.format(org)
 
     results = toolkit.get_action('package_search')({}, data_dict)
+
+    # We need this in the case that there are more
+    # rows than the API hard limit of 1000
+    def check_rows(results, data_dict, rows):
+        for i in range(rows / 1000):
+            data_dict['start'] += 1000
+            results['results'] += \
+                toolkit.get_action('package_search')({}, data_dict)['results']
+
+        return results
+
+    rows = results['count']
+
+    if rows > 1000:
+        results = check_rows(results, data_dict, rows)
 
     for item in results['results']:
         resources = item['resources']
