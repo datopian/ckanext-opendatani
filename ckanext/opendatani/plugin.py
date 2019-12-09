@@ -211,7 +211,15 @@ def report_resources_by_organization(context, data_dict):
 
     for item in results['results']:
         resources = item['resources']
-        organization = item['organization']
+        organization = item.get('organization')
+        organization_name = None
+        organization_url = None
+
+        if organization:
+            organization_name = organization.get('name')
+            organization_url = (
+                config.get('ckan.site_url') + '/organization/{0}'
+                .format(organization_name))
 
         for resource in resources:
 
@@ -234,10 +242,8 @@ def report_resources_by_organization(context, data_dict):
                     .format(item.get('name')))),
                 ('resource_name', resource.get('name')),
                 ('resource_url', resource.get('url')),
-                ('dataset_organization', organization.get('name')),
-                ('dataset_organization_url', (
-                    config.get('ckan.site_url') + '/organization/{0}'
-                    .format(organization.get('name')))),
+                ('dataset_organization', organization_name),
+                ('dataset_organization_url', organization_url),
                 ('resource_created', resource.get('created')),
                 ('resource_last_modified', resource.get('last_modified')),
                 ('resource_view_count', resource.get('tracking_summary', 0)),
