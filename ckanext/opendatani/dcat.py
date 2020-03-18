@@ -208,7 +208,7 @@ class MidulsterProfile(RDFProfile):
 
         return dataset_dict
 
-class ErisArcGISProfile(RDFProfile):
+class EsriArcGISProfile(RDFProfile):
 
     def parse_dataset(self, dataset_dict, dataset_ref):
 
