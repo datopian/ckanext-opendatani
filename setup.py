@@ -88,7 +88,7 @@ setup(
         ni_arcgis_profile=ckanext.opendatani.dcat:NIArcGISProfile
         causeway_profile=ckanext.opendatani.dcat:CausewayProfile
         midulster_profile=ckanext.opendatani.dcat:MidulsterProfile
-        eris_arcgis_profile=ckanext.opendatani.dcat:ErisArcGISProfile
+        esri_arcgis_profile=ckanext.opendatani.dcat:EsriArcGISProfile
 
     ''',
 )
