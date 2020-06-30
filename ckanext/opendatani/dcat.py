@@ -271,7 +271,7 @@ class EsriArcGISProfile(RDFProfile):
 
         return dataset_dict
 
-class DaeraCoreProfile((RDFProfile):
+class DaeraCoreProfile(RDFProfile):
 
     def parse_dataset(self, dataset_dict, dataset_ref):
 
