@@ -246,11 +246,15 @@ class CustomPackageController(CorePackageController):
                 'dataset_type': dataset_type}
         print MAX_FILE_SIZE
         if c.resource['url_type'] != 'upload':
-            r = requests.head(c.resource['url'])
-            if r.status_code not in (400, 403, 405) and r.ok:
-                size = r.headers.get('content-length')
-                if size and int(size) > MAX_FILE_SIZE:
-                    h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
+            try:
+                r = requests.head(c.resource['url'])
+                if r.status_code not in (400, 403, 405) and r.ok:
+                    size = r.headers.get('content-length')
+                    if size and int(size) > MAX_FILE_SIZE:
+                        h.flash_error('Sorry, this file is too large to be able to display in the browser, please download the data resource to examine it further.')
+            except Exception as e:
+                print(e)
+                h.flash_error('Unable to get resource')
         template = self._resource_template(dataset_type)
         return render(template, extra_vars=vars)
 
