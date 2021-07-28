@@ -1076,7 +1076,7 @@ h6 {
 
 /* Custom UI Homepage updates */
 .latest-posts.thumbnails {
-  margin-top:20px;
+  margin-top:30px;
 }
 
 .latest-posts.thumbnails li{
@@ -1097,4 +1097,43 @@ h6 {
 .more-btn {
   margin-left: 10px;
   display:inline;
+}
+
+.col-7 {
+  width:70%;
+  float:left;
+}
+
+.col-3 {
+  width:30%;
+  float:left;
+  text-align:right;
+}
+
+.showcase-item {
+  padding: 30px 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.showcase-item p {
+  margin-top:10px;
+  color: #7d7d7d;
+}
+
+.showcase-item .btn {
+  position: relative;
+  top: 15px;
+  padding: 5px 25px;
+}
+
+.showcase-item span{
+  background-color: #eee;
+  font-size: 1.1em;
+  padding: 6px 15px;
+  font-weight: 600;
+  color: #7f7f7f;
+}
+
+.clearfix {
+  clear:both;
 }
