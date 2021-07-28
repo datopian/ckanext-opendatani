@@ -39,7 +39,7 @@
     <h2 class="sub-heading">Showcases</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('ckanext_showcase_index') }}" title="{{ _('Showcases') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
 
     <div class="showcase-item">
-      {% for showcase in h.showcase_list(limit=2) %}
+      {% for showcase in h.showcase_list(limit=3) %}
           <div class="col-7">
             <h4><a href="{{ h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=showcase.name) }}">{{ _(showcase.title) }}</a></h4>
           </div>
