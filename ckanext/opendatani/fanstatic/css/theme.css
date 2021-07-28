@@ -1071,3 +1071,30 @@ h6 {
 #no_content:after{
   content: ''
 }
+
+
+
+/* Custom UI Homepage updates */
+.latest-posts.thumbnails {
+  margin-top:20px;
+}
+
+.latest-posts.thumbnails li{
+  border: 1px solid #eee;
+  margin-left: 17px;
+}
+
+.latest-posts.thumbnails li .post{
+  padding:10px;
+}
+
+.sub-heading {
+  display:inline;
+  position: relative;
+  top: 6px;
+}
+
+.more-btn {
+  margin-left: 10px;
+  display:inline;
+}

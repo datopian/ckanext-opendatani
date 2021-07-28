@@ -14,18 +14,19 @@
 </div>
 <div role="main">
   <div class="container">
-    <h2>Latest</h2>
+    <h2 class="sub-heading">Latest</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('blog_index') }}" title="{{ _('Blog') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
 
   {% set posts = h.get_recent_blog_posts(3) %}
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
       <li class="span4">
-      <span class="post">
-        <h4><a href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
-        <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>
-        <span class="text">{{ h.markdown_extract(post.content) }}</span>
-        <a class="btn btn-primary" href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
-      </span>
+        <img src="https://www.opendatani.gov.uk/uploads/page_images/2021-07-16-152801.825514OGNWorkshops3.png" />
+        <div class="post">
+          <h4><a href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
+          <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>
+          <span class="text">{{ h.markdown_extract(post.content) }}</span>
+          <a class="btn btn-primary" href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
+        </div>
       </li>
       {% endfor %}
     </ul>
