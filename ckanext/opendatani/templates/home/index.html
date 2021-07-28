@@ -39,29 +39,18 @@
     <h2 class="sub-heading">Showcases</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('ckanext_showcase_index') }}" title="{{ _('Showcases') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
 
     <div class="showcase-item">
-        <div class="col-7">
-          <h4><a href="#">Number one showcase item</a></h4>
-        </div>
-        <div class="col-3">
-          <a class="btn btn-primary">View</a>
-        </div>
-        <div class="clearfix"></div>
-        <span>1 Datasets</span>
-        <p>Launched in December past, this year's OpenDataNI Innovation & Outreach Fund attracted a fine selection of applications, seeking to gain funding for projects and events focused on Open Data across Northern Ireland.</p>
+      {% for showcase in h.showcase_list(limit=2) %}
+          <div class="col-7">
+            <h4><a href="{{ h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=showcase.name) }}">{{ _(showcase.title) }}</a></h4>
+          </div>
+          <div class="col-3">
+            <a href="{{ h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=showcase.name) }}" class="btn btn-primary">View</a>
+          </div>
+          <div class="clearfix"></div>
+          <span>{{ _(showcase.package_count) }} Datasets</span>
+          <p>{{ _(showcase.notes | truncate(300)) }}</p>
+      {% endfor %}
     </div>
-    <div class="showcase-item">
-        <div class="col-7">
-          <h4><a href="#">OpenDataNI Innovation & Outreach Fund 2021 - Innovation & Outreach Fund 2021 - Winners announced!</a></h4>
-        </div>
-        <div class="col-3">
-          <a class="btn btn-primary">View</a>
-        </div>
-        <div class="clearfix"></div>
-        <span>1 Datasets</span>
-        <p>Launched in December past, this year's OpenDataNI Innovation & Outreach Fund attracted a fine selection of applications, seeking to gain funding for projects and events focused on Open Data across Northern Ireland.</p>
-    </div>
-
-
   </div>
 </div>
 {% snippet "home/snippets/twitter.html" %}
