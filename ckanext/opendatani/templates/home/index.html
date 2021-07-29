@@ -20,7 +20,7 @@
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
       <li class="span4">
-        <img src="https://www.opendatani.gov.uk/uploads/page_images/2021-07-16-152801.825514OGNWorkshops3.png" />
+        <img src="{{ post.image }}" />
         <div class="post">
           <h4><a href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
           <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>
