@@ -8,6 +8,8 @@ import ckan.logic as logic
 import ckan.lib.helpers as h
 from ckan.plugins import toolkit
 import ckan.authz as authz
+import ckan.lib.dictization.model_dictize as model_dictize
+from ckanext.showcase.model import ShowcasePackageAssociation
 
 
 log = logging.getLogger(__name__)
@@ -156,3 +158,19 @@ def verify_datasets_exist(org):
         data_dict['q'] = 'organization:{0}'.format(org)
 
     return toolkit.get_action('package_search')({}, data_dict).get('count') > 0
+
+
+def get_showcase_List(limit):
+    q = model.Session.query(model.Package) \
+    .filter(model.Package.type == 'showcase') \
+    .filter(model.Package.state == 'active')
+
+    showcase_list = []
+    for pkg in q.limit(limit).all():
+        showcase_list.append(model_dictize.package_dictize(pkg, { 'model' : model }))
+
+    for idx, showcase in enumerate(showcase_list):
+        # get a list of package ids associated with showcase id
+        pkg_id_list = ShowcasePackageAssociation.get_package_ids_for_showcase(showcase['id'])
+        showcase_list[idx]['package_count'] = len(pkg_id_list)
+    return showcase_list
