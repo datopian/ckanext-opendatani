@@ -1132,3 +1132,9 @@ h6 {
 .clearfix {
   clear:both;
 }
+
+.thumb {
+  width:100%; 
+  height:160px;
+  overflow:hidden;
+}
