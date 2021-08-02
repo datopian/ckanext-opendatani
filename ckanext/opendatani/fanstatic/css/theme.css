@@ -858,6 +858,16 @@ h6 {
   padding: 4px 10px;
   color: #f6f7f8;
 }
+
+.hierarchy-tree-top > li > a > span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #07426f;
+  padding: 4px 15px;
+  color: #f6f7f8;
+}
+
 .media-grid .media-view {
   border: none;
 }
