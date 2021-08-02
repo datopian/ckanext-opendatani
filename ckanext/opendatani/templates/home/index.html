@@ -20,7 +20,9 @@
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
       <li class="span4">
-        <img src="{{ post.image }}" />
+        <div class="thumb">
+          <img src="{{ post.image }}" />
+        </div>
         <div class="post">
           <h4><a href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
           <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>

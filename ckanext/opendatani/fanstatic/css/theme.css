@@ -858,6 +858,7 @@ h6 {
   padding: 4px 10px;
   color: #f6f7f8;
 }
+
 .hierarchy-tree-top > li > a > span {
   position: absolute;
   right: 0;
@@ -866,6 +867,7 @@ h6 {
   padding: 4px 15px;
   color: #f6f7f8;
 }
+
 .media-grid .media-view {
   border: none;
 }
@@ -926,6 +928,7 @@ h6 {
   padding-right: 9999rem;
   margin-bottom: 1px;
 }
+
 
 .label {
   text-shadow: none;
@@ -1084,6 +1087,7 @@ h6 {
 .latest-posts.thumbnails li{
   border: 1px solid #eee;
   margin-left: 17px;
+  min-height: 501px;
 }
 
 .latest-posts.thumbnails li .post{
@@ -1138,4 +1142,10 @@ h6 {
 
 .clearfix {
   clear:both;
+}
+
+.thumb {
+  width:100%; 
+  height:160px;
+  overflow:hidden;
 }
