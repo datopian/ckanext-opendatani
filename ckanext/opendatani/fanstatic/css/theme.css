@@ -1149,3 +1149,13 @@ h6 {
   height:160px;
   overflow:hidden;
 }
+
+@media screen and (max-width:768px) {
+  .latest-posts .span4 {
+    width: 100%;
+  }
+
+  .mar-l-0 {
+    margin-left:0 !important;
+  }
+}
