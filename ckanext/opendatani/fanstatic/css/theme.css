@@ -858,6 +858,9 @@ h6 {
   padding: 4px 10px;
   color: #f6f7f8;
 }
+.hierarchy-tree li a span {
+  background: #00ABC2;
+}
 .media-grid .media-view {
   border: none;
 }
