@@ -1,5 +1,6 @@
 import datetime
-from pylons import config
+# from pylons import config
+from ckan.common import config
 import routes.mapper
 import logging
 
@@ -12,8 +13,8 @@ from ckan.logic.action.update import user_update as core_user_update
 import ckan.lib.helpers as h
 import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
-from ckanext.opendatani import helpers
-from ckan.common import OrderedDict
+from ckanext.opendatani import helpers, blueprints
+from collections import OrderedDict
 
 
 log = logging.getLogger(__name__)
@@ -26,9 +27,11 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IRoutes)
+    # plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IBlueprint)
+
 
 
 
@@ -36,15 +39,16 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic', 'opendatani')
+        # toolkit.add_resource('fanstatic', 'opendatani')
+        toolkit.add_resource('assets', 'odni')
 
         # Set fixed config values for this extension
         config_['scheming.dataset_schemas'] = \
             'ckanext.opendatani:dataset_schema.json'
         config_['scheming.dataset_fallback'] = True
 
-        config_['licenses_group_url'] = '{0}/licenses.json'.format(
-            config_['ckan.site_url'].rstrip('/'))
+        # config_['licenses_group_url'] = '{0}/licenses.json'.format(
+        #     config_['ckan.site_url'].rstrip('/'))
 
     # IValidators
     def get_validators(self):
@@ -64,51 +68,62 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'get_user_num_stale_datasets': get_user_num_stale_datasets,
             'group_list': group_list,
             'package_list': package_list,
-            'ni_activity_list_to_text': helpers.activity_list_to_text,
             'verify_datasets_exist': helpers.verify_datasets_exist,
             'is_admin': helpers.is_admin,
             'showcase_list': helpers.get_showcase_List
         }
 
     # IRoutes
-    def before_map(self, map):
-        controller = 'ckanext.opendatani.controller:StaticController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('privacy', '/privacy', action='privacy')
-            m.connect('termsandconditions', '/terms-and-conditions',
-                      action='termsandconditions')
-            m.connect('cookies', '/cookies', action='cookies')
-            m.connect('codeofconduct', '/code-of-conduct',
-                      action='codeofconduct')
-            m.connect('privacy_notice_reg', '/privacy_notice_reg', action='privacy_notice_reg')
+    # def before_map(self, map):
+    #     controller = 'ckanext.opendatani.controller:StaticController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('privacy', '/privacy', action='privacy')
+    #         m.connect('termsandconditions', '/terms-and-conditions',
+    #                   action='termsandconditions')
+    #         m.connect('cookies', '/cookies', action='cookies')
+    #         m.connect('codeofconduct', '/code-of-conduct',
+    #                   action='codeofconduct')
+    #         m.connect('privacy_notice_reg', '/privacy_notice_reg', action='privacy_notice_reg')
 
-        controller = 'ckanext.opendatani.controller:CustomUserController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('/user/reset', action='request_reset')
-            m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
-                      action='dashboard_update_notifications', ckan_icon='file')
-            m.connect('add_groups', '/dashboard/update_notifications',
-                      action='dashboard_update_notifications', ckan_icon='file')
-            m.connect('/user/activity/{id}/{offset}', action='activity')
-            m.connect('user_activity_stream', '/user/activity/{id}',
-                      action='activity', ckan_icon='time')
+    #     controller = 'ckanext.opendatani.controller:CustomUserController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('/user/reset', action='request_reset')
+    #         m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
+    #                   action='dashboard_update_notifications', ckan_icon='file')
+    #         m.connect('add_groups', '/dashboard/update_notifications',
+    #                   action='dashboard_update_notifications', ckan_icon='file')
+    #         m.connect('/user/activity/{id}/{offset}', action='activity')
+    #         m.connect('user_activity_stream', '/user/activity/{id}',
+    #                   action='activity', ckan_icon='time')
 
-        controller = 'ckanext.opendatani.controller:CustomPackageController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('add_groups', '/organization/add_groups/{id}',
-                      action='add_groups', ckan_icon='file')
-            m.connect('/dataset/{id}/resource/{resource_id}',
-                      action='resource_read')
+    #     controller = 'ckanext.opendatani.controller:CustomPackageController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('add_groups', '/organization/add_groups/{id}',
+    #                   action='add_groups', ckan_icon='file')
+    #         m.connect('/dataset/{id}/resource/{resource_id}',
+    #                   action='resource_read')
 
-        controller = 'ckanext.opendatani.controller:CustomReportController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('/publisher-reports/publisher-report-{org}.csv',
-                      action='prepare_report')
+    #     controller = 'ckanext.opendatani.controller:CustomReportController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('/publisher-reports/publisher-report-{org}.csv',
+    #                   action='prepare_report')
 
-        return map
+    #     return map
 
-    def after_map(self, map):
-        return map
+    # def after_map(self, map):
+    #     return map
+
+    # IBlueprints
+    def get_blueprint(self):
+        return [
+            blueprints.dashboard_blueprint,
+            blueprints.dataset_blueprint,
+            blueprints.dashboard_blueprint,
+            blueprints.organization_blueprint,
+            blueprints.publisher_blueprint,
+            blueprints.user_blueprint,
+            blueprints.static_blueprint,
+        ]
 
     # IAuthFunctions
     def get_auth_functions(self):
