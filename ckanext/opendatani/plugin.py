@@ -324,7 +324,7 @@ def custom_user_password_validator(key, data, errors, context):
 
     if isinstance(value, Missing):
         pass
-    elif not isinstance(value, basestring):
+    elif not isinstance(value, str):
         errors[('password',)].append(_('Passwords must be strings'))
     elif value == '':
         pass
@@ -341,7 +341,7 @@ def at_least_n_tags(number_of_tags):
         value = data.get(key)
         _number_of_tags = int(number_of_tags)
 
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return
 
         value = value.split(',')
