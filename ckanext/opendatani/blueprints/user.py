@@ -17,6 +17,7 @@ import ckan.lib.base as base
 from ckan import model
 import ckan.lib.helpers as h
 import ckan.lib.mailer as mailer
+from ckan.common import c
    
 from flask import Blueprint
 
@@ -85,7 +86,7 @@ def activity(id, offset=0):
     except NotAuthorized:
         abort(403, _('Not authorized to see this page'))
 
-    _setup_template_variables(context, data_dict)
+    extra_vars = _setup_template_variables(context, data_dict)
 
     try:
         c.user_activity_stream = get_action('user_activity_list_html')(
@@ -93,7 +94,7 @@ def activity(id, offset=0):
     except ValidationError:
         base.abort(400)
 
-    return render('user/activity_stream.html')
+    return render('user/activity_stream.html', extra_vars)
 
 user_blueprint.add_url_rule(
     rule='/reset',
