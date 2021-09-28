@@ -5,32 +5,32 @@
 {% set errors = errors or {} %}
 
 {% if type == 'org' %}
-  {% set action_url = h.url_for('organization_pages_edit', id=id, page='/' + page) %}
-  {% set cancel_url = h.url_for('organization_pages_index', id=id) %}
+  {% set action_url = h.url_for('pages.org_edit', id=id, page=page) %}
+  {% set cancel_url = h.url_for('pages.org_show', id=id) %}
   {% set slug_prefix = cancel_url ~ '/' %}
-  {% set slug_domain = h.url_for('organization_pages_index', id=id, qualified=true) %}
+  {% set slug_domain = h.url_for('pages.org_show', id=id, qualified=true) %}
   {% set hide_field_order = true %}
 {% elif type == 'group' %}
-  {% set action_url = h.url_for('group_pages_edit', id=id, page='/' + page) %}
-  {% set cancel_url = h.url_for('group_pages_index', id=id) %}
+  {% set action_url = h.url_for('pages.group_edit', id=id, page=page) %}
+  {% set cancel_url = h.url_for('pages.group_show', id=id) %}
   {% set slug_prefix = cancel_url ~ '/' %}
-  {% set slug_domain = h.url_for('group_pages_index', id=id, qualified=true) %}
+  {% set slug_domain = h.url_for('pages.group_show', id=id, qualified=true) %}
   {% set hide_field_order = true %}
 {% elif type == 'blog' %}
-  {% set action_url = h.url_for('blog_edit', page='/' + page) %}
-  {% set cancel_url = h.url_for('blog_index') %}
+  {% set action_url = h.url_for('pages.blog_new') %}
+  {% set cancel_url = h.url_for('pages.blog_index') %}
   {% set slug_prefix = cancel_url ~ '/' %}
-  {% set slug_domain = h.url_for('blog_index', qualified=true) %}
+  {% set slug_domain = h.url_for('pages.blog_index', qualified=true) %}
   {% if page %}
-     {% set delete_url = h.url_for('blog_delete', page='/' + data.name) %}
+     {% set delete_url = h.url_for('pages.blog_delete', page=data.name) %}
   {% endif %}
 {% else %}
-  {% set action_url = h.url_for('pages_edit', page='/' + page) %}
-  {% set cancel_url = h.url_for('pages_index') %}
+  {% set action_url = h.url_for('pages.pages_edit', page=page) %}
+  {% set cancel_url = h.url_for('pages.index') %}
   {% set slug_prefix = cancel_url ~ '/' %}
-  {% set slug_domain = h.url_for('pages_index', qualified=true) %}
+  {% set slug_domain = h.url_for('pages.index', qualified=true) %}
   {% if page %}
-     {% set delete_url = h.url_for('pages_delete', page='/' + data.name) %}
+     {% set delete_url = h.url_for('pages.pages_delete', page=data.name) %}
   {% endif %}
 {% endif %}
 
@@ -95,7 +95,7 @@
   {% if editor == 'medium' %}
     {{ wysiwyg.editor('content', id='field-content', label=_('Content'), placeholder=_('Enter content here'), value=data.content|safe, error=errors.content) }}
   {% elif editor == 'ckeditor' %}
-    {% resource 'ckanext-pages/main' %}
+    {% asset 'ckanext-pages/main-css' %}
     <div class="control-group">
         <label for="field-content-ck" class="control-label">{{ _('Content') }}</label>
     </div>
