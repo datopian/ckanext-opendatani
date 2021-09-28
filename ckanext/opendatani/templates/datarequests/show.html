@@ -1,8 +1,8 @@
 {% ckan_extends %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('Suggest Data'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
-  <li>{% link_for c.datarequest.get('title'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=datarequest_id %}</li>
+  <li>{% link_for _('Suggest Data'), controller='datarequests', action='index' %}</li>
+  <li>{% link_for c.datarequest.get('title'), controller='datarequests', action='show', id=datarequest_id %}</li>
 {% endblock %}
 
 {% block content_primary_nav %}

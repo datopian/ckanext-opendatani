@@ -5,7 +5,7 @@
 {% block page_heading %}{{ _('Suggest a dataset') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('Suggest Data'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for _('Suggest Data'), controller='datarequests', action='index' %}</li>
   <li class="active"><a href="">{{ _('Suggest a Dataset') }}</a></li>
 {% endblock %}
 
