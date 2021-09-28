@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _('OpenDataNI Privacy Notice') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('OpenDataNI Privacy Notice'), controller='ckanext.opendatani.controller:StaticController', action='termsandconditions' %}</li>
+  <li class="active">{% link_for _('OpenDataNI Privacy Notice'), 'odni_static.termsandconditions' %}</li>
 {% endblock %}
 
 {% block primary %}
@@ -108,7 +108,7 @@
       <p>If this privacy policy changes in any way, we will place an updated version on this page. This page will present itself each time you successfully log in to the site. Regularly reviewing this page ensures that you are always aware of what information we collect, how we use it and under what circumstances, if any, we may share it with other parties.
 Where there are changes to what information is collected, how it is used and/or with whom it is shared, we will contact all registered site-users about whom we hold data, and whom have consented to our processing of the data for the purposes outlined above.</p>
     </div>
-    <a href="{{ h.url_for(controller='user', action='register') }}"><button type="button" class="btn btn-primary btn-lg">Continue</button></a>
+    <a href="{{ h.url_for('user.register') }}"><button type="button" class="btn btn-primary btn-lg">Continue</button></a>
   </article>
 {% endblock %}
 
