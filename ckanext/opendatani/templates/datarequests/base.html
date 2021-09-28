@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _('Suggest Data') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Suggest Data'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li class="active">{% link_for _('Suggest Data'), controller='datarequests', action='index' %}</li>
 {% endblock %}
 
 {% block secondary_content %}
@@ -11,7 +11,7 @@
     <h2 class="module-heading"><i class="icon-info-sign"></i>{% trans %}Suggest Data{% endtrans %}</h2>
     <div class="module-content">
       <p>
-        This platform is for the publication of public sector datasets for all to use, manipulate and extract value from. We welcome suggestions for Northern Ireland public sector datasets which are not yet published on the platform. Let us know your ideas by using our {% link_for _('Suggest a Dataset form'), controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='new' %} ({% link_for _('Login'), controller='user', action='login' %}
+        This platform is for the publication of public sector datasets for all to use, manipulate and extract value from. We welcome suggestions for Northern Ireland public sector datasets which are not yet published on the platform. Let us know your ideas by using our {% link_for _('Suggest a Dataset form'), controller='datarequests', action='new' %} ({% link_for _('Login'), 'user.login' %}
         required).
 <br>    For some guidance on tailoring your data suggestion see <a href="https://www.opendatani.gov.uk/blog/data-aggregation-levels-of-geography-in-ni">this ODNI article</a> on NI geography levels.
       </p>
