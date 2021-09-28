@@ -2,6 +2,7 @@ import ckan.lib.base as base
 from ckan.views.dataset import (
     _get_pkg_template, _get_package_type, _setup_template_variables
 )
+from ckan.views.user import _extra_template_variables
 
 import ckan.plugins.toolkit as toolkit
 import ckan.logic as logic
@@ -17,6 +18,7 @@ import ckan.lib.base as base
 from ckan import model
 import ckan.lib.helpers as h
 import ckan.lib.mailer as mailer
+from ckan.common import c
    
 from flask import Blueprint
 
@@ -74,8 +76,8 @@ def dashboard_update_notifications():
     context = {'for_view': True, 'user': c.user,
                 'auth_user_obj': c.userobj}
     data_dict = {'user_obj': c.userobj, 'stale_datasets': c.stale_datasets}
-    _setup_template_variables(context, data_dict)
-    return toolkit.render('user/dashboard_update.html')
+    extra_vars = _extra_template_variables(context, data_dict)
+    return toolkit.render('user/dashboard_update.html', extra_vars)
 
 
 dashboard_blueprint.add_url_rule(
