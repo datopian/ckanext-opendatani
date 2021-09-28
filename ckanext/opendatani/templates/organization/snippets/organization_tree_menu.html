@@ -31,7 +31,7 @@ Example:
           {% endif %}
 
       {% endif %}
-      <a href="{{ h.url_for(controller='organization', action='read', id=node.name) }}">{{node.title}}<span>{{node.package_count}}</span></a>
+      <a href="{{ h.url_for('organization.read', id=node.name) }}">{{node.title}}<span>{{node.package_count}}</span></a>
       {% if node.children %}
         <ul class="hierarchy-tree paddingleft-hack"> {{ loop(node.children) }} </ul>
       {% endif %}
