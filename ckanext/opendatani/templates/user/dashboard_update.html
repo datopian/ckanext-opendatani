@@ -15,7 +15,7 @@ All datasets are up to date.
 {% if c.stale_datasets %}
 <ul>
 {% for pkg in c.stale_datasets %} <hr>
-<li><a href="{{ h.url_for(controller='package', action='read', id=pkg.id) }}"> {{ pkg.title or pkg.name }}</a></li>
+<li><a href="{{ h.url_for('dataset.read', id=pkg.id) }}"> {{ pkg.title or pkg.name }}</a></li>
 {% endfor %}
 </ul>
 {% else %}{% endif %}
