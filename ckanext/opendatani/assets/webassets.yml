@@ -19,4 +19,8 @@ adaptive_backgroudjs:
   contents:
     - js/jquery.adaptive-backgrounds.js
 
-
+group:
+  output: odni/%(version)s_group.js
+  filters: rjsmin
+  contents:
+    - js/groups.js
