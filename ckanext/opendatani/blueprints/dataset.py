@@ -17,6 +17,7 @@ import ckan.lib.base as base
 from ckan import model
 import ckan.lib.helpers as h
 import ckan.lib.mailer as mailer
+from ckan.common import c
    
 from flask import Blueprint
 
