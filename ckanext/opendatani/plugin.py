@@ -280,14 +280,14 @@ def custom_create_user_schema(form_schema=False):
     schema['password'] = [custom_user_password_validator,
                           toolkit.get_validator('user_password_not_empty'),
                           toolkit.get_validator('ignore_missing'),
-                          unicode]
+                          str]
 
     if form_schema:
         schema['password1'] = [toolkit.get_validator('user_both_passwords_entered'),
                                custom_user_password_validator,
                                toolkit.get_validator('user_passwords_match'),
-                               unicode]
-        schema['password2'] = [unicode]
+                               str]
+        schema['password2'] = [str]
 
     return schema
 
@@ -299,16 +299,16 @@ def custom_update_user_schema(form_schema=False):
     schema['password'] = [custom_user_password_validator,
                           toolkit.get_validator('user_password_not_empty'),
                           toolkit.get_validator('ignore_missing'),
-                          unicode]
+                          str]
 
     if form_schema:
         schema['password'] = [toolkit.get_validator('ignore_missing')]
         schema['password1'] = [toolkit.get_validator('ignore_missing'),
                                custom_user_password_validator,
                                toolkit.get_validator('user_passwords_match'),
-                               unicode]
+                               str]
         schema['password2'] = [toolkit.get_validator('ignore_missing'),
-                               unicode]
+                               str]
 
     return schema
 
