@@ -25,7 +25,7 @@
      {% set delete_url = h.url_for('pages.blog_delete', page=data.name) %}
   {% endif %}
 {% else %}
-  {% set action_url = h.url_for('pages.pages_edit', page=page) %}
+  {% set action_url = h.url_for('pages.edit', page=page) %}
   {% set cancel_url = h.url_for('pages.index') %}
   {% set slug_prefix = cancel_url ~ '/' %}
   {% set slug_domain = h.url_for('pages.index', qualified=true) %}
