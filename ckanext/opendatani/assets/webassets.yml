@@ -24,3 +24,9 @@ group:
   filters: rjsmin
   contents:
     - js/groups.js
+
+privacy:
+  output: odni/%(version)s_privacy.js
+  filters: rjsmin
+  contents:
+    - js/privacy.js
