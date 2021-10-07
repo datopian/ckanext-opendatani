@@ -12,7 +12,6 @@ from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
 import ckan.lib.helpers as h
 import datetime as dt
-from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers, blueprints
 from collections import OrderedDict
 
@@ -422,11 +421,10 @@ def get_resource_count(resource_format, resources):
 
 def get_user_num_stale_datasets():
     """Get each user's inupdated datasets."""
-    cuc = CustomUserController()
     user = toolkit.get_action('user_show')(
         {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
     data = user['datasets']
-    stale_datasets = cuc._stale_datasets_for_user(data)
+    stale_datasets = blueprints._stale_datasets_for_user(data)
     return str(len(stale_datasets))
 
 
