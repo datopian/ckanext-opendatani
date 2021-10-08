@@ -1,5 +1,6 @@
 import datetime
-from pylons import config
+# from pylons import config
+from ckan.common import config
 import routes.mapper
 import logging
 
@@ -11,9 +12,8 @@ from ckan.logic.action.create import user_create as core_user_create
 from ckan.logic.action.update import user_update as core_user_update
 import ckan.lib.helpers as h
 import datetime as dt
-from ckanext.opendatani.controller import CustomUserController
-from ckanext.opendatani import helpers
-from ckan.common import OrderedDict
+from ckanext.opendatani import helpers, blueprints
+from collections import OrderedDict
 
 
 log = logging.getLogger(__name__)
@@ -26,9 +26,11 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IRoutes)
+    # plugins.implements(plugins.IRoutes)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IBlueprint)
+
 
 
 
@@ -36,15 +38,16 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic', 'opendatani')
+        # toolkit.add_resource('fanstatic', 'opendatani')
+        toolkit.add_resource('assets', 'odni')
 
         # Set fixed config values for this extension
         config_['scheming.dataset_schemas'] = \
             'ckanext.opendatani:dataset_schema.json'
         config_['scheming.dataset_fallback'] = True
 
-        config_['licenses_group_url'] = '{0}/licenses.json'.format(
-            config_['ckan.site_url'].rstrip('/'))
+        # config_['licenses_group_url'] = '{0}/licenses.json'.format(
+        #     config_['ckan.site_url'].rstrip('/'))
 
     # IValidators
     def get_validators(self):
@@ -64,51 +67,62 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'get_user_num_stale_datasets': get_user_num_stale_datasets,
             'group_list': group_list,
             'package_list': package_list,
-            'ni_activity_list_to_text': helpers.activity_list_to_text,
             'verify_datasets_exist': helpers.verify_datasets_exist,
             'is_admin': helpers.is_admin,
             'showcase_list': helpers.get_showcase_List
         }
 
     # IRoutes
-    def before_map(self, map):
-        controller = 'ckanext.opendatani.controller:StaticController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('privacy', '/privacy', action='privacy')
-            m.connect('termsandconditions', '/terms-and-conditions',
-                      action='termsandconditions')
-            m.connect('cookies', '/cookies', action='cookies')
-            m.connect('codeofconduct', '/code-of-conduct',
-                      action='codeofconduct')
-            m.connect('privacy_notice_reg', '/privacy_notice_reg', action='privacy_notice_reg')
+    # def before_map(self, map):
+    #     controller = 'ckanext.opendatani.controller:StaticController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('privacy', '/privacy', action='privacy')
+    #         m.connect('termsandconditions', '/terms-and-conditions',
+    #                   action='termsandconditions')
+    #         m.connect('cookies', '/cookies', action='cookies')
+    #         m.connect('codeofconduct', '/code-of-conduct',
+    #                   action='codeofconduct')
+    #         m.connect('privacy_notice_reg', '/privacy_notice_reg', action='privacy_notice_reg')
 
-        controller = 'ckanext.opendatani.controller:CustomUserController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('/user/reset', action='request_reset')
-            m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
-                      action='dashboard_update_notifications', ckan_icon='file')
-            m.connect('add_groups', '/dashboard/update_notifications',
-                      action='dashboard_update_notifications', ckan_icon='file')
-            m.connect('/user/activity/{id}/{offset}', action='activity')
-            m.connect('user_activity_stream', '/user/activity/{id}',
-                      action='activity', ckan_icon='time')
+    #     controller = 'ckanext.opendatani.controller:CustomUserController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('/user/reset', action='request_reset')
+    #         m.connect('dashboard_update_notifications', '/dashboard/update_notifications',
+    #                   action='dashboard_update_notifications', ckan_icon='file')
+    #         m.connect('add_groups', '/dashboard/update_notifications',
+    #                   action='dashboard_update_notifications', ckan_icon='file')
+    #         m.connect('/user/activity/{id}/{offset}', action='activity')
+    #         m.connect('user_activity_stream', '/user/activity/{id}',
+    #                   action='activity', ckan_icon='time')
 
-        controller = 'ckanext.opendatani.controller:CustomPackageController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('add_groups', '/organization/add_groups/{id}',
-                      action='add_groups', ckan_icon='file')
-            m.connect('/dataset/{id}/resource/{resource_id}',
-                      action='resource_read')
+    #     controller = 'ckanext.opendatani.controller:CustomPackageController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('add_groups', '/organization/add_groups/{id}',
+    #                   action='add_groups', ckan_icon='file')
+    #         m.connect('/dataset/{id}/resource/{resource_id}',
+    #                   action='resource_read')
 
-        controller = 'ckanext.opendatani.controller:CustomReportController'
-        with routes.mapper.SubMapper(map, controller=controller) as m:
-            m.connect('/publisher-reports/publisher-report-{org}.csv',
-                      action='prepare_report')
+    #     controller = 'ckanext.opendatani.controller:CustomReportController'
+    #     with routes.mapper.SubMapper(map, controller=controller) as m:
+    #         m.connect('/publisher-reports/publisher-report-{org}.csv',
+    #                   action='prepare_report')
 
-        return map
+    #     return map
 
-    def after_map(self, map):
-        return map
+    # def after_map(self, map):
+    #     return map
+
+    # IBlueprints
+    def get_blueprint(self):
+        return [
+            blueprints.dashboard_blueprint,
+            blueprints.dataset_blueprint,
+            blueprints.dashboard_blueprint,
+            blueprints.organization_blueprint,
+            blueprints.publisher_blueprint,
+            blueprints.user_blueprint,
+            blueprints.static_blueprint,
+        ]
 
     # IAuthFunctions
     def get_auth_functions(self):
@@ -265,14 +279,14 @@ def custom_create_user_schema(form_schema=False):
     schema['password'] = [custom_user_password_validator,
                           toolkit.get_validator('user_password_not_empty'),
                           toolkit.get_validator('ignore_missing'),
-                          unicode]
+                          str]
 
     if form_schema:
         schema['password1'] = [toolkit.get_validator('user_both_passwords_entered'),
                                custom_user_password_validator,
                                toolkit.get_validator('user_passwords_match'),
-                               unicode]
-        schema['password2'] = [unicode]
+                               str]
+        schema['password2'] = [str]
 
     return schema
 
@@ -284,16 +298,16 @@ def custom_update_user_schema(form_schema=False):
     schema['password'] = [custom_user_password_validator,
                           toolkit.get_validator('user_password_not_empty'),
                           toolkit.get_validator('ignore_missing'),
-                          unicode]
+                          str]
 
     if form_schema:
         schema['password'] = [toolkit.get_validator('ignore_missing')]
         schema['password1'] = [toolkit.get_validator('ignore_missing'),
                                custom_user_password_validator,
                                toolkit.get_validator('user_passwords_match'),
-                               unicode]
+                               str]
         schema['password2'] = [toolkit.get_validator('ignore_missing'),
-                               unicode]
+                               str]
 
     return schema
 
@@ -309,7 +323,7 @@ def custom_user_password_validator(key, data, errors, context):
 
     if isinstance(value, Missing):
         pass
-    elif not isinstance(value, basestring):
+    elif not isinstance(value, str):
         errors[('password',)].append(_('Passwords must be strings'))
     elif value == '':
         pass
@@ -326,7 +340,7 @@ def at_least_n_tags(number_of_tags):
         value = data.get(key)
         _number_of_tags = int(number_of_tags)
 
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return
 
         value = value.split(',')
@@ -407,11 +421,10 @@ def get_resource_count(resource_format, resources):
 
 def get_user_num_stale_datasets():
     """Get each user's inupdated datasets."""
-    cuc = CustomUserController()
     user = toolkit.get_action('user_show')(
         {}, {'id': toolkit.c.userobj.id, 'include_datasets': True})
     data = user['datasets']
-    stale_datasets = cuc._stale_datasets_for_user(data)
+    stale_datasets = blueprints._stale_datasets_for_user(data)
     return str(len(stale_datasets))
 
 

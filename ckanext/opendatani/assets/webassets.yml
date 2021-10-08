@@ -1,0 +1,32 @@
+theme_css:
+  output: odni/%(version)s_theme_css.css
+  filters: cssrewrite
+  contents:
+    - css/theme.css
+
+main:
+  output: odni/%(version)s_main.js
+  filters: rjsmin
+  contents:
+    - js/groups.js
+    - js/home.js
+    - js/twitterFetcher.js
+    - js/jquery.adaptive-backgrounds.js
+
+adaptive_backgroudjs:
+  output: odni/%(version)s_adaptive_background.js
+  filters: rjsmin
+  contents:
+    - js/jquery.adaptive-backgrounds.js
+
+group:
+  output: odni/%(version)s_group.js
+  filters: rjsmin
+  contents:
+    - js/groups.js
+
+privacy:
+  output: odni/%(version)s_privacy.js
+  filters: rjsmin
+  contents:
+    - js/privacy.js

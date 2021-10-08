@@ -42,7 +42,7 @@
           </span>
           {% endif %}
 
-        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='ckanext.datarequests.controllers.ui_controller:DataRequestsUI', action='show', id=datarequest.get('id', ''))) }}
+        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='datarequests', action='show', id=datarequest.get('id', ''))) }}
       </h3>
       {% if description %}
         <div>{{ description }}</div>

@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _('Cookies') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Cookies'), controller='ckanext.opendatani.controller:StaticController', action='cookies' %}</li>
+  <li class="active">{% link_for _('Cookies'), 'odni_static.cookies' %}</li>
 {% endblock %}
 
 {% block primary %}

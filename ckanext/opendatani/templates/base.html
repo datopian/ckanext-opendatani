@@ -2,12 +2,13 @@
 
 {% block styles %}
   {{ super() }}
-  {% resource 'opendatani/css/theme.css' %}
+  {% asset 'odni/theme_css' %}
+
 {% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  {% resource 'opendatani/js/jquery.adaptive-backgrounds.js' %}
+  {% asset 'odni/adaptive_backgroudjs' %}
 {% endblock %}
 
 {% block googleanalytics %}

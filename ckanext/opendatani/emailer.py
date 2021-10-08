@@ -37,7 +37,7 @@ def send_email(content, to, subject, file=None):
 
     from_ = SMTP_FROM
     
-    if isinstance(to, basestring):
+    if isinstance(to, str):
         to = [to]
 
     msg['Subject'] = subject
