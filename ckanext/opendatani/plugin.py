@@ -22,6 +22,7 @@ _ = toolkit._
 
 
 class OpendataniPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IConfigurable, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IValidators)
@@ -32,7 +33,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IBlueprint)
 
 
-
+    def configure(self, config):
+        toolkit.add_resource('assets', 'odni')
 
     # IConfigurer
     def update_config(self, config_):

@@ -1,11 +1,10 @@
 theme_css:
-  output: ckanext-opendatani/%(version)s_theme_css.css
-  filters: cssrewrite
+  output: odni/%(version)s_theme_css.css
   contents:
     - css/theme.css
 
 main:
-  output: ckanext-opendatani/%(version)s_main.js
+  output: odni/%(version)s_main.js
   filters: rjsmin
   contents:
     - js/groups.js
@@ -14,19 +13,19 @@ main:
     - js/jquery.adaptive-backgrounds.js
 
 adaptive_backgroudjs:
-  output: ckanext-opendatani/%(version)s_adaptive_background.js
+  output: odni/%(version)s_adaptive_background.js
   filters: rjsmin
   contents:
     - js/jquery.adaptive-backgrounds.js
 
 group:
-  output: ckanext-opendatani/%(version)s_group.js
+  output: odni/%(version)s_group.js
   filters: rjsmin
   contents:
     - js/groups.js
 
 privacy:
-  output: ckanext-opendatani/%(version)s_privacy.js
+  output: odni/%(version)s_privacy.js
   filters: rjsmin
   contents:
     - js/privacy.js
