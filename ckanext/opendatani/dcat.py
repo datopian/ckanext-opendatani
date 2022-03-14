@@ -1,6 +1,6 @@
 import requests
 import logging
-from pylons import config
+from ckan.common import config
 
 from rdflib.namespace import Namespace
 
