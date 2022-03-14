@@ -72,7 +72,7 @@ class NIArcGISProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
@@ -136,7 +136,7 @@ class CausewayProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
@@ -200,7 +200,7 @@ class MidulsterProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
@@ -263,7 +263,7 @@ class EsriArcGISProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
@@ -326,7 +326,7 @@ class DaeraCoreProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
