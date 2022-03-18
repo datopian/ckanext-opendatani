@@ -389,7 +389,7 @@ class NisraProfile(RDFProfile):
                         log.debug(
                             'Requested resource to start the processing: {0}'
                             .format(resource['url']))
-                    except Exception, e:
+                    except Exception as e:
                         log.debug(
                             'Error requesting resource: {0}\n{1}'
                             .format(resource['url'], e))
