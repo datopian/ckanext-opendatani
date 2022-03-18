@@ -341,7 +341,7 @@ class NisraProfile(RDFProfile):
         # TODO: if there is more than one source with different defaults,
         # modify accordingly
         dataset_dict['frequency'] = 'notPlanned'
-        dataset_dict['topic_category'] = '-'
+        dataset_dict['topic_category'] = 'location'
         dataset_dict['lineage'] = 'NISRA'
         dataset_dict['contact_name'] = 'Christopher O’Neill'
         dataset_dict['contact_email'] = 'christopher.oneill@nisra.gov.uk'
