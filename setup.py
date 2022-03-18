@@ -90,6 +90,7 @@ setup(
         midulster_profile=ckanext.opendatani.dcat:MidulsterProfile
         esri_arcgis_profile=ckanext.opendatani.dcat:EsriArcGISProfile
         daera_core_profile=ckanext.opendatani.dcat:DaeraCoreProfile
+        nisra_profile=ckanext.opendatani.dcat:NisraProfile
 
     ''',
 )
