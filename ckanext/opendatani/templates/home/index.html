@@ -27,7 +27,7 @@
           <h4><a href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
           <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>
           <span class="text">{{ h.markdown_extract(post.content) }}</span>
-          <a class="btn btn-primary" href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
+          <a class="btn btn-primary" href="{{ h.url_for('pages.blog_show', page=post.name) }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
         </div>
       </li>
       {% endfor %}

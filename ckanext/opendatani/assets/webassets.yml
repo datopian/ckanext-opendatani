@@ -1,6 +1,5 @@
 theme_css:
   output: odni/%(version)s_theme_css.css
-  filters: cssrewrite
   contents:
     - css/theme.css
 

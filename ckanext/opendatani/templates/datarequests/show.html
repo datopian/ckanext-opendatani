@@ -6,10 +6,6 @@
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('datarequest_show', _('Suggest Data'), id=datarequest_id) }}
+  {{ h.build_nav_icon('datarequests.show', _('Suggest Data'), id=datarequest_id) }}
 {% endblock %}
 
-{% block primary_content_inner  %}
-  {{ super() }}
-  {{ h.disqus_comments() }}
-{% endblock %}
