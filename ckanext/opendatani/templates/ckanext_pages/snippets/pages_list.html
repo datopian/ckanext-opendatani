@@ -12,11 +12,11 @@
 
     {% for page in pages %}
       {% if id %} {# this is for orgs and groups #}
-        {% set url = h.url_for(action, id=id, page='/' + page.name) %}
+        {% set url = h.url_for(action, id=id, page=page.name) %}
       {% elif type == 'blog' %}
-        {% set url = h.url_for('pages.blog_show', page='/' + page.name) %}
+        {% set url = h.url_for('pages.blog_show', page=page.name) %}
       {% else %}
-        {% set url = h.url_for('pages.pages_show', page='/' + page.name) %}
+        {% set url = h.url_for('pages.pages_show', page=page.name) %}
       {% endif %}
       <div class="row page-list-item dataset-item">
       {% if page.image %}
