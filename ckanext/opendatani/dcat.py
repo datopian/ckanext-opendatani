@@ -343,7 +343,7 @@ class NisraProfile(RDFProfile):
         dataset_dict['frequency'] = 'notPlanned'
         dataset_dict['topic_category'] = 'location'
         dataset_dict['lineage'] = 'NISRA'
-        dataset_dict['contact_name'] = 'Christopher O’Neill'
+        dataset_dict['contact_name'] = "Christopher O'Neill"
         dataset_dict['contact_email'] = 'christopher.oneill@nisra.gov.uk'
         dataset_dict['license_id'] = 'uk-ogl'
 
