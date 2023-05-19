@@ -119,9 +119,9 @@ class CausewayProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
-                if resource['format'] == 'ZIP':
+                if resource.get('format') == 'ZIP':
                     resource['format'] = 'SHP'
 
                 resource['requested'] = False
@@ -129,19 +129,20 @@ class CausewayProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource['format'].lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
@@ -183,9 +184,9 @@ class MidulsterProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
-                if resource['format'] == 'ZIP':
+                if resource.get('format') == 'ZIP':
                     resource['format'] = 'SHP'
 
                 resource['requested'] = False
@@ -193,19 +194,20 @@ class MidulsterProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource['format'].lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
@@ -248,7 +250,7 @@ class EsriArcGISProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
 
                 resource['requested'] = False
@@ -256,19 +258,20 @@ class EsriArcGISProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource['format'].lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
@@ -311,7 +314,7 @@ class DaeraCoreProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
 
                 resource['requested'] = False
@@ -319,19 +322,20 @@ class DaeraCoreProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource['format'].lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
@@ -374,7 +378,7 @@ class NisraProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
 
                 resource['requested'] = False
@@ -382,19 +386,20 @@ class NisraProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource['format'].lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
