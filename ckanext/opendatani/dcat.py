@@ -56,7 +56,7 @@ class NIArcGISProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] == 'OGC WMS':
+                if resource['format'] and resource['format'] == 'OGC WMS':
                     resource['format'] = 'WMS'
 
                 resource['requested'] = False
@@ -64,7 +64,7 @@ class NIArcGISProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'].lower() in file_formats:
+                elif resource['format'] and resource['format'].lower() in file_formats:
                     try:
                         requests.head(resource['url'])
 
