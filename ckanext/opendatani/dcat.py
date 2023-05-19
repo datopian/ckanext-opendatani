@@ -56,7 +56,7 @@ class NIArcGISProfile(RDFProfile):
                             avoid.append(current_resource['url'])
 
             for resource in dataset_dict.get('resources', []):
-                if resource['format'] and resource['format'] == 'OGC WMS':
+                if resource.get('format') == 'OGC WMS':
                     resource['format'] = 'WMS'
 
                 resource['requested'] = False
@@ -64,19 +64,20 @@ class NIArcGISProfile(RDFProfile):
 
                 if resource['url'] in avoid:
                     resource['requested'] = True
-                elif resource['format'] and resource['format'].lower() in file_formats:
-                    try:
-                        requests.head(resource['url'])
+                elif resource.get('format') is not None:
+                    if resource.get('format').lower() in file_formats:
+                        try:
+                            requests.head(resource['url'])
 
-                        resource['requested'] = True
-                        log.debug(
-                            'Requested resource to start the processing: {0}'
-                            .format(resource['url']))
-                    except Exception, e:
-                        log.debug(
-                            'Error requesting resource: {0}\n{1}'
-                            .format(resource['url'], e))
-                        pass
+                            resource['requested'] = True
+                            log.debug(
+                                'Requested resource to start the processing: {0}'
+                                .format(resource['url']))
+                        except Exception, e:
+                            log.debug(
+                                'Error requesting resource: {0}\n{1}'
+                                .format(resource['url'], e))
+                            pass
 
         return dataset_dict
 
