@@ -1,7 +1,7 @@
 import datetime
 # from pylons import config
 from ckan.common import config
-import routes.mapper
+# import routes.mapper
 import logging
 
 import ckan.plugins as plugins
