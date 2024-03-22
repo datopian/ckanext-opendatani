@@ -79,6 +79,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         opendatani=ckanext.opendatani.plugin:OpendataniPlugin
+        nisra_jsondcat=ckanext.opendatani.json_dcat:NsiraJSONHarvester
 
         [paste.paster_command]
         create_featured_groups=ckanext.opendatani.commands:CreateFeaturedGroups
