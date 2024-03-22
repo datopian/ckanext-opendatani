@@ -320,7 +320,7 @@ class NsiraJSONHarvester(DCATHarvester):
             if status in ['new', 'change']:
                 action = 'package_create' if status == 'new' else 'package_update'
                 message_status = 'Created' if status == 'new' else 'Updated'
-                package_dict['frequency'] = 'montly'
+                package_dict['frequency'] = 'monthly'
                 package_dict['topic_category'] = 'location'
                 package_dict['lineage'] = 'NISRA'
                 package_dict['contact_name'] = 'OSNI Mapping Helpdesk'
