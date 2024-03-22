@@ -32,7 +32,7 @@
           </tr>
           <tr>
             <th scope="row">{{ _('Created') }}</th>
-            <td>{{ h.render_datetime(res.Created) or _('unknown') }}</td>
+            <td>{{ h.render_datetime(res.created) or h.render_datetime(res.Created) or _('unknown') }}</td>
           </tr>
           <tr>
             <th scope="row">{{ _('Format') }}</th>
