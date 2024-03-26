@@ -30,8 +30,8 @@ class NsiraJSONHarvester(DCATHarvester):
     def info(self):
         return {
             'name': 'nsira_dcatjson',
-            'title': 'NSIRA DCAT JSON Harvester',
-            'description': 'Harvester for DCAT dataset descriptions ' +
+            'title': 'NSIRA JSON (Restful) Harvester',
+            'description': 'Harvester for Restful dataset descriptions ' +
                            'serialized as JSON'
         }
 
