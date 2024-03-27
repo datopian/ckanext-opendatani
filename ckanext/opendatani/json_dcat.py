@@ -61,6 +61,8 @@ class NsiraJSONHarvester(DCATHarvester):
                     "name": dataset['extension']['contact'].get('name', ''),
                     "mbox": dataset['extension']['contact'].get('email', '')
                 },
+                "fn": dataset['extension']['contact'].get('name', ''),
+                "hasEmail": dataset['extension']['contact'].get('email', ''),
                 
                 "language": [
                     "en"
@@ -256,6 +258,7 @@ class NsiraJSONHarvester(DCATHarvester):
             previous_object.current = False
             previous_object.add()
 
+        
         package_dict, dcat_dict = self._get_package_dict(harvest_object)
         if not package_dict:
             return False
@@ -321,13 +324,12 @@ class NsiraJSONHarvester(DCATHarvester):
                 action = 'package_create' if status == 'new' else 'package_update'
                 message_status = 'Created' if status == 'new' else 'Updated'
                 package_dict['frequency'] = 'monthly'
-                package_dict['topic_category'] = 'location'
+                package_dict['topic_category'] = 'governmentstatistics'
                 package_dict['lineage'] = 'NISRA'
-                package_dict['contact_name'] = 'OSNI Mapping Helpdesk'
-                package_dict['contact_email'] = 'osniopendata@dfpni.gov.uk'
+                package_dict['contact_name'] = dcat_dict.get('fn', '')
+                package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
+                package_dict['tags'] = [{'name': 'Goverment statistics'}]
                 package_dict['license_id'] = 'uk-ogl'
-                _remove_extra('contact_name', package_dict)
-                _remove_extra('contact_email', package_dict)
                 package_id = p.toolkit.get_action(action)(context, package_dict)
                 log.info('%s dataset with id %s', message_status, package_id)
 
