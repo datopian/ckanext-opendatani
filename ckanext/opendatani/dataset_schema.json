@@ -33,6 +33,10 @@
       "validators": "scheming_required at_least_n_choices(1) scheming_multiple_choice",
       "output_validators": "scheming_multiple_choice_output",
       "choices": [
+        {
+          "value": "governmentstatistics",
+          "label": "Government statistics"
+        },
          {
            "value": "farming",
            "label": "Farming"
