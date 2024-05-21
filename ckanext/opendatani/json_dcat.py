@@ -6,6 +6,8 @@ import traceback
 import uuid
 
 import requests
+import rdflib
+import os
 
 from ckan import model
 from ckan import logic
@@ -16,6 +18,9 @@ from ckanext.dcat import converters
 from ckanext.dcat.harvesters.base import DCATHarvester
 from sqlalchemy.orm import Query
 import datetime
+import six
+from ckanext.dcat.interfaces import IDCATRDFHarvester
+
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +39,123 @@ class NsiraJSONHarvester(DCATHarvester):
             'description': 'Harvester for Restful dataset descriptions ' +
                            'serialized as JSON'
         }
+    
+    def _get_content_and_type(self, url, harvest_job, page=1,
+                              content_type=None):
+        '''
+        Gets the content and type of the given url.
+
+        :param url: a web url (starting with http) or a local path
+        :param harvest_job: the job, used for error reporting
+        :param page: adds paging to the url
+        :param content_type: will be returned as type
+        :return: a tuple containing the content and content-type
+        '''
+
+        if not url.lower().startswith('http'):
+            # Check local file
+            if os.path.exists(url):
+                with open(url, 'r') as f:
+                    content = f.read()
+                content_type = content_type or rdflib.util.guess_format(url)
+                return content, content_type
+            else:
+                self._save_gather_error('Could not get content for this url',
+                                        harvest_job)
+                return None, None
+
+        try:
+
+            if page > 1:
+                url = url + '&' if '?' in url else url + '?'
+                url = url + 'page={0}'.format(page)
+
+            log.debug('Getting file %s', url)
+
+            # get the `requests` session object
+            session = requests.Session()
+            for harvester in p.PluginImplementations(IDCATRDFHarvester):
+                session = harvester.update_session(session)
+
+            # first we try a HEAD request which may not be supported
+            did_get = False
+            r = session.head(url)
+
+            if r.status_code == 405 or r.status_code == 400:
+                r = session.get(url, stream=True)
+                did_get = True
+            r.raise_for_status()
+
+            cl = r.headers.get('content-length')
+            if cl and int(cl) > self.MAX_FILE_SIZE:
+                msg = '''Remote file is too big. Allowed
+                    file size: {allowed}, Content-Length: {actual}.'''.format(
+                    allowed=self.MAX_FILE_SIZE, actual=cl)
+                self._save_gather_error(msg, harvest_job)
+                return None, None
+
+            if not did_get:
+                r = session.get(url, stream=True)
+
+            length = 0
+            content = '' if six.PY2 else b''
+            for chunk in r.iter_content(chunk_size=self.CHUNK_SIZE):
+                content = content + chunk
+
+                length += len(chunk)
+
+                if length >= self.MAX_FILE_SIZE:
+                    self._save_gather_error('Remote file is too big.',
+                                            harvest_job)
+                    return None, None
+
+            if not six.PY2:
+                content = content.decode('utf-8')
+
+            if content_type is None and r.headers.get('content-type'):
+                content_type = r.headers.get('content-type').split(";", 1)[0]
+
+
+            # if content is a JSON array of URLS, fetch each url
+            try:
+                urls = json.loads(content)
+                if isinstance(urls, list) and all(isinstance(u, str) for u in urls):
+                    combined_content = []
+                    for package_url in urls:
+                        package_content, _ = self._get_content_and_type(package_url, harvest_job)
+                        if package_content:
+                            combined_content.append(json.loads(package_content))
+                    content = json.dumps(combined_content).encode('utf-8')
+                    content_type = 'application/json'
+                    if not six.PY2:
+                        content = content.decode('utf-8')
+            except json.JSONDecodeError:
+                self._save_gather_error('Could not parse content as JSON', harvest_job)
+                return None, None
+                        
+
+            return content, content_type
+
+        except requests.exceptions.HTTPError as error:
+            if page > 1 and error.response.status_code == 404:
+                # We want to catch these ones later on
+                raise
+
+            msg = 'Could not get content from %s. Server responded with %s %s'\
+                % (url, error.response.status_code, error.response.reason)
+            self._save_gather_error(msg, harvest_job)
+            return None, None
+        except requests.exceptions.ConnectionError as error:
+            msg = '''Could not get content from %s because a
+                                connection error occurred. %s''' % (url, error)
+            self._save_gather_error(msg, harvest_job)
+            return None, None
+        except requests.exceptions.Timeout as error:
+            msg = 'Could not get content from %s because the connection timed'\
+                ' out.' % url
+            self._save_gather_error(msg, harvest_job)
+            return None, None
+
 
 
     def _get_guids_and_datasets(self, content):
@@ -49,9 +171,16 @@ class NsiraJSONHarvester(DCATHarvester):
             raise ValueError('Wrong JSON object')
 
         for dataset in datasets:
-         
+            filtered_keys = [key for key in dataset["dimension"] if key not in ("STATISTIC", "TLIST(A1)")]
+            labels = [dataset["dimension"][key]["label"] for key in filtered_keys]
+
+            if len(labels) == 1:
+                output_string = labels[0]
+            else:
+                output_string = " by ".join(labels[:-1]) + " and " + labels[-1]
+            
             dataset_copy  = {
-                "title": dataset['label'],
+                "title": dataset['label'] + " "+ "by " + output_string,
                 "name": dataset['extension']['matrix'],
                 "description": dataset['note'][0], 
                 "identifier": dataset['extension']['matrix'],
@@ -299,7 +428,7 @@ class NsiraJSONHarvester(DCATHarvester):
         try:
             if status == 'new':
                 package_schema = logic.schema.default_create_package_schema()
-                log.info("steve here: package_schema is: {}".format(package_schema))
+                
                 context['schema'] = package_schema
 
                 # We need to explicitly provide a package ID
@@ -328,7 +457,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['lineage'] = 'NISRA'
                 package_dict['contact_name'] = dcat_dict.get('fn', '')
                 package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
-                package_dict['tags'] = [{'name': 'Goverment statistics'}]
+                package_dict['tags'] = [{'name': 'Experimental'}, {'name': 'Official Statistics'}]
                 package_dict['license_id'] = 'uk-ogl'
                 package_id = p.toolkit.get_action(action)(context, package_dict)
                 log.info('%s dataset with id %s', message_status, package_id)
