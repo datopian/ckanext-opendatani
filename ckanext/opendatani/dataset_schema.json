@@ -209,6 +209,11 @@
       "required": true,
       "validators": "boolean_validator datasets_with_no_organization_cannot_be_private opendatani_private_datasets",
       "form_snippet": "visibility_form_field.html"
+    },
+    {
+      "field_name": "source_last_updated",
+      "preset": "datetime",
+      "label": "Source last updated"
     }
   ],
   "resource_fields": [

@@ -459,6 +459,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
                 package_dict['tags'] = [{'name': 'Experimental'}, {'name': 'Official Statistics'}]
                 package_dict['license_id'] = 'uk-ogl'
+                package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
                 package_id = p.toolkit.get_action(action)(context, package_dict)
                 log.info('%s dataset with id %s', message_status, package_id)
 
