@@ -20,10 +20,28 @@ from sqlalchemy.orm import Query
 import datetime
 import six
 from ckanext.dcat.interfaces import IDCATRDFHarvester
-
+import re
 
 log = logging.getLogger(__name__)
 
+def convert_to_html(text):
+    """Converts text with formatting to HTML.
+
+    Args:
+        text: The text to be converted.
+
+    Returns:
+        The converted HTML string.
+    """
+    # Replace bold tags
+    text = text.replace("[b]", "<b>").replace("[/b]", "</b>")
+
+    # Replace URL links
+    url_pattern = r'\[url=(https?://[^\]]+|mailto:[^\]]+)\](.*?)\[/url\]'
+    replacement = r'[\2](\1)'
+    text = re.sub(url_pattern, replacement, text)
+    
+    return text
 
 def _remove_extra(key, dataset_dict):
         dataset_dict['extras'][:] = [e
@@ -182,7 +200,7 @@ class NsiraJSONHarvester(DCATHarvester):
             dataset_copy  = {
                 "title": dataset['label'] + " "+ "by " + output_string,
                 "name": dataset['extension']['matrix'],
-                "description": dataset['note'][0], 
+                "description": convert_to_html(dataset['note'][0]), 
                 "identifier": dataset['extension']['matrix'],
                 "modified": dataset['updated'], 
                 "landingPage": "", 
