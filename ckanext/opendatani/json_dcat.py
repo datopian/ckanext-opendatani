@@ -187,6 +187,13 @@ class NsiraJSONHarvester(DCATHarvester):
             datasets = [doc]
         else:
             raise ValueError('Wrong JSON object')
+        
+
+        frequency = {
+            "TLIST(A1)": "annually",
+            "TLIST(Q1)": "quarterly",
+            "TLIST(M1)": "monthly",
+        }
 
         for dataset in datasets:
             filtered_keys = [key for key in dataset["dimension"] if key not in ("STATISTIC", "TLIST(A1)")]
@@ -196,6 +203,13 @@ class NsiraJSONHarvester(DCATHarvester):
                 output_string = labels[0]
             else:
                 output_string = " by ".join(labels[:-1]) + " and " + labels[-1]
+
+
+            # get Tlist from dataset using keys in frquency
+            frequency_key = [key for key in dataset["dimension"] if key in ("TLIST(A1)", "TLIST(Q1)", "TLIST(M1)")]
+            frequency_key = frequency_key[0]
+            frequency_value = dataset["dimension"][frequency_key]["category"]["index"]
+            time_period = f"{frequency_value[0]} - {frequency_value[-1]}"
             
             dataset_copy  = {
                 "title": dataset['label'] + " "+ "by " + output_string,
@@ -214,7 +228,9 @@ class NsiraJSONHarvester(DCATHarvester):
                 "language": [
                     "en"
                 ],
-                "distribution": []
+                "distribution": [],
+                "frequency": frequency[frequency_key],
+                "timePeriod": time_period,
             }
 
             for resource in dataset['link']['alternate']:
@@ -407,6 +423,8 @@ class NsiraJSONHarvester(DCATHarvester):
 
         
         package_dict, dcat_dict = self._get_package_dict(harvest_object)
+        
+        
         if not package_dict:
             return False
 
@@ -470,7 +488,7 @@ class NsiraJSONHarvester(DCATHarvester):
             if status in ['new', 'change']:
                 action = 'package_create' if status == 'new' else 'package_update'
                 message_status = 'Created' if status == 'new' else 'Updated'
-                package_dict['frequency'] = 'monthly'
+                package_dict['frequency'] = dcat_dict.get('frequency', '')
                 package_dict['topic_category'] = 'governmentstatistics'
                 package_dict['lineage'] = 'NISRA'
                 package_dict['contact_name'] = dcat_dict.get('fn', '')
@@ -478,6 +496,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['tags'] = [{'name': 'Experimental'}, {'name': 'Official Statistics'}]
                 package_dict['license_id'] = 'uk-ogl'
                 package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
+                package_dict['time_period'] = dcat_dict.get('timePeriod', '')
                 package_id = p.toolkit.get_action(action)(context, package_dict)
                 log.info('%s dataset with id %s', message_status, package_id)
 

@@ -214,6 +214,10 @@
       "field_name": "source_last_updated",
       "preset": "datetime",
       "label": "Source last updated"
+    },
+     {
+      "field_name": "time_period",
+      "label": "Time period"
     }
   ],
   "resource_fields": [
