@@ -210,9 +210,13 @@ class NsiraJSONHarvester(DCATHarvester):
             frequency_key = frequency_key[0]
             frequency_value = dataset["dimension"][frequency_key]["category"]["index"]
             time_period = f"{frequency_value[0]} - {frequency_value[-1]}"
-            
+            allowed_keys = {"exceptional", "official", "reservation", "archive", "experimental", "analytical"}
+            tags = {k: v for k, v in dataset["extension"].items() if not isinstance(v, dict) and k in allowed_keys}
+
+        
             dataset_copy  = {
-                "title": dataset['label'] + " "+ "by " + output_string,
+                "title": dataset['label'],
+                "titleTags": dataset['label'] + " "+ "by " + output_string,
                 "name": dataset['extension']['matrix'],
                 "description": convert_to_html(dataset['note'][0]), 
                 "identifier": dataset['extension']['matrix'],
@@ -231,15 +235,33 @@ class NsiraJSONHarvester(DCATHarvester):
                 "distribution": [],
                 "frequency": frequency[frequency_key],
                 "timePeriod": time_period,
+                "metaTags": json.dumps(tags),
             }
 
             for resource in dataset['link']['alternate']:
-                dataset_copy['distribution'].append({
-                    'title': resource['type'].split("/")[1],
-                    'accessURL': resource['href'],
-                    'downloadURL': resource['href'],
-                    'format': resource['type']
-                })
+                if resource['type'] == "application/base64":
+                    dataset_copy['distribution'].append({
+                        'title': "Xlsx",
+                        'accessURL': resource['href'],
+                        'downloadURL': resource['href'],
+                        'format': "xlsx"
+                    })
+
+                elif resource['type'] == "application/json":
+                    dataset_copy['distribution'].append({
+                        'title': f"JSON {resource['href'].split('/')[-2]}",
+                        'accessURL': resource['href'],
+                        'downloadURL': resource['href'],
+                        'format': resource['type']
+                    })
+
+                else:
+                    dataset_copy['distribution'].append({
+                        'title': resource['type'].split("/")[1],
+                        'accessURL': resource['href'],
+                        'downloadURL': resource['href'],
+                        'format': resource['type']
+                    })
 
 
 
@@ -493,10 +515,11 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['lineage'] = 'NISRA'
                 package_dict['contact_name'] = dcat_dict.get('fn', '')
                 package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
-                package_dict['tags'] = [{'name': 'Experimental'}, {'name': 'Official Statistics'}]
                 package_dict['license_id'] = 'uk-ogl'
                 package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
                 package_dict['time_period'] = dcat_dict.get('timePeriod', '')
+                package_dict['title_tags'] = dcat_dict.get('titleTags', '')
+                package_dict['metatags'] = dcat_dict.get('metaTags', '')
                 package_id = p.toolkit.get_action(action)(context, package_dict)
                 log.info('%s dataset with id %s', message_status, package_id)
 

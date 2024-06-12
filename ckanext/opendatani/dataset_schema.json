@@ -218,6 +218,16 @@
      {
       "field_name": "time_period",
       "label": "Time period"
+    },
+     {
+      "field_name": "title_tags",
+      "label": "Title+Tags"
+    },
+    {
+      "field_name": "metatags",
+      "label": "Meta Tags",
+      "form_snippet": "markdown.html",
+      "form_placeholder": "Some useful json element"
     }
   ],
   "resource_fields": [
