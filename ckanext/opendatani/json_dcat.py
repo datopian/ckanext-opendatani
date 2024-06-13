@@ -252,7 +252,7 @@ class NsiraJSONHarvester(DCATHarvester):
                         'title': f"JSON {resource['href'].split('/')[-2]}",
                         'accessURL': resource['href'],
                         'downloadURL': resource['href'],
-                        'format': resource['type']+f"{resource['href'].split('/')[-2]}"
+                        'format': f"json{resource['href'].split('/')[-2]}"
                     })
 
                 else:
