@@ -14,6 +14,7 @@ import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
 from ckan.common import OrderedDict
+import ckan.logic as logic
 
 
 log = logging.getLogger(__name__)
@@ -160,10 +161,9 @@ def custom_user_update(context, data_dict):
     return core_user_update(context, data_dict)
 
 
-@plugins.toolkit.chained_action   
 @logic.side_effect_free
 def package_show(up_func,context,data_dict): 
-    result = up_func(context, data_dict)
+    result = logic.get_action('package_show')(context, data_dict)
     id = result.get('id')
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
@@ -186,10 +186,9 @@ def package_show(up_func,context,data_dict):
     return result
 
 
-@plugins.toolkit.chained_action   
 @logic.side_effect_free
 def package_search(up_func,context,data_dict):
-    search = up_func(context, data_dict)
+    search = logic.get_action('package_search')(context, data_dict)
     results = search.get('results')
 
     if len(results) > 0:
