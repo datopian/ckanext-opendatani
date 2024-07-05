@@ -125,8 +125,8 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_create': custom_user_create,
             'user_update': custom_user_update,
             'report_resources_by_organization': report_resources_by_organization,
-            'package_show': package_show,
-            'package_search': package_search
+            'package_show': package_show2,
+            'package_search': package_search2
         }
 
 
@@ -162,7 +162,7 @@ def custom_user_update(context, data_dict):
 
 
 @logic.side_effect_free
-def package_show(context,data_dict): 
+def package_show2(context,data_dict): 
     result = logic.get_action('package_show')(context, data_dict)
     id = result.get('id')
     try:
@@ -187,7 +187,7 @@ def package_show(context,data_dict):
 
 
 @logic.side_effect_free
-def package_search(context,data_dict):
+def package_search2(context,data_dict):
     search = logic.get_action('package_search')(context, data_dict)
     results = search.get('results')
 
