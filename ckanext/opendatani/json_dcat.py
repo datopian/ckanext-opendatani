@@ -209,7 +209,7 @@ class NsiraJSONHarvester(DCATHarvester):
             frequency_key = [key for key in dataset["dimension"] if key in ("TLIST(A1)", "TLIST(Q1)", "TLIST(M1)")]
             frequency_key = frequency_key[0]
             frequency_value = dataset["dimension"][frequency_key]["category"]["index"]
-            time_period = f"{frequency_value[0]} - {frequency_value[-1]}"
+            time_period = "{} - {}".format(frequency_value[0], frequency_value[-1])
             allowed_keys = {"exceptional", "official", "reservation", "archive", "experimental", "analytical"}
             tags = {k: v for k, v in dataset["extension"].items() if not isinstance(v, dict) and k in allowed_keys}
 
@@ -249,10 +249,10 @@ class NsiraJSONHarvester(DCATHarvester):
 
                 elif resource['type'] == "application/json":
                     dataset_copy['distribution'].append({
-                        'title': f"JSON {resource['href'].split('/')[-2]}",
+                        'title': 'JSON {}'.format(resource['href'].split('/')[-2]),
                         'accessURL': resource['href'],
                         'downloadURL': resource['href'],
-                        'format': f"json{resource['href'].split('/')[-2]}"
+                        'format': 'json{}'.format(resource['href'].split('/')[-2])
                     })
 
                 else:
