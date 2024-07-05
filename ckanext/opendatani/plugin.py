@@ -128,9 +128,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
-            'report_resources_by_organization': report_resources_by_organization,
-            'package_show': package_show2,
-            'package_search': package_search2
+            'report_resources_by_organization': report_resources_by_organization
+            # 'package_show': package_show2,
+            # 'package_search': package_search2
         }
 
 
@@ -165,45 +165,45 @@ def custom_user_update(context, data_dict):
     return core_user_update(context, data_dict)
 
 
-@logic.side_effect_free
-def package_show2(context,data_dict): 
-    result = original_package_show(context, data_dict)
-    id = result.get('id')
-    try:
-        result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
-    except:
-        log.error('package {} stats not available'.format(id))
+# @logic.side_effect_free
+# def package_show2(context,data_dict): 
+#     result = original_package_show(context, data_dict)
+#     id = result.get('id')
+#     try:
+#         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
+#     except:
+#         log.error('package {} stats not available'.format(id))
 
-    resources = result.get('resources')
-    overall_stat = 0
-    for i, resource in enumerate(resources):
-        resource_id = resource.get('id')
-        try:
-            stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
-            result['resources'][i]['total_downloads'] = stats
-            overall_stat += int(stats)
-        except:
-            log.error('resource {} not found'.format(resource_id))
+#     resources = result.get('resources')
+#     overall_stat = 0
+#     for i, resource in enumerate(resources):
+#         resource_id = resource.get('id')
+#         try:
+#             stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
+#             result['resources'][i]['total_downloads'] = stats
+#             overall_stat += int(stats)
+#         except:
+#             log.error('resource {} not found'.format(resource_id))
 
-    if "total_downloads" not in result:
-        result['total_downloads'] = overall_stat
-    return result
+#     if "total_downloads" not in result:
+#         result['total_downloads'] = overall_stat
+#     return result
 
 
-@logic.side_effect_free
-def package_search2(context,data_dict):
-    search = original_package_search(context, data_dict)
-    results = search.get('results')
+# @logic.side_effect_free
+# def package_search2(context,data_dict):
+#     search = original_package_search(context, data_dict)
+#     results = search.get('results')
 
-    if len(results) > 0:
-        for i, result in enumerate(results):
-            id = result.get('id')
-            log.info("HERE2 HERE1")
-            log.info(id)
-            stats = tk.get_action("package_show")(context, {'id': id})
-            results[i]['total_downloads'] = stats['total_downloads']
+#     if len(results) > 0:
+#         for i, result in enumerate(results):
+#             id = result.get('id')
+#             log.info("HERE2 HERE1")
+#             log.info(id)
+#             stats = tk.get_action("package_show")(context, {'id': id})
+#             results[i]['total_downloads'] = stats['total_downloads']
     
-    return search
+#     return search
 
 
 @toolkit.side_effect_free
