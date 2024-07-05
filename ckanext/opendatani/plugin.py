@@ -17,6 +17,9 @@ from ckan.common import OrderedDict
 import ckan.logic as logic
 import ckan.plugins.toolkit as tk
 
+from ckan.logic.action.get import package_search as original_package_search
+from ckan.logic.action.get import package_show as original_package_show
+
 
 log = logging.getLogger(__name__)
 
@@ -164,7 +167,7 @@ def custom_user_update(context, data_dict):
 
 @logic.side_effect_free
 def package_show2(context,data_dict): 
-    result = tk.get_action('package_show')(context, data_dict)
+    result = original_package_show(context, data_dict)
     id = result.get('id')
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
@@ -189,7 +192,7 @@ def package_show2(context,data_dict):
 
 @logic.side_effect_free
 def package_search2(context,data_dict):
-    search = tk.get_action('package_search')(context, data_dict)
+    search = original_package_search(context, data_dict)
     results = search.get('results')
 
     if len(results) > 0:
