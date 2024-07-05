@@ -162,7 +162,7 @@ def custom_user_update(context, data_dict):
 
 
 @logic.side_effect_free
-def package_show(up_func,context,data_dict): 
+def package_show(context,data_dict): 
     result = logic.get_action('package_show')(context, data_dict)
     id = result.get('id')
     try:
@@ -187,7 +187,7 @@ def package_show(up_func,context,data_dict):
 
 
 @logic.side_effect_free
-def package_search(up_func,context,data_dict):
+def package_search(context,data_dict):
     search = logic.get_action('package_search')(context, data_dict)
     results = search.get('results')
 
