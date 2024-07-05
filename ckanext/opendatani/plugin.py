@@ -168,7 +168,7 @@ def package_show(up_func,context,data_dict):
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
     except:
-        log.error(f'package {id} stats not available')
+        log.error('package {} stats not available'.format(id))
 
     resources = result.get('resources')
     overall_stat = 0
@@ -179,7 +179,7 @@ def package_show(up_func,context,data_dict):
             result['resources'][i]['total_downloads'] = stats
             overall_stat += int(stats)
         except:
-            log.error(f'resource {resource_id} not found')
+            log.error('resource {} not found'.format(resource_id))
 
     if "total_downloads" not in result:
         result['total_downloads'] = overall_stat
