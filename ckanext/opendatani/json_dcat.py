@@ -1,4 +1,3 @@
-from builtins import str
 import json
 import logging
 from hashlib import sha1
@@ -137,7 +136,7 @@ class NsiraJSONHarvester(DCATHarvester):
             # if content is a JSON array of URLS, fetch each url
             try:
                 urls = json.loads(content)
-                if isinstance(urls, list) and all(isinstance(u, str) for u in urls):
+                if isinstance(urls, list) and all(isinstance(u, basestring) for u in urls):
                     combined_content = []
                     for package_url in urls:
                         package_content, _ = self._get_content_and_type(package_url, harvest_job)
@@ -147,7 +146,7 @@ class NsiraJSONHarvester(DCATHarvester):
                     content_type = 'application/json'
                     if not six.PY2:
                         content = content.decode('utf-8')
-            except json.JSONDecodeError:
+            except ValueError:
                 self._save_gather_error('Could not parse content as JSON', harvest_job)
                 return None, None
                         
@@ -372,7 +371,7 @@ class NsiraJSONHarvester(DCATHarvester):
                     break
 
             except ValueError as e:
-                msg = 'Error parsing file: {0}'.format(str(e))
+                msg = 'Error parsing file: {0}'.format(unicode(e))
                 self._save_gather_error(msg, harvest_job)
                 return None
 
@@ -490,8 +489,8 @@ class NsiraJSONHarvester(DCATHarvester):
                 context['schema'] = package_schema
 
                 # We need to explicitly provide a package ID
-                package_dict['id'] = str(uuid.uuid4())
-                package_schema['id'] = [str]
+                package_dict['id'] = unicode(uuid.uuid4())
+                package_schema['id'] = [unicode]
 
                 # Save reference to the package on the object
                 harvest_object.package_id = package_dict['id']
