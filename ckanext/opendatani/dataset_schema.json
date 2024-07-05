@@ -37,82 +37,82 @@
           "value": "governmentstatistics",
           "label": "Government statistics"
         },
-         {
-           "value": "farming",
-           "label": "Farming"
-         },
-         {
-           "value": "biota",
-           "label": "Biota"
-         },
-         {
-           "value": "boundaries",
-           "label": "Boundaries"
-         },
-         {
-           "value": "climatologyMeteorologyAtmosphere",
-           "label": "Climatology / Meteorology / Atmosphere"
-         },
-         {
-           "value": "economy",
-           "label": "Economy"
-         },
-         {
-           "value": "elevation",
-           "label": "Elevation"
-         },
-         {
-           "value": "environment",
-           "label": "Environment"
-         },
-         {
-           "value": "geoscientificInformation",
-           "label": "Geoscientific Information"
-         },
-         {
-           "value": "health",
-           "label": "Health"
-         },
-         {
-           "value": "imageryBaseMapsEarthCover",
-           "label": "Imagery / Base Maps / Earth Cover"
-         },
-         {
-           "value": "intelligenceMilitary",
-           "label": "Intelligence / Military"
-         },
-         {
-           "value": "inlandWaters",
-           "label": "Inland / Waters"
-         },
-         {
-           "value": "location",
-           "label": "Location"
-         },
-         {
-           "value": "oceans",
-           "label": "Oceans"
-         },
-         {
-           "value": "planningCadastre",
-           "label": "Planning / Cadastre"
-         },
-         {
-           "value": "society",
-           "label": "Society"
-         },
-         {
-           "value": "structure",
-           "label": "Structure"
-         },
-         {
-           "value": "transportation",
-           "label": "Transportation"
-         },
-         {
-           "value": "utilitiesCommunication",
-           "label": "Utilities / Communication"
-         }
+        {
+          "value": "farming",
+          "label": "Farming"
+        },
+        {
+          "value": "biota",
+          "label": "Biota"
+        },
+        {
+          "value": "boundaries",
+          "label": "Boundaries"
+        },
+        {
+          "value": "climatologyMeteorologyAtmosphere",
+          "label": "Climatology / Meteorology / Atmosphere"
+        },
+        {
+          "value": "economy",
+          "label": "Economy"
+        },
+        {
+          "value": "elevation",
+          "label": "Elevation"
+        },
+        {
+          "value": "environment",
+          "label": "Environment"
+        },
+        {
+          "value": "geoscientificInformation",
+          "label": "Geoscientific Information"
+        },
+        {
+          "value": "health",
+          "label": "Health"
+        },
+        {
+          "value": "imageryBaseMapsEarthCover",
+          "label": "Imagery / Base Maps / Earth Cover"
+        },
+        {
+          "value": "intelligenceMilitary",
+          "label": "Intelligence / Military"
+        },
+        {
+          "value": "inlandWaters",
+          "label": "Inland / Waters"
+        },
+        {
+          "value": "location",
+          "label": "Location"
+        },
+        {
+          "value": "oceans",
+          "label": "Oceans"
+        },
+        {
+          "value": "planningCadastre",
+          "label": "Planning / Cadastre"
+        },
+        {
+          "value": "society",
+          "label": "Society"
+        },
+        {
+          "value": "structure",
+          "label": "Structure"
+        },
+        {
+          "value": "transportation",
+          "label": "Transportation"
+        },
+        {
+          "value": "utilitiesCommunication",
+          "label": "Utilities / Communication"
+        }
       ]
     },
     {
@@ -138,38 +138,38 @@
       "preset": "select",
       "required": true,
       "choices": [
-         {
-           "value": "daily",
-           "label": "Daily"
-         },
-         {
-           "value": "weekly",
-           "label": "Weekly"
-         },
-         {
-           "value": "fortnightly",
-           "label": "Fortnightly"
-         },
-         {
-           "value": "monthly",
-           "label": "Monthly"
-         },
-         {
-           "value": "quarterly",
-           "label": "Quarterly"
-         },
-         {
-           "value": "annually",
-           "label": "Annually"
-         },
-         {
-           "value": "irregular",
-           "label": "Irregular"
-         },
-         {
-           "value": "notPlanned",
-           "label": "Not Planned"
-         }
+        {
+          "value": "daily",
+          "label": "Daily"
+        },
+        {
+          "value": "weekly",
+          "label": "Weekly"
+        },
+        {
+          "value": "fortnightly",
+          "label": "Fortnightly"
+        },
+        {
+          "value": "monthly",
+          "label": "Monthly"
+        },
+        {
+          "value": "quarterly",
+          "label": "Quarterly"
+        },
+        {
+          "value": "annually",
+          "label": "Annually"
+        },
+        {
+          "value": "irregular",
+          "label": "Irregular"
+        },
+        {
+          "value": "notPlanned",
+          "label": "Not Planned"
+        }
       ]
     },
     {
@@ -212,14 +212,13 @@
     },
     {
       "field_name": "source_last_updated",
-      "preset": "datetime",
       "label": "Source last updated"
     },
-     {
+    {
       "field_name": "time_period",
       "label": "Time period"
     },
-     {
+    {
       "field_name": "title_tags",
       "label": "Title+Tags"
     },
