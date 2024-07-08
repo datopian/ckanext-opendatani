@@ -165,8 +165,9 @@ def custom_user_update(context, data_dict):
     return core_user_update(context, data_dict)
 
 
-@logic.side_effect_free
+
 def package_show2(context,data_dict): 
+    log.info("HERE2 HERE pakage_show2")
     result = original_package_show(context, data_dict)
     id = result.get('id')
     try:
@@ -190,8 +191,9 @@ def package_show2(context,data_dict):
     return result
 
 
-@logic.side_effect_free
+
 def package_search2(context,data_dict):
+    log.info("HERE2 HERE package_search2")
     search = original_package_search(context, data_dict)
     results = search.get('results')
 
