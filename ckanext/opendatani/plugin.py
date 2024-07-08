@@ -165,17 +165,14 @@ def custom_user_update(context, data_dict):
     return core_user_update(context, data_dict)
 
 
-
-def package_show2(context,data_dict): 
-    log.error("HERE2 HERE pakage_show2")
-    result = original_package_show({}, data_dict)
+def add_download_stats(context, result):
     id = result.get('id')
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
     except:
         log.error('package {} stats not available'.format(id))
 
-    resources = result.get('resources')
+    resources = result.get('resources', [])
     overall_stat = 0
     for i, resource in enumerate(resources):
         resource_id = resource.get('id')
@@ -188,21 +185,26 @@ def package_show2(context,data_dict):
 
     if "total_downloads" not in result:
         result['total_downloads'] = overall_stat
+
+    return result
+
+
+def package_show2(context,data_dict): 
+    log.error("HERE2 HERE pakage_show2")
+    result = original_package_show(context, data_dict)
+    result = add_download_stats(context, result)
     return result
 
 
 
 def package_search2(context,data_dict):
     log.error("HERE2 HERE package_search2")
-    search = original_package_search({}, data_dict)
+    search = original_package_search(context, data_dict)
     results = search.get('results')
 
     if len(results) > 0:
         for i, result in enumerate(results):
-            id = result.get('id')
-            log.info("HERE2 HERE1")
-            log.info(id)
-            stats = tk.get_action("package_show")(context, {'id': id})
+            stats = add_download_stats(context, result)
             results[i]['total_downloads'] = stats['total_downloads']
     
     return search
