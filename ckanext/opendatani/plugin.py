@@ -172,19 +172,19 @@ def add_download_stats(context, result):
     except:
         log.error('package {} stats not available'.format(id))
 
-    resources = result.get('resources', [])
-    overall_stat = 0
-    for i, resource in enumerate(resources):
-        resource_id = resource.get('id')
-        try:
-            stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
-            result['resources'][i]['total_downloads'] = stats
-            overall_stat += int(stats)
-        except:
-            log.error('resource {} not found'.format(resource_id))
+    # resources = result.get('resources', [])
+    # overall_stat = 0
+    # for i, resource in enumerate(resources):
+    #     resource_id = resource.get('id')
+    #     try:
+    #         stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
+    #         result['resources'][i]['total_downloads'] = stats
+    #         overall_stat += int(stats)
+    #     except:
+    #         log.error('resource {} not found'.format(resource_id))
 
-    if "total_downloads" not in result:
-        result['total_downloads'] = overall_stat
+    # if "total_downloads" not in result:
+    #     result['total_downloads'] = overall_stat
 
     return result
 
