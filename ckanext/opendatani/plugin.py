@@ -196,18 +196,18 @@ def package_show2(context,data_dict):
     return result
 
 
-# @toolkit.side_effect_free
-# def package_search2(context,data_dict):
-#     log.error("HERE2 HERE package_search2")
-#     search = original_package_search(context, data_dict)
-#     results = search.get('results')
+@toolkit.side_effect_free
+def package_search2(context,data_dict):
+    log.error("HERE2 HERE package_search2")
+    search = original_package_search(context, data_dict)
+    results = search.get('results')
 
-#     if len(results) > 0:
-#         for i, result in enumerate(results):
-#             stats = add_download_stats(context, result)
-#             results[i]['total_downloads'] = stats['total_downloads']
+    if len(results) > 0:
+        for i, result in enumerate(results):
+            stats = add_download_stats(context, result)
+            results[i]['total_downloads'] = stats['total_downloads']
     
-#     return search
+    return search
 
 
 @toolkit.side_effect_free
