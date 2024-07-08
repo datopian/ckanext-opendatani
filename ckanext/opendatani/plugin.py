@@ -167,8 +167,8 @@ def custom_user_update(context, data_dict):
 
 
 def package_show2(context,data_dict): 
-    log.info("HERE2 HERE pakage_show2")
-    result = original_package_show(context, data_dict)
+    log.error("HERE2 HERE pakage_show2")
+    result = original_package_show({}, data_dict)
     id = result.get('id')
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
@@ -193,8 +193,8 @@ def package_show2(context,data_dict):
 
 
 def package_search2(context,data_dict):
-    log.info("HERE2 HERE package_search2")
-    search = original_package_search(context, data_dict)
+    log.error("HERE2 HERE package_search2")
+    search = original_package_search({}, data_dict)
     results = search.get('results')
 
     if len(results) > 0:
