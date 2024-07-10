@@ -130,7 +130,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             'user_update': custom_user_update,
             'report_resources_by_organization': report_resources_by_organization,
             'package_show': package_show2,
-            # 'package_search': package_search2
+            'package_search': package_search2
         }
 
 
@@ -187,6 +187,7 @@ def add_download_stats(context, result):
     #     result['total_downloads'] = overall_stat
 
     return result
+
 
 @toolkit.side_effect_free
 def package_show2(context,data_dict): 
