@@ -206,7 +206,7 @@ def package_search2(context,data_dict):
     if len(results) > 0:
         for i, result in enumerate(results):
             stats = add_download_stats(context, result)
-            results[i]['total_downloads'] = stats['total_downloads']
+            results[i]['total_downloads'] = stats.get('total_downloads', 0)
     
     return search
 
