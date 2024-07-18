@@ -170,28 +170,13 @@ def add_download_stats(context, result):
     try:
         result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
     except:
-        log.error('package {} stats not available'.format(id))
-
-    # resources = result.get('resources', [])
-    # overall_stat = 0
-    # for i, resource in enumerate(resources):
-    #     resource_id = resource.get('id')
-    #     try:
-    #         stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
-    #         result['resources'][i]['total_downloads'] = stats
-    #         overall_stat += int(stats)
-    #     except:
-    #         log.error('resource {} not found'.format(resource_id))
-
-    # if "total_downloads" not in result:
-    #     result['total_downloads'] = overall_stat
+        pass
 
     return result
 
 
 @toolkit.side_effect_free
-def package_show2(context,data_dict): 
-    log.error("HERE2 HERE pakage_show2")
+def package_show2(context,data_dict):
     result = original_package_show(context, data_dict)
     result = add_download_stats(context, result)
     return result
@@ -199,7 +184,6 @@ def package_show2(context,data_dict):
 
 @toolkit.side_effect_free
 def package_search2(context,data_dict):
-    log.error("HERE2 HERE package_search2")
     search = original_package_search(context, data_dict)
     results = search.get('results')
 
