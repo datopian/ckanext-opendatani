@@ -3,5 +3,26 @@
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MYE01T09/JSON-stat/2.0/en",
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MYE01T011/JSON-stat/2.0/en",
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MYE01T012/JSON-stat/2.0/en",
-    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MIG01T01/JSON-stat/2.0/en"
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MIG01T01/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/S2SAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/S2SDEA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/S2SLGD/JSON-stat/2.0/en",
+    
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EMPVACDEA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EMPVACLGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EMPVACAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/EMPVACHSCT/JSON-stat/2.0/en",
+    
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSWARD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSSDZ/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSLGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSHSCT/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSDZ/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BSDEA/JSON-stat/2.0/en",
+    
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRNI/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRHSCTGRP/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRLGDGRP/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRHSCT/JSON-stat/2.0/en"
 ]
