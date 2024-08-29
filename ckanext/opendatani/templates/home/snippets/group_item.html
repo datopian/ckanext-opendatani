@@ -1,14 +1,16 @@
 {% set type = group.type or 'group' %}
 {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
 {% block item %}
-<li class="span4 group {{ url.split('/') | last }}">
-  <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}">
-    <span class="image">
-      <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" data-adaptive-background>
-    </span>
-    <h3>{{ group.display_name }}</h3>
-  </a>
-</li>
+<div class="col-sm-4 col-xs-12">
+  <li class="group {{ url.split('/') | last }} list-unstyled">
+    <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="block-link">
+      <span class="image">
+        <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" data-adaptive-background>
+      </span>
+      <h3>{{ group.display_name }}</h3>
+    </a>
+  </li>
+</div>
 {% endblock %}
 {% if position is divisibleby 3 %}
 {% endif %}

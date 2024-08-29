@@ -449,6 +449,7 @@ h6 {
 }
 .homepage .featured-groups li {
   background-color: #25374d;
+  margin-bottom: 20px;
 }
 .homepage .featured-groups li a {
   display: table;
