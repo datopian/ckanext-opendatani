@@ -247,7 +247,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 "title": dataset['label'],
                 "titleTags": dataset['label'] + " "+ "by " + output_string,
                 "name": dataset['extension']['matrix'],
-                "description": convert_to_html(dataset['note'][0]), 
+                "description": convert_to_html(dataset['note'][0]) if dataset['note'][0] else "not-provided", 
                 "identifier": dataset['extension']['matrix'],
                 "modified": dataset['updated'], 
                 "landingPage": "", 
