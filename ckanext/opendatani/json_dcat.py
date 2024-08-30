@@ -542,8 +542,8 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['frequency'] = dcat_dict.get('frequency', '')
                 package_dict['topic_category'] = 'governmentstatistics'
                 package_dict['lineage'] = 'NISRA'
-                package_dict['contact_name'] = dcat_dict.get('fn', '')
-                package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
+                package_dict['contact_name'] = dcat_dict.get('fn', 'notprovided')
+                package_dict['contact_email'] = dcat_dict.get('hasEmail', 'notprovided@mail.com')
                 package_dict['license_id'] = 'uk-ogl'
                 package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
                 package_dict['time_period'] = dcat_dict.get('timePeriod', '')
