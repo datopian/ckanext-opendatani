@@ -72,7 +72,7 @@
           ('datarequests.index', _('Suggest Data') + h.get_open_datarequests_badge()),
         ) }}
       {% endblock %}
-      <li><a href="/blog">{{ _('News') }}</a></li>
+      <li><a href="/blog">{{ _('News') }}aa</a></li>
       <li><a href="{{ h.url_for('home.about') }}">{{ _('About').format(g.site_title) }}</a></li>
       <li><a href="{{ h.url_for('contact_form') }}" title="{{ _('Contact') }}">{{ _('Contact') }}</a></li>
     </ul>
@@ -80,10 +80,10 @@
 {% endblock %}
 
 {% block header_site_search %}
-  <form class="section site-search simple-input" action="{% url_for 'dataset.search' %}" method="get">
-    <div class="field">
-      <label for="field-sitewide-search"><i class="icon-search"></i><span>{% block header_site_search_label %}{{ _('Search Datasets') }}{% endblock %}</span></label>
-      <input id="field-sitewide-search" type="text" name="q" placeholder="{{ _('Search our data') }}" />
+  <form class="form-inline section site-search simple-input" action="{% url_for 'dataset.search' %}" method="get">
+    <div class="field form-group">
+      <label for="field-sitewide-search"><i class="fa fa-search"></i><span>{% block header_site_search_label %}{{ _('Search Datasets') }}{% endblock %}</span></label>
+      <input class="form-control" id="field-sitewide-search" type="text" name="q" placeholder="{{ _('Search our data') }}"  />
       <button class="btn-search" type="submit">{{ _('Go') }}</button>
     </div>
   </form>
