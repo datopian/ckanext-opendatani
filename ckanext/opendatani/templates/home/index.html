@@ -3,25 +3,22 @@
 {% block primary_content %}
 <div role="main" class="hero">
   <div class="container">
-
     <ul class="featured-groups thumbnails">
     {% for group in h.get_featured_groups(count=9) %}
       {% snippet "home/snippets/group_item.html", group=group, position=loop.index %}
     {% endfor %}
     </ul>
-
   </div>
 </div>
 <div role="main">
   <div class="container">
     <h2 class="sub-heading">Latest</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('pages.blog_index') }}" title="{{ _('Blog') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
-
   {% set posts = h.get_recent_blog_posts(3) %}
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
-      <li class="span4 mar-l-0">
+      <li class="col-sm-4" style="margin-left: 0; list-style: none;">
         <div class="thumb">
-          <img src="{{ post.image }}" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk2Jcl0gLmB2zsw0xQtkLxrouwaJ-ttKCf0A&s" />
         </div>
         <div class="post">
           <h4><a href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
@@ -32,8 +29,7 @@
       </li>
       {% endfor %}
     </ul>
-
-  </div>
+    </div>
 </div>
 
 <div role="main">
