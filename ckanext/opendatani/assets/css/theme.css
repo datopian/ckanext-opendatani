@@ -1134,4 +1134,9 @@ h6 {
   .mar-l-0 {
     margin-left: 0 !important;
   }
+
+  .latest-posts.thumbnails {
+    flex-direction: column;
+  }
+  
 }
