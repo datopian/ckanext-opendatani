@@ -255,8 +255,8 @@ class NsiraJSONHarvester(DCATHarvester):
                     "name": dataset['extension']['contact'].get('name', ''),
                     "mbox": dataset['extension']['contact'].get('email', '')
                 },
-                "fn": dataset['extension']['contact'].get('name', 'not-provided'),
-                "hasEmail": dataset['extension']['contact'].get('email', 'notprovided@mail.com'),
+                "fn": dataset['extension']['contact'].get('name') if dataset['extension']['contact'].get('name') else "not-provided",
+                "hasEmail": dataset['extension']['contact'].get('email') if dataset['extension']['contact'].get('email') else "notprovided@mail.com",
                 
                 "language": [
                     "en"
@@ -542,7 +542,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 package_dict['frequency'] = dcat_dict.get('frequency', '')
                 package_dict['topic_category'] = 'governmentstatistics'
                 package_dict['lineage'] = 'NISRA'
-                package_dict['contact_name'] = dcat_dict.get('fn', 'notprovided')
+                package_dict['contact_name'] = dcat_dict.get('"fn"', 'notprovided')
                 package_dict['contact_email'] = dcat_dict.get('hasEmail', 'notprovided@email.com')
                 package_dict['license_id'] = 'uk-ogl'
                 package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
