@@ -136,3 +136,24 @@ To publish a new version to PyPI follow these steps:
 
        git tag 0.0.2
        git push --tags
+
+
+--------------------------------------
+NSIRA Json (Restful) Harvester Mapping
+--------------------------------------
+
+The following is a mapping of the NSIRA Json to the DCAT schema before it is ingested into CKAN.
+
+```
+title <-- label
+name <-- extension.matrix
+description <-- note[0]
+identifier <-- extension.matrix
+modified <-- updated
+language <-- en
+distribution <-- link.alternate
+distribution.title <-- link.alternate[i].type.split("/")[1]
+distribution.accessURL <-- link.alternate[i].href
+distribution.downloadURL <-- link.alternate[i].href
+distribution.format <-- link.alternate[i].type
+```

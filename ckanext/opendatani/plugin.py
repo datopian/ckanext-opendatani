@@ -14,6 +14,11 @@ import datetime as dt
 from ckanext.opendatani.controller import CustomUserController
 from ckanext.opendatani import helpers
 from ckan.common import OrderedDict
+import ckan.logic as logic
+import ckan.plugins.toolkit as tk
+
+from ckan.logic.action.get import package_search as original_package_search
+from ckan.logic.action.get import package_show as original_package_show
 
 
 log = logging.getLogger(__name__)
@@ -123,7 +128,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
-            'report_resources_by_organization': report_resources_by_organization
+            'report_resources_by_organization': report_resources_by_organization,
+            'package_show': package_show2,
+            'package_search': package_search2
         }
 
 
@@ -156,6 +163,36 @@ def custom_user_update(context, data_dict):
         form_schema='password1' in context.get('schema', {}))
 
     return core_user_update(context, data_dict)
+
+
+def add_download_stats(context, result):
+    id = result.get('id')
+    try:
+        result['total_downloads'] = logic.get_action('package_stats')(context, {'package_id': id})
+    except:
+        pass
+
+    return result
+
+
+@toolkit.side_effect_free
+def package_show2(context,data_dict):
+    result = original_package_show(context, data_dict)
+    result = add_download_stats(context, result)
+    return result
+
+
+@toolkit.side_effect_free
+def package_search2(context,data_dict):
+    search = original_package_search(context, data_dict)
+    results = search.get('results')
+
+    if len(results) > 0:
+        for i, result in enumerate(results):
+            stats = add_download_stats(context, result)
+            results[i]['total_downloads'] = stats.get('total_downloads', 0)
+    
+    return search
 
 
 @toolkit.side_effect_free
