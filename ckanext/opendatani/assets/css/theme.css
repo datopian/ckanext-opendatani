@@ -1062,11 +1062,15 @@ h6 {
 /* Custom UI Homepage updates */
 .latest-posts.thumbnails {
   margin-top: 30px;
+  display: flex;
+  gap: 17px;
+  padding-left: 0;
 }
+
 .latest-posts.thumbnails li {
   border: 1px solid #eee;
-  margin-left: 17px;
   min-height: 501px;
+  padding: 0;
 }
 .latest-posts.thumbnails li .post {
   padding: 10px;
@@ -1116,6 +1120,12 @@ h6 {
   width: 100%;
   height: 160px;
   overflow: hidden;
+}
+
+/* Overriden main.css */
+.thumb img {
+  width: 100%;
+  height: auto;
 }
 @media screen and (max-width: 768px) {
   .latest-posts .span4 {
