@@ -18,7 +18,7 @@
       {% for post in posts %}
       <li class="col-xs-12 col-sm-4 mb-4 px-2" style="margin-left: 0; list-style: none;">
         <div class="thumb">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk2Jcl0gLmB2zsw0xQtkLxrouwaJ-ttKCf0A&s" />
+          <img src="{{ post.image }}" />
         </div>
         <div class="post">
           <h4><a href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>

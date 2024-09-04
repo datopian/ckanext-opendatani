@@ -230,6 +230,11 @@ li {
   width: 223px;
 }
 @media (min-width: 768px) {
+  
+  .module.context-info > .module-content {
+    padding-top: 33px;
+  }
+
   [role="main"] .wrapper .media-grid .media-item {
     width: 223px;
   }
@@ -1140,3 +1145,25 @@ h6 {
   }
   
 }
+
+@media screen and (max-width: 1000px) {
+  .masthead .navbar-collapse, .toolbar {
+    padding: 5px 0;
+    margin: 0;
+    max-width: calc(100% + 30px);
+    width: calc(100% + 30px);
+    padding-left: 15px;
+    margin-left: -15px;
+  }
+
+  .module-content.page-header {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.module-content.page-header {
+  background: none;
+  border: none;
+}
+
