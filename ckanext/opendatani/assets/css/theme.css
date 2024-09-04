@@ -1167,3 +1167,10 @@ h6 {
   border: none;
 }
 
+.masthead .navigation .nav-pills li a:hover {
+  background-color: #dfe2e6;
+}
+
+.masthead .navigation .nav-pills li a:focus, .masthead .navigation .nav-pills li.active a {
+  background: transparent;
+}
