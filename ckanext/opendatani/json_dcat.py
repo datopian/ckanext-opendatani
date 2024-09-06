@@ -57,6 +57,36 @@ class NsiraJSONHarvester(DCATHarvester):
             'description': 'Harvester for Restful dataset descriptions ' +
                            'serialized as JSON'
         }
+
+    def _read_datasets_from_db(self, guid):
+        '''
+        Returns a database result of datasets matching the given guid.
+        '''
+
+        datasets = model.Session.query(model.Package.id) \
+                                .join(model.PackageExtra) \
+                                .filter(model.PackageExtra.key == 'guid') \
+                                .filter(model.PackageExtra.value == guid) \
+                                .filter(model.Package.state == 'active') \
+                                .all()
+        return datasets
+
+    def _get_existing_dataset(self, guid):
+        '''
+        Checks if a dataset with a certain guid extra already exists
+
+        Returns a dict as the ones returned by package_show
+        '''
+
+        datasets = self._read_datasets_from_db(guid)
+
+        if not datasets:
+            return None
+        elif len(datasets) > 1:
+            log.error('Found more than one dataset with the same guid: {0}'
+                      .format(guid))
+
+        return p.toolkit.get_action('package_show')({}, {'id': datasets[0][0]})
     
     def _get_content_and_type(self, url, harvest_job, page=1,
                               content_type=None):
@@ -226,8 +256,8 @@ class NsiraJSONHarvester(DCATHarvester):
                     "name": dataset['extension']['contact'].get('name', ''),
                     "mbox": dataset['extension']['contact'].get('email', '')
                 },
-                "fn": dataset['extension']['contact'].get('name', ''),
-                "hasEmail": dataset['extension']['contact'].get('email', ''),
+                "fn": dataset['extension']['contact'].get('name', 'not-provided'),
+                "hasEmail": dataset['extension']['contact'].get('email', 'notprovided@mail.com'),
                 
                 "language": [
                     "en"
