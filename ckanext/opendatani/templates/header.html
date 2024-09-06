@@ -3,18 +3,18 @@
 {% block header_account_logged %}
   <li>
     <a href="{{ h.url_for('pages.index') }}" title="{{ _('Pages') }}">
-      <i class="glyphicon glyphicon-file"></i>
+      <i class="fa fa-file"></i>
     </a>
   </li>
   <li>
     <a href="{{ h.url_for('pages.blog_index') }}" title="{{ _('Blog') }}">
-      <i class="glyphicon glyphicon-pencil"></i>
+      <i class="fa fa-pencil"></i>
     </a>
   </li>
 {% if c.userobj.sysadmin %}
   <li>
     <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
-      <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+      <i class="fa fa-gavel" aria-hidden="true"></i>
       <span class="text">{{ _('Admin') }}</span>
     </a>
   </li>
@@ -30,7 +30,7 @@
 <li class="notifications {% if new_activities > 0 or stale_datasets|int > 0 %}notifications-important{% endif %}">
   {% set notifications_tooltip = ngettext('Dashboard (%(num)d new item)', 'Dashboard (%(num)d new items)', new_activities+stale_datasets|int) %}
   <a href="{{ h.url_for('dashboard.index') }}" title="{{ notifications_tooltip }}">
-    <i class="glyphicon glyphicon-dashboard" aria-hidden="true"></i>
+    <i class="fa fa-dashboard" aria-hidden="true"></i>
     <span class="text">{{ _('Dashboard') }}</span>
     <span class="badge">{{ new_activities + stale_datasets|int }}</span>
   </a>
@@ -38,7 +38,7 @@
 {% block header_account_settings_link %}
   <li>
     <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Edit settings') }}">
-      <i class="glyphicon glyphicon-cog" aria-hidden="true"></i>
+      <i class="fa fa-cog" aria-hidden="true"></i>
       <span class="text">{{ _('Settings') }}</span>
     </a>
   </li>
@@ -46,7 +46,7 @@
 {% block header_account_log_out_link %}
   <li>
     <a href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}">
-      <i class="glyphicon glyphicon-log-out" aria-hidden="true"></i>
+      <i class="fa fa-sign-out" aria-hidden="true"></i>
       <span class="text">{{ _('Log out') }}</span>
     </a>
   </li>
@@ -54,7 +54,7 @@
 {% block header_contacts_link %}
   <li>
     <a href="/contact" title="{{ _('Contact') }}">
-      <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+      <i class="fa fa-envelope" aria-hidden="true"></i>
       <span class="text">{{ _('Contact') }}</span>
     </a>
   </li>
