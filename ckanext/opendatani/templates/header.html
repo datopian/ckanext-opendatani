@@ -2,7 +2,7 @@
 
 {% block header_account_logged %}
   <li>
-    <a href="{{ h.url_for('pages.index') }}" title="{{ _('Pages') }}">
+    <a href="{{ h.url_for('pages.pages_index') }}" title="{{ _('Pages') }}">
       <i class="icon-file"></i>
     </a>
   </li>
@@ -64,13 +64,19 @@
   <nav class="section navigation">
     <ul class="nav nav-pills">
       {% block header_site_navigation_tabs %}
-        {{ h.build_nav_main(
-          ('home', _('Home')),
-          ('search', _('Datasets')),
-          ('organizations_index', _('Publisher')),
-          ('showcase_blueprint.index', _('Showcases')),
-          ('datarequests.index', _('Suggest Data') + h.get_open_datarequests_badge()),
-        ) }}
+         {% set org_type = h.default_group_type('organization') %}
+              {% set group_type = h.default_group_type('group') %}
+
+             
+
+              {{ h.build_nav_main(
+                ('home.index', _('Home')),
+                (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
+                (org_type ~ '.index',
+                  h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
+                ('showcase_blueprint.index', _('Showcases')),
+                  
+                ('home.about', _('About')) ) }}
       {% endblock %}
       <li><a href="/blog">{{ _('News') }}</a></li>
       <li><a href="{{ h.url_for('home.about') }}">{{ _('About').format(g.site_title) }}</a></li>
