@@ -1,7 +1,7 @@
 import datetime
 # from pylons import config
 from ckan.common import config
-import routes.mapper
+# import routes.mapper
 import logging
 
 import ckan.plugins as plugins
@@ -170,9 +170,6 @@ def custom_user_create(context, data_dict):
 
 
 def custom_user_update(context, data_dict):
-
-    context['schema'] = custom_update_user_schema(
-        form_schema='password1' in context.get('schema', {}))
 
     return core_user_update(context, data_dict)
 

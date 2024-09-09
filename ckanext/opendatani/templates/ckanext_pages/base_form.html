@@ -30,7 +30,7 @@
   {% set slug_prefix = cancel_url ~ '/' %}
   {% set slug_domain = h.url_for('pages.index', qualified=true) %}
   {% if page %}
-     {% set delete_url = h.url_for('pages.pages_delete', page=data.name) %}
+     {% set delete_url = h.url_for('pages.delete', page=data.name) %}
   {% endif %}
 {% endif %}
 
