@@ -334,7 +334,7 @@ h6 {
 }
 .masthead {
   color: #4d4d4d;
-  padding: 0; /* Overriden main.css */
+  padding: 0 !important; /* Overriden main.css */
 }
 .masthead .logo {
   display: block;
@@ -348,8 +348,11 @@ h6 {
   margin-left: -9998rem;
   margin-right: -9999rem;
   padding-left: 9999rem;
-  padding-right: 9999rem;
+  padding-right: 10005rem;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
+
 .masthead .site-search {
   position: absolute;
   top: 31px;
@@ -456,7 +459,7 @@ h6 {
 }
 @media (min-width: 768px) {
   .homepage .hero {
-    background-color: #e8eaed;
+    background: #e8eaed !important;
     border-top: solid 1px #dfe2e6;
   }
 }
@@ -1189,4 +1192,9 @@ h6 {
 
 .form-horizontal .form-group {
   margin-left: 0;
+}
+
+.navbar-expand-lg {
+  flex-wrap: wrap;
+  padding-bottom: 0;
 }
