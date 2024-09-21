@@ -3,7 +3,7 @@
 {% block primary_content %}
 <div role="main" class="hero">
   <div class="container">
-    <ul class="featured-groups thumbnails">
+    <ul class="row featured-groups thumbnails">
     {% for group in h.get_featured_groups(count=9) %}
       {% snippet "home/snippets/group_item.html", group=group, position=loop.index %}
     {% endfor %}
