@@ -71,6 +71,18 @@ textarea {
 li {
   line-height: inherit;
 }
+
+.dataset-resources li a {
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.dataset-search-form h1 {
+  font-size: 24px;
+}
+
+
 .btn {
   background-image: none;
   border-radius: 0;

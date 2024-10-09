@@ -80,8 +80,6 @@
               {{ h.build_nav_main(
                 ('home.index', _('Home')),
                 (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
-                (org_type ~ '.index',
-                  h.humanize_entity_type('organization', org_type, 'main nav') or _('Organizations'), ['organization']),
                 ('showcase_blueprint.index', _('Showcases')),
                   
                 ('home.about', _('About')) ) }}
