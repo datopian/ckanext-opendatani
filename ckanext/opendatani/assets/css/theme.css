@@ -94,6 +94,15 @@ li {
   color: #fff;
   transition: background-color 0.2s ease-in 0s;
 }
+
+.btn.btn-primary i {
+  margin-right: 6px;
+}
+
+.btn {
+  gap: 0 !important;
+}
+
 .btn.btn-primary:hover,
 .btn.btn-primary:focus {
   color: #fff;
