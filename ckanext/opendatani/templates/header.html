@@ -82,7 +82,7 @@
                 (dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or _('Datasets'), ["dataset", "resource"]),
                 ('showcase_blueprint.index', _('Showcases')),
                   
-                ('home.about', _('About')) ) }}
+                ) }}
       {% endblock %}
       <li><a href="/blog">{{ _('News') }}</a></li>
       <li><a href="{{ h.url_for('home.about') }}">{{ _('About').format(g.site_title) }}</a></li>
