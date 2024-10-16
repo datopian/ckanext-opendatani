@@ -16,7 +16,7 @@
   </div>
   {% set stale_datasets = h.get_user_num_stale_datasets() %}
   <ul class="nav nav-tabs">
-    {{ h.build_nav_icon('dashboard.index', _('News feed'), icon='list') }}
+    {{ h.build_nav_icon('dashboard.datasets', _('News feed'), icon='list') }}
     {% if stale_datasets|int > 0 %}
     {{ h.build_nav_icon('odni_dashboard.dashboard_update_notifications', _('Update datasets (' + stale_datasets + ')'), icon='sitemap' )}}
     {% else %}

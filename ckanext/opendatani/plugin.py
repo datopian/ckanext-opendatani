@@ -158,8 +158,8 @@ def custom_user_list_auth(context, data_dict):
 
 def custom_user_create(context, data_dict):
 
-    context['schema'] = custom_create_user_schema(
-        form_schema='password1' in context.get('schema', {}))
+    # context['schema'] = custom_create_user_schema(
+    #     form_schema='password1' in context.get('schema', {}))
 
     # If user is pending (is an invite), adhere to the password requirements,
     # as the random password created by CKAN core won't pass them

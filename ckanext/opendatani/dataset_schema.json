@@ -9,7 +9,7 @@
       "label": "Title",
       "preset": "title",
       "required": true,
-      "validators": "scheming_required unicode",
+      "validators": "scheming_required unicode_safe",
       "form_placeholder": "eg. A descriptive title"
     },
     {
