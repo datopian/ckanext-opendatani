@@ -11,7 +11,7 @@
         {% for post in posts %}
             <div class="blog-title">
                 <h3 class="dataset-heading">
-                    <a href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a>
+                    <a href="{{ h.url_for('pages.blog_show', page=post.name) }}">{{ post.title or post.name }}</a>
                     <br>
                     {% if post.publish_date %}
                         <small> {{ h.render_datetime(post.publish_date) }} </small>
