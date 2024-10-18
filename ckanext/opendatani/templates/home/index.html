@@ -3,7 +3,7 @@
 {% block primary_content %}
 <div role="main" class="hero">
   <div class="container">
-    <ul class="featured-groups thumbnails">
+    <ul class="row featured-groups thumbnails">
     {% for group in h.get_featured_groups(count=9) %}
       {% snippet "home/snippets/group_item.html", group=group, position=loop.index %}
     {% endfor %}
@@ -12,7 +12,7 @@
 </div>
 <div role="main">
   <div class="container">
-    <h2 class="sub-heading">Latest</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('pages.blog_index') }}" title="{{ _('Blog') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
+    <h2 class="sub-heading">Latest</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('pages.blog_index') }}" title="{{ _('Blog') }}"><i class="fas fa-chevron-right"></i>{% trans %}More{% endtrans %}</a>
   {% set posts = h.get_recent_blog_posts(3) %}
     <ul class="latest-posts thumbnails">
       {% for post in posts %}
@@ -24,7 +24,7 @@
           <h4><a href="{{ h.url_for('pages.blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a></h4>
           <small class="date"> {{ h.render_datetime(post.publish_date) }} </small>
           <span class="text">{{ h.markdown_extract(post.content) }}</span>
-          <a class="btn btn-primary" href="{{ h.url_for('pages.blog_show', page=post.name) }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
+          <a class="btn btn-primary" href="{{ h.url_for('pages.blog_show', page=post.name) }}"><i class="fas fa-chevron-right"></i>{% trans %}More{% endtrans %}</a>
         </div>
       </li>
       {% endfor %}
@@ -34,7 +34,7 @@
 
 <div role="main">
   <div class="container">
-    <h2 class="sub-heading">Showcases</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('showcase_blueprint.index') }}" title="{{ _('Showcases') }}"><i class="icon-chevron-right"></i>{% trans %}More{% endtrans %}</a>
+    <h2 class="sub-heading">Showcases</h2>   <a class="btn btn-primary more-btn" href="{{ h.url_for('showcase_blueprint.index') }}" title="{{ _('Showcases') }}"><i class="fas fa-chevron-right"></i>{% trans %}More{% endtrans %}</a>
 
       {% for showcase in h.showcase_list(limit=3) %}
       <div class="showcase-item">
