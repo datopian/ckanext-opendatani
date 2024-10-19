@@ -21,6 +21,10 @@ import datetime
 import six
 from ckanext.dcat.interfaces import IDCATRDFHarvester
 import re
+import ckan.plugins.toolkit as toolkit
+from ckantoolkit import config
+import sqlalchemy as sa
+from ckanext.harvest.logic.schema import unicode_safe
 
 log = logging.getLogger(__name__)
 
@@ -134,11 +138,12 @@ class NsiraJSONHarvester(DCATHarvester):
                 did_get = True
             r.raise_for_status()
 
+            max_file_size = 1024 * 1024 * toolkit.asint(config.get('ckanext.dcat.max_file_size', self.DEFAULT_MAX_FILE_SIZE_MB))
             cl = r.headers.get('content-length')
-            if cl and int(cl) > self.MAX_FILE_SIZE:
+            if cl and int(cl) > max_file_size:
                 msg = '''Remote file is too big. Allowed
                     file size: {allowed}, Content-Length: {actual}.'''.format(
-                    allowed=self.MAX_FILE_SIZE, actual=cl)
+                    allowed=max_file_size, actual=cl)
                 self._save_gather_error(msg, harvest_job)
                 return None, None
 
@@ -152,7 +157,7 @@ class NsiraJSONHarvester(DCATHarvester):
 
                 length += len(chunk)
 
-                if length >= self.MAX_FILE_SIZE:
+                if length >= max_file_size:
                     self._save_gather_error('Remote file is too big.',
                                             harvest_job)
                     return None, None
@@ -163,6 +168,7 @@ class NsiraJSONHarvester(DCATHarvester):
             if content_type is None and r.headers.get('content-type'):
                 content_type = r.headers.get('content-type').split(";", 1)[0]
 
+            log.info('Got content of type %s', content_type)
 
             # if content is a JSON array of URLS, fetch each url
             try:
@@ -248,7 +254,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 "title": dataset['label'],
                 "titleTags": dataset['label'] + " "+ "by " + output_string,
                 "name": dataset['extension']['matrix'],
-                "description": convert_to_html(dataset['note'][0]), 
+                "description": convert_to_html(dataset['note'][0]) if dataset['note'][0] else "description", 
                 "identifier": dataset['extension']['matrix'],
                 "modified": dataset['updated'], 
                 "landingPage": "", 
@@ -256,8 +262,8 @@ class NsiraJSONHarvester(DCATHarvester):
                     "name": dataset['extension']['contact'].get('name', ''),
                     "mbox": dataset['extension']['contact'].get('email', '')
                 },
-                "fn": dataset['extension']['contact'].get('name', 'not-provided'),
-                "hasEmail": dataset['extension']['contact'].get('email', 'notprovided@mail.com'),
+                "fn": dataset['extension']['contact'].get('name') if dataset['extension']['contact'].get('name') else "not-provided",
+                "hasEmail": dataset['extension']['contact'].get('email') if dataset['extension']['contact'].get('email') else "notprovided@mail.com",
                 
                 "language": [
                     "en"
@@ -521,7 +527,7 @@ class NsiraJSONHarvester(DCATHarvester):
 
                 # We need to explicitly provide a package ID
                 package_dict['id'] = str(uuid.uuid4())
-                package_schema['id'] = [str]
+                package_schema['id'] = [unicode_safe]
 
                 # Save reference to the package on the object
                 harvest_object.package_id = package_dict['id']
@@ -531,7 +537,7 @@ class NsiraJSONHarvester(DCATHarvester):
                 # the harvest object id (on the after_show hook from the harvester
                 # plugin)
                 model.Session.execute(
-                    'SET CONSTRAINTS harvest_object_package_id_fkey DEFERRED')
+                    sa.text('SET CONSTRAINTS harvest_object_package_id_fkey DEFERRED'))
                 model.Session.flush()
 
             elif status == 'change':
@@ -540,11 +546,12 @@ class NsiraJSONHarvester(DCATHarvester):
             if status in ['new', 'change']:
                 action = 'package_create' if status == 'new' else 'package_update'
                 message_status = 'Created' if status == 'new' else 'Updated'
+                package_dict['notes'] = dcat_dict.get('description', 'description not provided')
                 package_dict['frequency'] = dcat_dict.get('frequency', '')
                 package_dict['topic_category'] = 'governmentstatistics'
                 package_dict['lineage'] = 'NISRA'
-                package_dict['contact_name'] = dcat_dict.get('fn', '')
-                package_dict['contact_email'] = dcat_dict.get('hasEmail', '')
+                package_dict['contact_name'] = dcat_dict.get('fn', 'notprovided')
+                package_dict['contact_email'] = dcat_dict.get('hasEmail', 'notprovided@email.com')
                 package_dict['license_id'] = 'uk-ogl'
                 package_dict['source_last_updated'] = dcat_dict.get('modified', '')[:19].replace('.', '')
                 package_dict['time_period'] = dcat_dict.get('timePeriod', '')

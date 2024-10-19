@@ -123,7 +123,7 @@ class OpendataniPlugin(plugins.SingletonPlugin):
             blueprints.dashboard_blueprint,
             blueprints.organization_blueprint,
             blueprints.publisher_blueprint,
-            blueprints.user_blueprint,
+            # blueprints.user_blueprint,
             blueprints.static_blueprint,
         ]
 
