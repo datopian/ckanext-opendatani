@@ -73,7 +73,7 @@ def request_reset():
     return toolkit.render('user/request_reset.html')
 
 
-def activity(id, offset=0):
+def user_activity(id):
     '''Render this user's public activity stream page.'''
 
     context = {'model': model, 'session': model.Session,
@@ -102,14 +102,14 @@ user_blueprint.add_url_rule(
     methods=[u'GET', u'POST'],
 )
 
-user_blueprint.add_url_rule(
-    rule='/activity/{id}/{offset}',
-    view_func=activity,
-    methods=[u'GET', u'POST'],
-)
+# user_blueprint.add_url_rule(
+#     rule='/activity/{id}/{offset}',
+#     view_func=activity,
+#     methods=[u'GET', u'POST'],
+# )
 
 user_blueprint.add_url_rule(
     rule='/activity/{id}',
-    view_func=activity,
+    view_func=user_activity,
     methods=[u'GET', u'POST'],
 )
