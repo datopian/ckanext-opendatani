@@ -330,14 +330,15 @@ h6 {
   width: 282px;
   margin: 22px 0;
 }
+
 .masthead .navbar-collapse {
   background-color: #e8eaed;
   clear: both;
   position: static;
-  margin-left: -9999rem;
+  margin-left: -9998rem;
   margin-right: -9999rem;
-  padding-left: 9999rem;
-  padding-right: 9999rem;
+  padding-left: 10007rem;
+  padding-right: 10015rem;
 }
 .masthead .site-search {
   position: absolute;
