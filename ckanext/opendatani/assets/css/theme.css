@@ -423,6 +423,15 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   font-weight: bold;
 }
 
+.media-grid, .module-grid {
+  background: none;
+  border: none;
+}
+
+.secondary .blog-content {
+  word-break: break-all;
+}
+
 .label[data-format=geojson] {
   background-color: #9855e0;
   color: #ffffff;
