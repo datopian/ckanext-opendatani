@@ -374,6 +374,116 @@ h6 {
   padding-bottom: 16px;
 }
 
+.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu), .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3) {
+  font-size: 16px;
+  padding: 15px;
+  border-right: none;
+}
+
+.search-form h1 {
+  font-size: 24px;
+  color: #000000;
+}
+
+
+.btn.btn-default.btn-lg {
+  background: none !important;
+}
+
+.btn.btn-default.btn-lg:hover {
+  color: #25374d !important;
+  background: none !important;
+}
+
+.btn:hover, .btn:focus {
+  color: #cccccc;
+  background: none !important;
+  /* background-color: #dee2e6 !important;
+  border-color: #dee2e6; */
+}
+
+a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.label[data-format=csv], .label[data-format*=csv] {
+  background-color: #dfb100;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.label[data-format=json], .label[data-format*=json] {
+  background-color: #ef7100;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.label[data-format=geojson] {
+  background-color: #9855e0;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.label[data-format=html], .label[data-format*=html] {
+  background-color: #55a1ce;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.label[data-format=kml] {
+  background-color: #7aae3d;
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dataset-resources li a {
+  background-color: #aaaaaa;
+}
+
+
+
+.dataset-heading a {
+  font-size: 20px;
+}
+
+.input-group .btn {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: 55px;
+  border: none;
+  border: 1px solid #ced4da;
+  border-left: none;
+  border-radius: 0.25rem;
+}
+
+.input-group .btn i {
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+  color: #ccc;
+}
+
+.input-group .btn i:hover {
+  color: #25374d !important;
+}
+
+
+.btn-light:hover, .btn-default:hover {
+  color: #14253b !important;
+}
+
 .masthead .site-search {
   position: absolute;
   top: 31px;
