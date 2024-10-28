@@ -140,9 +140,9 @@ class OpendataniPlugin(plugins.SingletonPlugin):
         return {
             'user_create': custom_user_create,
             'user_update': custom_user_update,
-            'report_resources_by_organization': report_resources_by_organization,
-            'package_show': package_show,
-            'package_search': package_search
+            'report_resources_by_organization': report_resources_by_organization
+            # 'package_show': package_show,
+            # 'package_search': package_search
         }
 
 
