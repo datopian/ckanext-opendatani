@@ -3,4 +3,8 @@
 {% block content_primary_nav %}
   {{ h.build_nav_icon('user.read', _('Datasets'), id=user.name) }}
   {{ h.build_nav_icon('datarequests.user', _('Suggest Data'), id=user.name) }}
+  {% if h.check_access('api_token_list', {'user': user['name']}) %}
+    {{ h.build_nav_icon('user.api_tokens', _('API Tokens'), id=user.name, icon='key') }}
+  {% endif %}
+
 {% endblock %}
