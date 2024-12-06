@@ -183,9 +183,8 @@ li {
 }
 .page-header,
 [role="main"] .wrapper.no-nav > .module > .module-content.page-header {
-  margin-left: -9999rem;
+  padding-left: 25px;
   margin-right: -9999rem;
-  padding-left: 9999rem;
   padding-right: 9999rem;
 }
 [role="main"] .wrapper {
@@ -241,7 +240,7 @@ li {
   font-weight: normal;
   font-size: 14px;
 }
-[role="main"] .wrapper .media-grid {
+.row.wrapper .media-grid {
   margin-left: -14px;
   background-color: transparent;
   background-image: none;
@@ -256,15 +255,16 @@ li {
     padding-top: 33px;
   }
 
-  [role="main"] .wrapper .media-grid .media-item {
+  /* [role="main"] .wrapper .media-grid .media-item {
     width: 223px;
-  }
+  } */
 }
 @media (min-width: 980px) {
-  [role="main"] .wrapper .media-grid .media-item {
+  /* .row.wrapper .media-grid .media-item {
     width: 188px;
-  }
+  } */
 }
+
 [role="main"] .wrapper.no-nav > .module > .module-content {
   padding-left: 0;
   padding-right: 0;
@@ -395,12 +395,12 @@ h6 {
   background: none !important;
 }
 
-.btn:hover, .btn:focus {
+/* .btn:hover, .btn:focus {
   color: #cccccc;
-  background: none !important;
-  /* background-color: #dee2e6 !important;
-  border-color: #dee2e6; */
-}
+  background: none !important; 
+  background-color: #dee2e6 !important;
+  border-color: #dee2e6;
+} */
 
 a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   color: #ffffff;
@@ -423,10 +423,10 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   font-weight: bold;
 }
 
-.media-grid, .module-grid {
+/* .media-grid, .module-grid {
   background: none;
   border: none;
-}
+} */
 
 .secondary .blog-content {
   word-break: break-all;
@@ -876,6 +876,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   padding-right: 9999rem;
   margin-bottom: 0;
 }
+
 .toolbar .breadcrumb {
   font-size: 14px;
   opacity: 0.8;
@@ -1319,16 +1320,17 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
     margin-left: -15px;
   }
 
-  .module-content.page-header {
+  /* .module-content.page-header {
     margin: 0;
     padding: 0;
-  }
+  } */
+  
 }
 
-.module-content.page-header {
+/* .module-content.page-header {
   background: none;
   border: none;
-}
+} */
 
 .masthead .navigation .nav-pills li a:hover {
   background-color: #dfe2e6;
@@ -1346,9 +1348,9 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus {
   background-color: transparent;
 }
 
-.module-content {
+/* .module-content {
   padding: 30px 30px;
-}
+} */
 
 .module-content p {
   margin: 0;
