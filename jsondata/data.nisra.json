@@ -24,5 +24,20 @@
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRNI/JSON-stat/2.0/en",
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRHSCTGRP/JSON-stat/2.0/en",
     "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRLGDGRP/JSON-stat/2.0/en",
-    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRHSCT/JSON-stat/2.0/en"
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/PRHSCT/JSON-stat/2.0/en",
+
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BNKRDISLGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BNKRDISHSCT/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/BNKRDISAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTCASEAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTCASELGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTDISORDLGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTDISORDHSCT/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTDISORDAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/POSSCOMPLGD/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/POSSCOMPHSCT/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/POSSCOMPAA/JSON-stat/2.0/en",
+    "https://ws-data.nisra.gov.uk/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MORTCASEHSCT/JSON-stat/2.0/en"
+
+    
 ]
