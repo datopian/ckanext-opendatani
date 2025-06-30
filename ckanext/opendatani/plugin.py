@@ -193,7 +193,7 @@ def package_show(up_func,context,data_dict):
             result['resources'][i]['total_downloads'] = stats
             overall_stat += int(stats)
         except:
-            log.error(f'resource {resource_id} not found')
+            continue
 
     if "total_downloads" not in result:
         result['total_downloads'] = overall_stat
