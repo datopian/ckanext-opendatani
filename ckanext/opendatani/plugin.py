@@ -209,9 +209,17 @@ def package_search(up_func,context,data_dict):
     if len(results) > 0:
         for i, result in enumerate(results):
             id = result.get('id')
-            stats = logic.get_action("package_show")(context, {'id': id})
-            results[i]['total_downloads'] = stats['total_downloads']
-    
+            try:
+                downloads = logic.get_action('package_stats')(context, {'package_id': id}) or '0'
+                if downloads == '0':
+                    resources = results[i].get('resources', [])
+                    for i, resource in enumerate(resources):
+                        resource_id = resource.get(id)
+                        stats = logic.get_action('resource_stats')(context, {'resource_id': resource_id})
+                        downloads = downloads + int(stats) if stats else downloads
+            except:
+                downloads = '0'
+            results[i]['total_downloads'] = downloads    
     return search
 
 
