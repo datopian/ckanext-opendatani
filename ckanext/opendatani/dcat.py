@@ -6,6 +6,7 @@ from rdflib.namespace import Namespace
 
 from ckan.plugins import toolkit
 from ckanext.dcat.profiles import RDFProfile
+from ckan.lib.munge import munge_tag
 
 log = logging.getLogger(__name__)
 
@@ -286,6 +287,9 @@ class DaeraCoreProfile(RDFProfile):
 
         _remove_extra('contact_name', dataset_dict)
         _remove_extra('contact_email', dataset_dict)
+        tags_val = [munge_tag(tag) for tag in self._keywords(dataset_ref)]
+        tags = [{'name': tag} for tag in tags_val]
+        dataset_dict['tags'] = tags
 
         # Ping the ArcGIS server so the processing of the files
         # starts
