@@ -79,6 +79,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         opendatani=ckanext.opendatani.plugin:OpendataniPlugin
+        nisra_jsondcat=ckanext.opendatani.json_dcat:NsiraJSONHarvester
 
         [paste.paster_command]
         create_featured_groups=ckanext.opendatani.commands:CreateFeaturedGroups
@@ -91,6 +92,7 @@ setup(
         esri_arcgis_profile=ckanext.opendatani.dcat:EsriArcGISProfile
         daera_core_profile=ckanext.opendatani.dcat:DaeraCoreProfile
         nisra_profile=ckanext.opendatani.dcat:NisraProfile
+        
 
     ''',
 )

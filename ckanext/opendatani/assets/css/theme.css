@@ -29,12 +29,17 @@ body,
   background-image: none;
   background-color: inherit;
 }
-.masthead .nav-collapse,
+
+.navbar {
+  border: none; /* Overriden main.css */
+}
+
+.masthead .navbar-collapse,
 .masthead .section,
 .navbar .nav {
   float: none;
 }
-.masthead .nav-collapse {
+.masthead .navbar-collapse {
   padding: 0;
 }
 html,
@@ -225,6 +230,11 @@ li {
   width: 223px;
 }
 @media (min-width: 768px) {
+  
+  .module.context-info > .module-content {
+    padding-top: 33px;
+  }
+
   [role="main"] .wrapper .media-grid .media-item {
     width: 223px;
   }
@@ -324,17 +334,18 @@ h6 {
 }
 .masthead {
   color: #4d4d4d;
+  padding: 0; /* Overriden main.css */
 }
 .masthead .logo {
   display: block;
   width: 282px;
   margin: 22px 0;
 }
-.masthead .nav-collapse {
+.masthead .navbar-collapse {
   background-color: #e8eaed;
   clear: both;
   position: static;
-  margin-left: -9999rem;
+  margin-left: -9998rem;
   margin-right: -9999rem;
   padding-left: 9999rem;
   padding-right: 9999rem;
@@ -355,6 +366,7 @@ h6 {
   text-align: center;
   line-height: 30px;
   color: rgba(77, 77, 77, 0.25);
+  left: 10px;
 }
 .masthead .site-search label:after {
   display: none;
@@ -371,7 +383,7 @@ h6 {
 }
 .masthead .site-search input {
   padding: 12px 50px 12px 45px;
-  width: 210px;
+  width: 300px;
   background-color: #e8eaed;
   border-radius: 0;
   border-color: #e8eaed;
@@ -410,6 +422,7 @@ h6 {
   font-weight: bold;
   border-radius: 0;
   position: relative;
+  text-decoration: none; /* Overriden main.css */
 }
 .masthead .nav > li > a:hover,
 .masthead .navigation .nav-pills > li > a:hover {
@@ -447,8 +460,14 @@ h6 {
     border-top: solid 1px #dfe2e6;
   }
 }
+
+.homepage .featured-groups {
+  padding: 0;
+}
+
 .homepage .featured-groups li {
   background-color: #25374d;
+  margin-bottom: 20px;
 }
 .homepage .featured-groups li a {
   display: table;
@@ -459,7 +478,7 @@ h6 {
 }
 @media (min-width: 768px) {
   .homepage .featured-groups li a {
-    height: 114px;
+    height: 134px;
     overflow: hidden;
   }
 }
@@ -1048,11 +1067,15 @@ h6 {
 /* Custom UI Homepage updates */
 .latest-posts.thumbnails {
   margin-top: 30px;
+  display: flex;
+  gap: 17px;
+  padding-left: 0;
 }
+
 .latest-posts.thumbnails li {
   border: 1px solid #eee;
-  margin-left: 17px;
   min-height: 501px;
+  padding: 0;
 }
 .latest-posts.thumbnails li .post {
   padding: 10px;
@@ -1103,6 +1126,12 @@ h6 {
   height: 160px;
   overflow: hidden;
 }
+
+/* Overriden main.css */
+.thumb img {
+  width: 100%;
+  height: auto;
+}
 @media screen and (max-width: 768px) {
   .latest-posts .span4 {
     width: 100%;
@@ -1110,4 +1139,54 @@ h6 {
   .mar-l-0 {
     margin-left: 0 !important;
   }
+
+  .latest-posts.thumbnails {
+    flex-direction: column;
+  }
+  
+}
+
+@media screen and (max-width: 1000px) {
+  .masthead .navbar-collapse, .toolbar {
+    padding: 5px 0;
+    margin: 0;
+    max-width: calc(100% + 30px);
+    width: calc(100% + 30px);
+    padding-left: 15px;
+    margin-left: -15px;
+  }
+
+  .module-content.page-header {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.module-content.page-header {
+  background: none;
+  border: none;
+}
+
+.masthead .navigation .nav-pills li a:hover {
+  background-color: #dfe2e6;
+}
+
+.masthead .navigation .nav-pills li a:focus, .masthead .navigation .nav-pills li.active a {
+  background: transparent;
+}
+
+/* Overriding main.css of dev here */
+.wrapper {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.module-content {
+  padding: 30px 0;
+}
+
+.form-horizontal .form-group {
+  margin-left: 0;
 }

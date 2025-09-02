@@ -29,12 +29,12 @@ body,
   background-image: none;
   background-color: inherit;
 }
-.masthead .nav-collapse,
+.masthead .navbar-collapse,
 .masthead .section,
 .navbar .nav {
   float: none;
 }
-.masthead .nav-collapse {
+.masthead .navbar-collapse {
   padding: 0;
 }
 html,
@@ -330,7 +330,7 @@ h6 {
   width: 282px;
   margin: 22px 0;
 }
-.masthead .nav-collapse {
+.masthead .navbar-collapse {
   background-color: #e8eaed;
   clear: both;
   position: static;
@@ -410,6 +410,7 @@ h6 {
   font-weight: bold;
   border-radius: 0;
   position: relative;
+  text-decoration: none;
 }
 .masthead .nav > li > a:hover,
 .masthead .navigation .nav-pills > li > a:hover {
@@ -459,7 +460,7 @@ h6 {
 }
 @media (min-width: 768px) {
   .homepage .featured-groups li a {
-    height: 114px;
+    height: 134px;
     overflow: hidden;
   }
 }
