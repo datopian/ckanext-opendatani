@@ -5,6 +5,7 @@ env: CKANVERSION=2.6
 install:
     - bash bin/travis-build.bash
     - pip install coveralls -U
+    - pip install rdflib
 services:
     -postgresql: "9.1"
 script: sh bin/travis-run.sh
